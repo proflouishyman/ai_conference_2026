@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHA AI Conference 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1a1a2e;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Source Serif 4', serif;
+    }
+
+    /* ── Color tokens ── */
+    :root {
+      --navy:      #002D72;
+      --gold:      #FFD100;
+      --white:     #FFFFFF;
+      --light-gray:#F7F8FA;
+      --text:      #1a1a2e;
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0.75rem;
+      right: 0.75rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a:hover { background: #f9f7ee; }
+
+    .nav-links a.active {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    /* ── Hamburger ── */
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        padding: 0.75rem 1.5rem 1rem;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.65rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+      }
+
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a::after { display: none; }
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      background-color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 3rem;
+    }
+
+    #hero h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .gold-rule {
+      width: 120px;
+      height: 3px;
+      background: var(--gold);
+      margin: 0 auto 1.75rem;
+      border: none;
+    }
+
+    .hero-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-tagline {
+      font-family: 'Source Serif 4', serif;
+      font-style: italic;
+      font-size: 1.35rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 2.5rem;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: 2px solid var(--gold);
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+
+    .btn-gold:hover {
+      background: #e6bc00;
+      border-color: #e6bc00;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.7);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ── Sections ── */
+    section { padding: 5rem 1.5rem; }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-rule {
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      border: none;
+      margin: 0 0 2rem;
+    }
+
+    .section-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #2e2e42;
+      max-width: 760px;
+    }
+
+    /* ── Program section ── */
+    #program { background: var(--light-gray); }
+
+    .tab-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.55rem 1.4rem;
+      border-radius: 6px;
+      border: 2px solid var(--navy);
+      background: transparent;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: #e8eef7;
+    }
+
+    .day-panel { display: block; }
+    .day-panel.hidden { display: none; }
+
+    /* Day sub-heading */
+    .day-heading {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Program table */
+    .program-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    .program-table thead th {
+      background: var(--navy);
+      color: #fff;
+      font-weight: 600;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .program-table td {
+      padding: 0.75rem 1rem;
+      vertical-align: top;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .program-table tr:last-child td { border-bottom: none; }
+
+    /* Row color classes */
+    .row-plenary  { background: #FFF8E1; }
+    .row-break    { background: #F7F8FA; color: #666; }
+    .row-breakout { background: #ffffff; }
+
+    .session-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .session-desc {
+      color: #555;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .track-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      color: var(--navy);
+      background: rgba(0,45,114,0.08);
+      white-space: nowrap;
+    }
+
+    .track-badge.track-a { background: #e8f0fe; color: #1a3a8f; }
+    .track-badge.track-b { background: #fce8ff; color: #6b21a8; }
+    .track-badge.track-c { background: #e8fff0; color: #166534; }
+    .track-badge.plenary { background: #FFF8E1; color: #92400e; border: 1px solid #FFD100; }
+    .track-badge.logistics { background: #F7F8FA; color: #555; }
+
+    .time-cell {
+      white-space: nowrap;
+      font-weight: 600;
+      color: var(--navy);
+      font-size: 0.85rem;
+      min-width: 100px;
+    }
+
+    @media (max-width: 640px) {
+      .program-table { font-size: 0.8rem; }
+      .program-table td { padding: 0.55rem 0.6rem; }
+      .time-cell { min-width: 70px; font-size: 0.75rem; }
+    }
+
+    /* ── Speakers ── */
+    #speakers { background: #fff; }
+
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .speaker-card {
+      background: #fff;
+      border-left: 4px solid var(--gold);
+      border-radius: 6px;
+      padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .speaker-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+
+    .speaker-name {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+    }
+
+    .speaker-affil {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.65rem;
+    }
+
+    .role-badge {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(0,45,114,0.08);
+      color: var(--navy);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+    }
+
+    /* ── Meals / Structured Conversations ── */
+    #meals {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    #meals .section-heading { color: #fff; }
+
+    .meals-intro {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.85);
+      max-width: 760px;
+      margin-bottom: 2.5rem;
+    }
+
+    .conversation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1rem;
+    }
+
+    .conversation-list li {
+      background: rgba(255,255,255,0.07);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .q-number {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-right: 0.5rem;
+    }
+
+    /* ── Venue ── */
+    #venue { background: #fff; }
+
+    .venue-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .venue-grid { grid-template-columns: 1fr; }
+    }
+
+    .venue-card {
+      background: var(--light-gray);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .venue-card h3 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+    }
+
+    .venue-card p, .venue-card li {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .venue-card ul {
+      padding-left: 1.25rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">AHA AI Conference 2026</a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="#about">About</a>
+      <a href="#program">Program</a>
+      <a href="#speakers">Speakers</a>
+      <a href="#venue">Venue</a>
+      <a href="register.html" class="active">Register</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="hero">
+  <div>
+    <h1>AHA AI Conference 2026</h1>
+    <hr class="gold-rule" />
+    <p class="hero-date">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
+    <p class="hero-tagline">Transforming Historical Research with Artificial Intelligence</p>
+    <div class="hero-buttons">
+      <a href="#program" class="btn-gold">View Program</a>
+      <a href="register.html" class="btn-outline">Register Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ABOUT
+════════════════════════════════════════ -->
+<section id="about" style="background:#fff;">
+  <div class="section-inner">
+    <h2 class="section-heading">About the Conference</h2>
+    <hr class="section-rule" />
+    <p class="section-text">
+      The AHA AI Conference 2026 is a practitioner-focused convening for historians at all career stages who are working with, teaching, or trying to evaluate AI and computational methods in their research and institutions. Unlike Digital Humanities conferences, which serve a broad interdisciplinary audience, this event is anchored squarely in historical practice: its organizing questions are what AI can do for historians specifically, and what structural, methodological, and professional changes the discipline needs to make computational methods sustainable and rigorous.
+    </p>
+    <p class="section-text" style="margin-top:1.25rem;">
+      The conference addresses the full range of experience — from historians sent by their departments to report back on AI, to scholars already producing advanced computational work — by running leveled tracks in parallel rather than forcing everyone into the same room. A central aim is to break the isolation of the "lone digital historian": attendees should leave with a network of peers, a clearer sense of the field's best current work, and concrete skills or project plans they can use immediately.
+    </p>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:2.5rem;">
+      <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
+        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">120</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Participants</div>
+      </div>
+      <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
+        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">3</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Parallel Tracks</div>
+      </div>
+      <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
+        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">2</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Plenary Sessions</div>
+      </div>
+      <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
+        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">Oct 14</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Pre-Conference Intensive</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PROGRAM
+════════════════════════════════════════ -->
+<section id="program">
+  <div class="section-inner">
+    <h2 class="section-heading">Conference Program</h2>
+    <hr class="section-rule" />
+
+    <!-- Pre-conference note -->
+    <div style="background:#fff;border-left:4px solid var(--gold);border-radius:6px;padding:1rem 1.25rem;margin-bottom:2rem;font-family:'Inter',sans-serif;font-size:0.93rem;line-height:1.6;color:#333;">
+      <strong style="color:var(--navy);">Pre-Conference Intensive — Wednesday, October 14, 2026 &nbsp;|&nbsp; 1:00–5:00 pm</strong><br />
+      A hands-on half-day workshop led by Tom Lippincott (JHU) and Samuel Backer (U Maine), capped at 30 participants. Priority registration for graduate students, early-career faculty, and historians new to computational methods. Modules: (1) What AI and machine learning actually do — conceptual framing; (2) Introduction to a no-code web-based text or image analysis tool; (3) Evaluating whether a computational method fits your historical question; (4) Where to find help and community after the conference. Followed by a casual dinner for Day 0 arrivals.
+    </div>
+
+    <!-- Tab buttons -->
+    <div class="tab-buttons">
+      <button class="tab-btn active" id="tab-day1" onclick="showDay('day1')">Day 1 — Thursday, October 15</button>
+      <button class="tab-btn" id="tab-day2" onclick="showDay('day2')">Day 2 — Friday, October 16</button>
+    </div>
+
+    <!-- ── DAY 1 ── -->
+    <div class="day-panel" id="panel-day1">
+      <p class="day-heading">Thursday, October 15, 2026</p>
+      <table class="program-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Time</th>
+            <th>Session</th>
+            <th style="width:160px;">Track</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- Registration / Coffee -->
+          <tr class="row-break">
+            <td class="time-cell">8:30 – 9:00</td>
+            <td><span class="session-title">Registration &amp; Morning Coffee</span></td>
+            <td><span class="track-badge logistics">Logistics</span></td>
+          </tr>
+
+          <!-- Breakfast -->
+          <tr class="row-break">
+            <td class="time-cell">9:00 – 9:30</td>
+            <td>
+              <span class="session-title">Assigned Breakfast</span>
+              <div class="session-desc">Structured seating — table conversation guides provided. Table assignments printed on name badges.</div>
+            </td>
+            <td><span class="track-badge logistics">Breakfast</span></td>
+          </tr>
+
+          <!-- Opening Remarks -->
+          <tr class="row-plenary">
+            <td class="time-cell">9:30 – 10:00</td>
+            <td>
+              <span class="session-title">Opening Remarks</span>
+              <div class="session-desc">Welcome and framing from conference organizer Louis Hyman (Johns Hopkins University). Overview of conference goals and structure.</div>
+            </td>
+            <td><span class="track-badge plenary">Opening</span></td>
+          </tr>
+
+          <!-- Day 1 Plenary -->
+          <tr class="row-plenary">
+            <td class="time-cell">10:00 – 10:30</td>
+            <td>
+              <span class="session-title">Plenary: "What AI Actually Does to Historical Evidence"</span>
+              <div class="session-desc">
+                <strong>Speaker: Katie McDonough</strong> (Alan Turing Institute)<br />
+                Historical sources — manuscript, print, image, sound — are not the clean structured data that most AI systems were designed for. This opening plenary names the specific challenges and opportunities that make history a hard case for AI/CS researchers, and frames the conference's central intellectual wager: that historians who understand computational methods are better historians, and that AI researchers who engage seriously with historical evidence produce better tools. The session sets the tone by refusing both uncritical enthusiasm and reflexive skepticism, insisting instead on disciplined evaluation of what works and why. McDonough's MapReader project represents the most methodologically sophisticated current example of building AI tools in direct dialogue with historical source criticism.
+              </div>
+            </td>
+            <td><span class="track-badge plenary">Plenary</span></td>
+          </tr>
+
+          <!-- Coffee Break -->
+          <tr class="row-break">
+            <td class="time-cell">10:30 – 10:45</td>
+            <td><span class="session-title">Coffee Break</span></td>
+            <td><span class="track-badge logistics">Break</span></td>
+          </tr>
+
+          <!-- Slot 1 — three tracks -->
+          <tr class="row-breakout">
+            <td class="time-cell" rowspan="3">10:45 – 12:15</td>
+            <td>
+              <span class="session-title">Reading the Machine: What Large Language Models Actually Do to Historical Text</span>
+              <div class="session-desc">A practitioner walkthrough of how LLMs process historical language — OCR noise, archaic usage, named entities across centuries — and where current tools succeed or fail. Presenters share failure cases as honestly as successes, building methodological literacy for the rest of the conference. Panelist: Lauren Tilton.</div>
+            </td>
+            <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">The Lone Digital Historian: Isolation, Advocacy, and Institutional Survival</span>
+              <div class="session-desc">Many attendees are the only person at their institution doing this work. This session surfaces the professional precarity that isolation creates and maps the advocacy strategies — with departments, deans, and tenure committees — that have worked for practitioners at different career stages.</div>
+            </td>
+            <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Getting Started with MapReader: Historical Maps as Machine-Readable Data</span>
+              <div class="session-desc">A facilitated hands-on introduction to the MapReader workflow, led by Lauren Tilton in conversation with Katie McDonough's approach. Participants will patch, classify, and query a set of historical maps, leaving with a working understanding of how computer vision can be applied to cartographic sources. <em>Laptop required. Capped enrollment.</em></div>
+            </td>
+            <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+          </tr>
+
+          <!-- Assigned Lunch Day 1 -->
+          <tr class="row-break">
+            <td class="time-cell">12:15 – 1:15</td>
+            <td>
+              <span class="session-title">Assigned Lunch</span>
+              <div class="session-desc">Structured seating with full rotation from breakfast. Table conversation guides provided. Family-style service.</div>
+            </td>
+            <td><span class="track-badge logistics">Lunch</span></td>
+          </tr>
+
+          <!-- Slot 2 — three tracks -->
+          <tr class="row-breakout">
+            <td class="time-cell" rowspan="3">1:15 – 2:45</td>
+            <td>
+              <span class="session-title">Text Mining as Historical Method: From Corpus to Argument</span>
+              <div class="session-desc">Drawing on Jo Guldi's work with Democracy Viewer and the forthcoming <em>Text Mining as a Historical Method</em>, this session demonstrates how historians move from a large corpus — legislative records, newspapers, institutional archives — to a claim that meets disciplinary standards of evidence. The emphasis is on the interpretive moves, not just the technical pipeline. Presenter: Jo Guldi (Southern Methodist University).</div>
+            </td>
+            <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">What Graduate Training in Computational History Should Look Like</span>
+              <div class="session-desc">An honest reckoning with the current state of doctoral education: what skills are not being taught, what cross-training between history, statistics, and computer science actually requires, and what departments and graduate programs can do now without waiting for structural transformation. Panelists: Christopher Phillips (Carnegie Mellon), Samuel Backer (U Maine), Sarah Weicksel (AHA).</div>
+            </td>
+            <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Cleaning and Structuring Historical Data: A Working Session</span>
+              <div class="session-desc">Participants bring messy historical datasets — or work with provided examples — and practice the unglamorous but essential work of data normalization, entity resolution, and reproducible documentation. Samuel Backer (U Maine) leads with an emphasis on skills that travel across projects and tools. <em>Laptop required. Capped enrollment.</em></div>
+            </td>
+            <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+          </tr>
+
+          <!-- Coffee Break -->
+          <tr class="row-break">
+            <td class="time-cell">2:45 – 3:00</td>
+            <td><span class="session-title">Coffee Break</span></td>
+            <td><span class="track-badge logistics">Break</span></td>
+          </tr>
+
+          <!-- Slot 3 — three tracks -->
+          <tr class="row-breakout">
+            <td class="time-cell" rowspan="3">3:00 – 4:30</td>
+            <td>
+              <span class="session-title">Computer Vision and the Visual Historical Record: Photographs, Maps, Manuscripts</span>
+              <div class="session-desc">A survey of current applications of image recognition, object detection, and layout analysis to historical visual sources, with honest assessment of where accuracy is sufficient for historical argument and where it is not. Case studies drawn from multiple projects and archives.</div>
+            </td>
+            <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Funding Computational History: NEH, Private Foundations, and What Funders Actually Want</span>
+              <div class="session-desc">Laura Ansley (AHA) leads a frank conversation about how to write competitive grant proposals for digital history projects, what NEH's current digital history priorities are, and how funders are thinking about AI. Includes time for attendees to workshop their own project descriptions.</div>
+            </td>
+            <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Building a Reproducible Historical Analysis: From Raw Source to Published Result</span>
+              <div class="session-desc">A step-by-step workshop on making computational historical work reproducible: version control, data provenance documentation, code sharing, and the practical choices that determine whether another scholar can replicate your findings. Emphasis on achievable standards, not perfection. <em>Laptop required. Capped enrollment.</em></div>
+            </td>
+            <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+          </tr>
+
+          <!-- Break -->
+          <tr class="row-break">
+            <td class="time-cell">4:30 – 5:00</td>
+            <td><span class="session-title">Break &amp; Free Time</span></td>
+            <td><span class="track-badge logistics">Break</span></td>
+          </tr>
+
+          <!-- Day 1 Dinner -->
+          <tr class="row-break">
+            <td class="time-cell">5:00 – 6:00</td>
+            <td>
+              <span class="session-title">Opening Reception &amp; Cocktails</span>
+              <div class="session-desc">Unassigned seating. Open networking. Cash bar and light appetizers.</div>
+            </td>
+            <td><span class="track-badge logistics">Reception</span></td>
+          </tr>
+
+          <tr class="row-break">
+            <td class="time-cell">6:00 – 8:00</td>
+            <td>
+              <span class="session-title">Conference Dinner</span>
+              <div class="session-desc">Unassigned seating — the longer, more social evening meal. Attendees have warmed up throughout the day; organic mixing is encouraged. No table conversation prompts tonight.</div>
+            </td>
+            <td><span class="track-badge logistics">Dinner</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div><!-- end panel-day1 -->
+
+    <!-- ── DAY 2 ── -->
+    <div class="day-panel hidden" id="panel-day2">
+      <p class="day-heading">Friday, October 16, 2026</p>
+      <table class="program-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Time</th>
+            <th>Session</th>
+            <th style="width:160px;">Track</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- Morning Coffee -->
+          <tr class="row-break">
+            <td class="time-cell">8:30 – 9:00</td>
+            <td><span class="session-title">Morning Coffee</span></td>
+            <td><span class="track-badge logistics">Logistics</span></td>
+          </tr>
+
+          <!-- Assigned Breakfast Day 2 — not in original plan, use fresh lunch assignment note -->
+          <tr class="row-break">
+            <td class="time-cell">9:00 – 9:30</td>
+            <td>
+              <span class="session-title">Assigned Breakfast</span>
+              <div class="session-desc">Table assignments rotate from Day 1 meals to ensure new connections. Table conversation guides provided on card stock.</div>
+            </td>
+            <td><span class="track-badge logistics">Breakfast</span></td>
+          </tr>
+
+          <!-- Day 2 Plenary -->
+          <tr class="row-plenary">
+            <td class="time-cell">9:30 – 10:30</td>
+            <td>
+              <span class="session-title">Plenary: "The Discipline We Need to Build"</span>
+              <div class="session-desc">
+                <strong>Speaker: Christopher Phillips</strong> (Carnegie Mellon University) &nbsp;|&nbsp; Moderated by Louis Hyman (JHU)<br />
+                The second plenary zooms out from methods to structure: what graduate training, hiring practices, publication timelines, and institutional arrangements would allow computational history to become a durable part of the discipline rather than a permanent margin? Drawing on evidence from the conference's own sessions, this plenary catalyzes the move from individual practice to collective infrastructure — including the question of what the AHA can concretely do, and what funding coalitions look like. The session is forward-facing and generative, ending with specific asks of the profession and its institutions. Phillips raised the question of structural change as the defining absence from prior convenings; this session places it at the center.
+              </div>
+            </td>
+            <td><span class="track-badge plenary">Plenary</span></td>
+          </tr>
+
+          <!-- Coffee Break -->
+          <tr class="row-break">
+            <td class="time-cell">10:30 – 10:45</td>
+            <td><span class="session-title">Coffee Break</span></td>
+            <td><span class="track-badge logistics">Break</span></td>
+          </tr>
+
+          <!-- Slot 4 — three tracks -->
+          <tr class="row-breakout">
+            <td class="time-cell" rowspan="3">10:45 – 12:15</td>
+            <td>
+              <span class="session-title">Spatial History at Scale: GIS, Geocoding, and Historical Geography</span>
+              <div class="session-desc">Geospatial methods have matured significantly in historical practice; this session surveys current best approaches for working with historical place names, boundary changes, and the specific challenges of georeferencing pre-modern and colonial cartography.</div>
+            </td>
+            <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Cross-Disciplinary Collaboration: What Historians Need from Computer Scientists, and Vice Versa</span>
+              <div class="session-desc">Tom Lippincott (JHU) frames the conversation from the CS side: what computational competencies make a historian a productive research partner, and what does genuine collaboration — not mere tool use — look like in practice? Includes perspectives from historians who have built sustained partnerships with technical collaborators. Co-presenter: William G. Thomas III (Montana State).</div>
+            </td>
+            <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Introduction to Python for Historical Research: Your First Analysis</span>
+              <div class="session-desc">A genuinely beginner-friendly lab session for historians with no coding background. Participants work through a structured notebook analyzing a historical dataset — census records, legislative text, or a digital archive — learning just enough Python to understand what they are doing and why. <em>Laptop required. Capped enrollment.</em></div>
+            </td>
+            <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+          </tr>
+
+          <!-- Assigned Lunch Day 2 -->
+          <tr class="row-break">
+            <td class="time-cell">12:15 – 1:15</td>
+            <td>
+              <span class="session-title">Assigned Lunch</span>
+              <div class="session-desc">Fresh seating assignment (third rotation). Table conversation guides provided. Family-style service. Last structured meal of the conference.</div>
+            </td>
+            <td><span class="track-badge logistics">Lunch</span></td>
+          </tr>
+
+          <!-- Slot 5 — three tracks -->
+          <tr class="row-breakout">
+            <td class="time-cell" rowspan="3">1:15 – 2:45</td>
+            <td>
+              <span class="session-title">Computational History in Europe: Methods and Infrastructure from Digital Humanities Centers</span>
+              <div class="session-desc">Jo Guldi (SMU) surveys the European digital humanities landscape — from CLARIN and DARIAH to individual center models — identifying specific methodological and institutional practices that American historians could adapt. Emphasis on what is transferable and what is structurally different about European research funding.</div>
+            </td>
+            <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Publishing Computational History: Journals, Data Repositories, and the Review Problem</span>
+              <div class="session-desc">The current publication infrastructure for computational history is poorly suited to the work: reviewers lack technical training, data cannot be peer-reviewed at most journals, and replication is rarely attempted. This session maps the problem and surveys emerging solutions, including the Computational Humanities Research journal model.</div>
+            </td>
+            <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Project Clinic: Get Feedback on Your Work in Progress</span>
+              <div class="session-desc">An open-format session in which attendees present a project at any stage — idea, pilot, in-progress, stuck — and receive structured feedback from a panel of methodological and historical experts. Presenters submit a brief abstract in advance; the session is curated to maximize diversity of method, period, and geography. <em>Capped enrollment for presenters; open for observers.</em></div>
+            </td>
+            <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+          </tr>
+
+          <!-- Coffee Break -->
+          <tr class="row-break">
+            <td class="time-cell">2:45 – 3:00</td>
+            <td><span class="session-title">Coffee Break</span></td>
+            <td><span class="track-badge logistics">Break</span></td>
+          </tr>
+
+          <!-- Slot 6 — three tracks -->
+          <tr class="row-breakout">
+            <td class="time-cell" rowspan="3">3:00 – 4:30</td>
+            <td>
+              <span class="session-title">Building the Computational History Community: Substack, Skills Exchange, and Shared Infrastructure</span>
+              <div class="session-desc">A forward-looking session on the professional infrastructure the community needs to build: shared code repositories, a skills exchange network (modeled on DLF's approach), a publication venue for methods, and a communication channel for practitioners. Concrete planning, not just aspiration.</div>
+            </td>
+            <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">The AHA's Role: Institutional Support, Advocacy, and the Long Game</span>
+              <div class="session-desc">Sarah Weicksel and Laura Ansley (American Historical Association) in conversation about what the AHA is doing, what it can do, and what it needs historians to ask of it on AI and computational methods — including how the annual conference, professional standards, and accreditation can shift to support this work.</div>
+            </td>
+            <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Closing Lab: Take One Method Home</span>
+              <div class="session-desc">A practitioner-led session in which participants identify one specific method or workflow from the conference they want to implement in their own research, and work through the first concrete steps — tool installation, data identification, or project scoping — before leaving. Facilitated by Jacob Bruggeman. <em>Laptop strongly recommended.</em></div>
+            </td>
+            <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+          </tr>
+
+          <!-- Closing Remarks -->
+          <tr class="row-plenary">
+            <td class="time-cell">4:30 – 5:00</td>
+            <td>
+              <span class="session-title">Closing Remarks &amp; Next Steps</span>
+              <div class="session-desc">Louis Hyman (JHU) closes the conference: synthesis of themes, collective commitments, community infrastructure next steps, and how to stay connected after the conference ends.</div>
+            </td>
+            <td><span class="track-badge plenary">Closing</span></td>
+          </tr>
+
+          <!-- Evening cocktails -->
+          <tr class="row-break">
+            <td class="time-cell">5:00 – 6:30</td>
+            <td>
+              <span class="session-title">Closing Cocktails &amp; Farewell Reception</span>
+              <div class="session-desc">Unassigned. Open networking. Cash bar. Opportunity for final conversations and exchange of contact information.</div>
+            </td>
+            <td><span class="track-badge logistics">Reception</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- Track legend -->
+      <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;font-family:'Inter',sans-serif;font-size:0.88rem;color:#444;display:flex;gap:1.5rem;flex-wrap:wrap;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;width:100%;">Track Key</strong>
+        <span><span class="track-badge track-a">Track A</span> &nbsp;Methods &amp; Tools — presentation-driven</span>
+        <span><span class="track-badge track-b">Track B</span> &nbsp;Discipline, Infrastructure &amp; Careers</span>
+        <span><span class="track-badge track-c">Track C</span> &nbsp;Project Workshop / Hands-On Lab — laptop required</span>
+      </div>
+    </div><!-- end panel-day2 -->
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SPEAKERS
+════════════════════════════════════════ -->
+<section id="speakers">
+  <div class="section-inner">
+    <h2 class="section-heading">Speakers &amp; Participants</h2>
+    <hr class="section-rule" />
+    <div class="speakers-grid">
+
+      <div class="speaker-card">
+        <div class="speaker-name">Louis Hyman</div>
+        <div class="speaker-affil">Johns Hopkins University</div>
+        <span class="role-badge">Conference Organizer</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Katie McDonough</div>
+        <div class="speaker-affil">Alan Turing Institute</div>
+        <span class="role-badge">Day 1 Plenary Speaker</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Christopher Phillips</div>
+        <div class="speaker-affil">Carnegie Mellon University</div>
+        <span class="role-badge">Day 2 Plenary Speaker</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">William G. Thomas III</div>
+        <div class="speaker-affil">Montana State University</div>
+        <span class="role-badge">Speaker</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Lauren Tilton</div>
+        <div class="speaker-affil">University of Richmond</div>
+        <span class="role-badge">Speaker &amp; Workshop Leader</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Jo Guldi</div>
+        <div class="speaker-affil">Southern Methodist University</div>
+        <span class="role-badge">Speaker</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Tom Lippincott</div>
+        <div class="speaker-affil">Johns Hopkins University</div>
+        <span class="role-badge">Speaker</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Samuel Backer</div>
+        <div class="speaker-affil">University of Maine</div>
+        <span class="role-badge">Speaker &amp; Workshop Leader</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Jacob Bruggeman</div>
+        <div class="speaker-affil">Independent Scholar</div>
+        <span class="role-badge">Speaker &amp; Facilitator</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Laura Ansley</div>
+        <div class="speaker-affil">American Historical Association</div>
+        <span class="role-badge">Institutional Partner</span>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-name">Sarah Weicksel</div>
+        <div class="speaker-affil">American Historical Association</div>
+        <span class="role-badge">Institutional Partner</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MEALS / STRUCTURED CONVERSATIONS
+════════════════════════════════════════ -->
+<section id="meals">
+  <div class="section-inner">
+    <h2 class="section-heading">Structured Conversations</h2>
+    <hr class="section-rule" style="background:var(--gold);" />
+    <p class="meals-intro">
+      Assigned seating is used at all three structured meals — Breakfast Day 1, Lunch Day 1, and Lunch Day 2 — with a full rotation between sessions so each attendee sits with a different group each time. The dinner on Day 1 is unassigned, giving participants a social release valve after a full day of structured programming.
+    </p>
+    <p class="meals-intro">
+      Each table receives a printed conversation guide on card stock. These questions are designed to surface what each attendee is actually working on, what they need, and what they can offer — dissolving the status hierarchies and friend-group clustering that self-seating produces. The most important conversations at this conference are the ones you did not know you needed to have.
+    </p>
+    <p class="meals-intro" style="font-style:italic;color:rgba(255,255,255,0.7);">
+      Service is family-style: platters placed on tables before guests are seated. Dietary information collected at registration; headcount and restrictions delivered to catering by October 8.
+    </p>
+
+    <h3 style="font-family:'Source Serif 4',serif;font-size:1.25rem;color:var(--gold);margin-bottom:1.25rem;">Table Conversation Questions</h3>
+    <ol class="conversation-list">
+      <li>
+        <span class="q-number">1.</span>
+        What brought you to this conference — are you here to learn something specific, or to figure out what questions to ask?
+      </li>
+      <li>
+        <span class="q-number">2.</span>
+        Describe your relationship to computational methods in one sentence, then describe where you want to be in three years.
+      </li>
+      <li>
+        <span class="q-number">3.</span>
+        What is one thing AI has made genuinely easier in your research? What is one thing it has made you more worried about?
+      </li>
+      <li>
+        <span class="q-number">4.</span>
+        What would have to change in your department or institution for computational history to be treated as normal, rigorous historical work?
+      </li>
+      <li>
+        <span class="q-number">5.</span>
+        Who is doing the most interesting computational history right now — and what makes it interesting rather than merely impressive?
+      </li>
+      <li>
+        <span class="q-number">6.</span>
+        If you had to explain to a skeptical senior colleague why this work matters for history as a discipline, what would you say?
+      </li>
+      <li>
+        <span class="q-number">7.</span>
+        What skill or method from this conference do you most want to bring back to your students or your own research?
+      </li>
+      <li>
+        <span class="q-number">8.</span>
+        What is the infrastructure — tools, training, funding, publication venues, collaborative networks — that does not yet exist but should?
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     VENUE
+════════════════════════════════════════ -->
+<section id="venue">
+  <div class="section-inner">
+    <h2 class="section-heading">Venue &amp; Logistics</h2>
+    <hr class="section-rule" />
+    <p class="section-text">
+      The AHA AI Conference 2026 will be held at Johns Hopkins University in Baltimore, Maryland on October 15–16, 2026, with a pre-conference intensive on October 14. JHU's Homewood Campus provides plenary hall space, three breakout rooms, and a dedicated hands-on lab room — all with tested A/V, power, and Wi-Fi confirmed for 30 simultaneous laptop connections.
+    </p>
+
+    <div class="venue-grid">
+
+      <div class="venue-card">
+        <h3>Hotel Accommodation</h3>
+        <p>A room block has been negotiated at the JHU-rate hotel at <strong>$189 + tax/night</strong> (30% JHU discount). Indicate your housing needs on the registration form to be included in the block.</p>
+        <ul>
+          <li>Block cutoff: <strong>August 1, 2026</strong></li>
+          <li>Arrival night available: Wednesday, October 14</li>
+          <li>Request hotel block access when registering</li>
+        </ul>
+      </div>
+
+      <div class="venue-card">
+        <h3>Registration</h3>
+        <p>Space is limited to <strong>120 participants</strong>. Applications are reviewed on a rolling basis.</p>
+        <ul>
+          <li>Registration opens: June 2026</li>
+          <li>Application deadline: <strong>August 15, 2026</strong></li>
+          <li>Acceptance notifications: by September 1, 2026</li>
+          <li>Graduate student fee: <strong>Free</strong></li>
+          <li>Faculty / professional fee: <strong>$150</strong> (billed after acceptance)</li>
+        </ul>
+      </div>
+
+      <div class="venue-card">
+        <h3>Pre-Conference Intensive</h3>
+        <p>October 14, 2026 &nbsp;|&nbsp; 1:00–5:00 pm</p>
+        <ul>
+          <li>Capped at 30 participants</li>
+          <li>Priority for graduate students and early-career faculty</li>
+          <li>Separate (lower) registration fee or waiver available</li>
+          <li>Led by Tom Lippincott and Samuel Backer</li>
+          <li>Followed by a casual dinner for Day 0 arrivals</li>
+        </ul>
+      </div>
+
+      <div class="venue-card">
+        <h3>Travel &amp; Getting Here</h3>
+        <p>Baltimore is served by Baltimore/Washington International Airport (BWI), Ronald Reagan Washington National Airport (DCA), and Washington Dulles International Airport (IAD). Amtrak and MARC commuter rail connect Baltimore Penn Station to Homewood Campus.</p>
+        <ul>
+          <li>Contact: <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);">lhyman6@jh.edu</a> for travel questions</li>
+          <li>Accessibility accommodations: indicate needs on registration form</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="margin-top:2rem;background:var(--light-gray);border-radius:8px;padding:1.25rem 1.5rem;border-left:4px solid var(--gold);">
+      <p style="font-family:'Inter',sans-serif;font-size:0.93rem;color:#333;line-height:1.6;margin:0;">
+        <strong>Funder &amp; Institutional Partner Invitations.</strong> NEH digital humanities program officers and selected private foundation contacts will receive personal invitations to attend as audience members and to observe the conference program. If your institution or foundation is interested in a partnership conversation, contact Louis Hyman at <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);">lhyman6@jh.edu</a>.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <p>AHA AI Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
+</footer>
+
+<!-- ══════════════════════════════════════
+     JS
+════════════════════════════════════════ -->
+<script>
+  /* ── Tab switching ── */
+  function showDay(day) {
+    ['day1', 'day2'].forEach(function(d) {
+      var panel = document.getElementById('panel-' + d);
+      var btn   = document.getElementById('tab-' + d);
+      if (d === day) {
+        panel.classList.remove('hidden');
+        btn.classList.add('active');
+      } else {
+        panel.classList.add('hidden');
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  /* ── Hamburger ── */
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  /* Close mobile menu on link click */
+  document.querySelectorAll('#nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.remove('open');
+      document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ── Highlight active nav link on scroll ── */
+  var sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY + 80;
+    sections.forEach(function(sec) {
+      var top    = sec.offsetTop;
+      var bottom = top + sec.offsetHeight;
+      var link   = document.querySelector('.nav-links a[href="#' + sec.id + '"]');
+      if (link) {
+        if (scrollY >= top && scrollY < bottom) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

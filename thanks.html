@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Received — AHA AI Conference 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1a1a2e;
+    }
+
+    h1, h2, h3 { font-family: 'Source Serif 4', serif; }
+
+    :root {
+      --navy: #002D72;
+      --gold: #FFD100;
+      --light-gray: #F7F8FA;
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0.75rem; right: 0.75rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a:hover { background: #f9f7ee; }
+
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        padding: 0.75rem 1.5rem 1rem;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.65rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+      }
+
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a::after { display: none; }
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 60vh;
+      background-color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 4rem;
+    }
+
+    .hero-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    #hero h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .gold-rule {
+      width: 80px; height: 3px;
+      background: var(--gold);
+      margin: 0 auto 1.5rem;
+      border: none;
+    }
+
+    .hero-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.85);
+      max-width: 520px;
+      margin: 0 auto 0.75rem;
+      line-height: 1.7;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: 2px solid var(--gold);
+      margin-top: 1.75rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-gold:hover {
+      background: #e6bc00;
+      border-color: #e6bc00;
+      transform: translateY(-1px);
+    }
+
+    /* ── What's next section ── */
+    #whats-next {
+      background: var(--light-gray);
+      padding: 4rem 1.5rem;
+    }
+
+    .next-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .next-inner h2 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .next-rule {
+      width: 50px; height: 3px;
+      background: var(--gold);
+      border: none;
+      margin: 0 0 1.5rem;
+    }
+
+    .timeline {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline li {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      align-items: flex-start;
+    }
+
+    .timeline-dot {
+      width: 28px;
+      height: 28px;
+      background: var(--navy);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      margin-top: 2px;
+    }
+
+    .timeline-content {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.93rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .timeline-content strong { color: var(--navy); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">AHA AI Conference 2026</a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#program">Program</a>
+      <a href="index.html#venue">Venue</a>
+      <a href="register.html">Register</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="hero">
+  <div>
+    <span class="hero-icon">&#10003;</span>
+    <h1>Thank You for Applying!</h1>
+    <hr class="gold-rule" />
+    <p class="hero-text">
+      We have received your application for the <strong style="color:#FFD100;">AHA AI Conference 2026</strong>.
+    </p>
+    <p class="hero-text">
+      We will review applications and contact you by <strong style="color:#FFD100;">September 1, 2026</strong>. Please check your email (including your spam folder) for a confirmation message.
+    </p>
+    <a href="index.html" class="btn-gold">Return to Conference Home</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     WHAT'S NEXT
+════════════════════════════════════════ -->
+<section id="whats-next">
+  <div class="next-inner">
+    <h2>What Happens Next</h2>
+    <hr class="next-rule" />
+    <ul class="timeline">
+      <li>
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <strong>Confirmation email:</strong> You will receive an automated confirmation shortly at the email address you provided. If you do not see it within a few minutes, check your spam folder.
+        </div>
+      </li>
+      <li>
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <strong>Application review:</strong> The organizing committee reviews all applications on a rolling basis through the August 15 deadline.
+        </div>
+      </li>
+      <li>
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <strong>Acceptance notification by September 1, 2026:</strong> You will receive an acceptance or waitlist email. Accepted participants who indicated a registration fee will receive a payment link at this time.
+        </div>
+      </li>
+      <li>
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <strong>Hotel block:</strong> If you requested the JHU-rate hotel block, details will be included with your acceptance email. The block cutoff is August 1, 2026 — register early.
+        </div>
+      </li>
+      <li>
+        <div class="timeline-dot">5</div>
+        <div class="timeline-content">
+          <strong>Conference packet:</strong> Closer to October, you will receive your full conference packet including session schedules, meal seating assignments (printed on your name badge), logistics details, and table conversation guides.
+        </div>
+      </li>
+    </ul>
+    <p style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;margin-top:1.5rem;">
+      Questions? Contact Louis Hyman at <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);">lhyman6@jh.edu</a>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <p>AHA AI Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+
+</body>
+</html>
