@@ -23,11 +23,13 @@
 
     /* ── Color tokens ── */
     :root {
-      --navy:      #002D72;
-      --gold:      #FFD100;
-      --white:     #FFFFFF;
-      --light-gray:#F7F8FA;
-      --text:      #1a1a2e;
+      --navy:        #002D72;  /* JHU Heritage Blue */
+      --spirit-blue: #0072CE;  /* JHU Spirit Blue */
+      --silla-blue:  #68ACE5;  /* JHU Silla Blue */
+      --gold:        #FFD100;  /* JHU Heritage Gold */
+      --white:       #FFFFFF;
+      --light-gray:  #F7F8FA;
+      --text:        #1D1D1B;  /* JHU Sable */
     }
 
     /* ── Nav ── */
@@ -271,7 +273,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 1.05rem;
       line-height: 1.75;
-      color: #2e2e42;
+      color: var(--navy);
       max-width: 760px;
     }
 
@@ -304,7 +306,7 @@
     }
 
     .tab-btn:hover:not(.active) {
-      background: #e8eef7;
+      background: #dce8f7;
     }
 
     .day-panel { display: block; }
@@ -380,7 +382,7 @@
       white-space: nowrap;
     }
 
-    .track-badge.track-a { background: #e8f0fe; color: #1a3a8f; }
+    .track-badge.track-a { background: #dce8f7; color: var(--navy); }
     .track-badge.track-b { background: #fce8ff; color: #6b21a8; }
     .track-badge.track-c { background: #e8fff0; color: #166534; }
     .track-badge.plenary { background: #FFF8E1; color: #92400e; border: 1px solid #FFD100; }
