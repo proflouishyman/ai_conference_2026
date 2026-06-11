@@ -561,7 +561,10 @@
 ════════════════════════════════════════ -->
 <nav id="main-nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-brand">AHA AI Conference 2026</a>
+    <a href="index.html" class="nav-brand" style="display:flex;align-items:center;gap:0.6rem;">
+      <img src="https://www.historians.org/wp-content/uploads/2024/03/AHA-logo.svg" alt="AHA" height="28" style="height:28px;width:auto;display:block;" onerror="this.style.display='none'" />
+      AHA AI Conference 2026
+    </a>
     <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -569,7 +572,7 @@
       <a href="#about">About</a>
       <a href="#program">Program</a>
       <a href="#speakers">Speakers</a>
-      <a href="#venue">Venue</a>
+      <a href="#agora">Venue</a>
       <a href="register.html" class="active">Register</a>
     </div>
   </div>
@@ -582,6 +585,7 @@
   <div>
     <h1>AHA AI Conference 2026</h1>
     <hr class="gold-rule" />
+    <p style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">An Official Conference of the American Historical Association</p>
     <p class="hero-date">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
     <p class="hero-tagline">Transforming Historical Research with Artificial Intelligence</p>
     <div class="hero-buttons">
@@ -633,10 +637,25 @@
     <h2 class="section-heading">Conference Program</h2>
     <hr class="section-rule" />
 
+    <!-- Venue sub-header -->
+    <p style="font-family:'Inter',sans-serif;font-size:0.95rem;color:#444;margin-bottom:1.5rem;background:#fff;border-radius:6px;padding:0.85rem 1.25rem;border-left:4px solid var(--navy);box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+      <strong style="color:var(--navy);">Conference Venue:</strong> All sessions take place at the Agora Building, Johns Hopkins University Homewood Campus, Baltimore, MD
+    </p>
+
+    <!-- Room legend -->
+    <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-family:'Inter',sans-serif;font-size:0.88rem;color:#444;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
+      <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.6rem;">Room Legend</strong>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+        <span><strong style="color:var(--navy);">Main Hall</strong> <span style="color:#666;">(capacity ~120)</span> — Plenary sessions, opening/closing, receptions</span>
+        <span><strong style="color:var(--navy);">Room A | Room B | Room C</strong> <span style="color:#666;">(seminar rooms, ~30–40 each)</span> — Parallel breakout tracks</span>
+        <span><strong style="color:var(--navy);">Lobby</strong> — Coffee breaks</span>
+      </div>
+    </div>
+
     <!-- Pre-conference note -->
     <div style="background:#fff;border-left:4px solid var(--gold);border-radius:6px;padding:1rem 1.25rem;margin-bottom:2rem;font-family:'Inter',sans-serif;font-size:0.93rem;line-height:1.6;color:#333;">
       <strong style="color:var(--navy);">Pre-Conference Intensive — Wednesday, October 14, 2026 &nbsp;|&nbsp; 1:00–5:00 pm</strong><br />
-      A hands-on half-day workshop led by Tom Lippincott (JHU) and Samuel Backer (U Maine), capped at 30 participants. Priority registration for graduate students, early-career faculty, and historians new to computational methods. Modules: (1) What AI and machine learning actually do — conceptual framing; (2) Introduction to a no-code web-based text or image analysis tool; (3) Evaluating whether a computational method fits your historical question; (4) Where to find help and community after the conference. Followed by a casual dinner for Day 0 arrivals.
+      A hands-on half-day workshop led by TBD (Johns Hopkins University) and Samuel Backer (U Maine), capped at 30 participants. Priority registration for graduate students, early-career faculty, and historians new to computational methods. Modules: (1) What AI and machine learning actually do — conceptual framing; (2) Introduction to a no-code web-based text or image analysis tool; (3) Evaluating whether a computational method fits your historical question; (4) Where to find help and community after the conference. Followed by a casual dinner for Day 0 arrivals.
     </div>
 
     <!-- Tab buttons -->
@@ -654,6 +673,7 @@
             <th style="width:110px;">Time</th>
             <th>Session</th>
             <th style="width:160px;">Track</th>
+            <th style="width:100px;">Room</th>
           </tr>
         </thead>
         <tbody>
@@ -663,6 +683,7 @@
             <td class="time-cell">8:30 – 9:00</td>
             <td><span class="session-title">Registration &amp; Morning Coffee</span></td>
             <td><span class="track-badge logistics">Logistics</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
           <!-- Breakfast -->
@@ -673,6 +694,7 @@
               <div class="session-desc">Structured seating — table conversation guides provided. Table assignments printed on name badges.</div>
             </td>
             <td><span class="track-badge logistics">Breakfast</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Opening Remarks -->
@@ -683,6 +705,7 @@
               <div class="session-desc">Welcome and framing from conference organizer Louis Hyman (Johns Hopkins University). Overview of conference goals and structure.</div>
             </td>
             <td><span class="track-badge plenary">Opening</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Day 1 Plenary -->
@@ -696,6 +719,7 @@
               </div>
             </td>
             <td><span class="track-badge plenary">Plenary</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Coffee Break -->
@@ -703,6 +727,7 @@
             <td class="time-cell">10:30 – 10:45</td>
             <td><span class="session-title">Coffee Break</span></td>
             <td><span class="track-badge logistics">Break</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
           <!-- Slot 1 — three tracks -->
@@ -713,6 +738,7 @@
               <div class="session-desc">A practitioner walkthrough of how LLMs process historical language — OCR noise, archaic usage, named entities across centuries — and where current tools succeed or fail. Presenters share failure cases as honestly as successes, building methodological literacy for the rest of the conference. Panelist: Lauren Tilton.</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -720,6 +746,7 @@
               <div class="session-desc">Many attendees are the only person at their institution doing this work. This session surfaces the professional precarity that isolation creates and maps the advocacy strategies — with departments, deans, and tenure committees — that have worked for practitioners at different career stages.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -727,6 +754,7 @@
               <div class="session-desc">A facilitated hands-on introduction to the MapReader workflow, led by Lauren Tilton in conversation with Katie McDonough's approach. Participants will patch, classify, and query a set of historical maps, leaving with a working understanding of how computer vision can be applied to cartographic sources. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
 
           <!-- Assigned Lunch Day 1 -->
@@ -737,6 +765,7 @@
               <div class="session-desc">Structured seating with full rotation from breakfast. Table conversation guides provided. Family-style service.</div>
             </td>
             <td><span class="track-badge logistics">Lunch</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Slot 2 — three tracks -->
@@ -747,6 +776,7 @@
               <div class="session-desc">Drawing on Jo Guldi's work with Democracy Viewer and the forthcoming <em>Text Mining as a Historical Method</em>, this session demonstrates how historians move from a large corpus — legislative records, newspapers, institutional archives — to a claim that meets disciplinary standards of evidence. The emphasis is on the interpretive moves, not just the technical pipeline. Presenter: Jo Guldi (Southern Methodist University).</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -754,6 +784,7 @@
               <div class="session-desc">An honest reckoning with the current state of doctoral education: what skills are not being taught, what cross-training between history, statistics, and computer science actually requires, and what departments and graduate programs can do now without waiting for structural transformation. Panelists: Christopher Phillips (Carnegie Mellon), Samuel Backer (U Maine), Sarah Weicksel (AHA).</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -761,6 +792,7 @@
               <div class="session-desc">Participants bring messy historical datasets — or work with provided examples — and practice the unglamorous but essential work of data normalization, entity resolution, and reproducible documentation. Samuel Backer (U Maine) leads with an emphasis on skills that travel across projects and tools. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
 
           <!-- Coffee Break -->
@@ -768,6 +800,7 @@
             <td class="time-cell">2:45 – 3:00</td>
             <td><span class="session-title">Coffee Break</span></td>
             <td><span class="track-badge logistics">Break</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
           <!-- Slot 3 — three tracks -->
@@ -778,6 +811,7 @@
               <div class="session-desc">A survey of current applications of image recognition, object detection, and layout analysis to historical visual sources, with honest assessment of where accuracy is sufficient for historical argument and where it is not. Case studies drawn from multiple projects and archives.</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -785,6 +819,7 @@
               <div class="session-desc">Laura Ansley (AHA) leads a frank conversation about how to write competitive grant proposals for digital history projects, what NEH's current digital history priorities are, and how funders are thinking about AI. Includes time for attendees to workshop their own project descriptions.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -792,6 +827,7 @@
               <div class="session-desc">A step-by-step workshop on making computational historical work reproducible: version control, data provenance documentation, code sharing, and the practical choices that determine whether another scholar can replicate your findings. Emphasis on achievable standards, not perfection. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
 
           <!-- Break -->
@@ -799,6 +835,7 @@
             <td class="time-cell">4:30 – 5:00</td>
             <td><span class="session-title">Break &amp; Free Time</span></td>
             <td><span class="track-badge logistics">Break</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
           <!-- Day 1 Dinner -->
@@ -809,6 +846,7 @@
               <div class="session-desc">Unassigned seating. Open networking. Cash bar and light appetizers.</div>
             </td>
             <td><span class="track-badge logistics">Reception</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <tr class="row-break">
@@ -818,6 +856,7 @@
               <div class="session-desc">Unassigned seating — the longer, more social evening meal. Attendees have warmed up throughout the day; organic mixing is encouraged. No table conversation prompts tonight.</div>
             </td>
             <td><span class="track-badge logistics">Dinner</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
         </tbody>
@@ -833,6 +872,7 @@
             <th style="width:110px;">Time</th>
             <th>Session</th>
             <th style="width:160px;">Track</th>
+            <th style="width:100px;">Room</th>
           </tr>
         </thead>
         <tbody>
@@ -842,9 +882,10 @@
             <td class="time-cell">8:30 – 9:00</td>
             <td><span class="session-title">Morning Coffee</span></td>
             <td><span class="track-badge logistics">Logistics</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
-          <!-- Assigned Breakfast Day 2 — not in original plan, use fresh lunch assignment note -->
+          <!-- Assigned Breakfast Day 2 -->
           <tr class="row-break">
             <td class="time-cell">9:00 – 9:30</td>
             <td>
@@ -852,6 +893,7 @@
               <div class="session-desc">Table assignments rotate from Day 1 meals to ensure new connections. Table conversation guides provided on card stock.</div>
             </td>
             <td><span class="track-badge logistics">Breakfast</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Day 2 Plenary -->
@@ -865,6 +907,7 @@
               </div>
             </td>
             <td><span class="track-badge plenary">Plenary</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Coffee Break -->
@@ -872,6 +915,7 @@
             <td class="time-cell">10:30 – 10:45</td>
             <td><span class="session-title">Coffee Break</span></td>
             <td><span class="track-badge logistics">Break</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
           <!-- Slot 4 — three tracks -->
@@ -882,20 +926,23 @@
               <div class="session-desc">Geospatial methods have matured significantly in historical practice; this session surveys current best approaches for working with historical place names, boundary changes, and the specific challenges of georeferencing pre-modern and colonial cartography.</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
             <td>
               <span class="session-title">Cross-Disciplinary Collaboration: What Historians Need from Computer Scientists, and Vice Versa</span>
-              <div class="session-desc">Tom Lippincott (JHU) frames the conversation from the CS side: what computational competencies make a historian a productive research partner, and what does genuine collaboration — not mere tool use — look like in practice? Includes perspectives from historians who have built sustained partnerships with technical collaborators. Co-presenter: William G. Thomas III (Montana State).</div>
+              <div class="session-desc">Speaker TBD (Johns Hopkins University) frames the conversation from the CS side: what computational competencies make a historian a productive research partner, and what does genuine collaboration — not mere tool use — look like in practice? Includes perspectives from historians who have built sustained partnerships with technical collaborators. Co-presenter: William G. Thomas III (Montana State).</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
               <span class="session-title">Introduction to Python for Historical Research: Your First Analysis</span>
-              <div class="session-desc">A genuinely beginner-friendly lab session for historians with no coding background. Participants work through a structured notebook analyzing a historical dataset — census records, legislative text, or a digital archive — learning just enough Python to understand what they are doing and why. <em>Laptop required. Capped enrollment.</em></div>
+              <div class="session-desc">A genuinely beginner-friendly lab session for historians with no coding background. Participants work through a structured notebook analyzing a historical dataset — census records, legislative text, or a digital archive — learning just enough Python to understand what they are doing and why. Facilitated by TBD facilitator. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
 
           <!-- Assigned Lunch Day 2 -->
@@ -906,6 +953,7 @@
               <div class="session-desc">Fresh seating assignment (third rotation). Table conversation guides provided. Family-style service. Last structured meal of the conference.</div>
             </td>
             <td><span class="track-badge logistics">Lunch</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Slot 5 — three tracks -->
@@ -916,6 +964,7 @@
               <div class="session-desc">Jo Guldi (SMU) surveys the European digital humanities landscape — from CLARIN and DARIAH to individual center models — identifying specific methodological and institutional practices that American historians could adapt. Emphasis on what is transferable and what is structurally different about European research funding.</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -923,6 +972,7 @@
               <div class="session-desc">The current publication infrastructure for computational history is poorly suited to the work: reviewers lack technical training, data cannot be peer-reviewed at most journals, and replication is rarely attempted. This session maps the problem and surveys emerging solutions, including the Computational Humanities Research journal model.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -930,6 +980,7 @@
               <div class="session-desc">An open-format session in which attendees present a project at any stage — idea, pilot, in-progress, stuck — and receive structured feedback from a panel of methodological and historical experts. Presenters submit a brief abstract in advance; the session is curated to maximize diversity of method, period, and geography. <em>Capped enrollment for presenters; open for observers.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
 
           <!-- Coffee Break -->
@@ -937,6 +988,7 @@
             <td class="time-cell">2:45 – 3:00</td>
             <td><span class="session-title">Coffee Break</span></td>
             <td><span class="track-badge logistics">Break</span></td>
+            <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
           <!-- Slot 6 — three tracks -->
@@ -947,6 +999,7 @@
               <div class="session-desc">A forward-looking session on the professional infrastructure the community needs to build: shared code repositories, a skills exchange network (modeled on DLF's approach), a publication venue for methods, and a communication channel for practitioners. Concrete planning, not just aspiration.</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -954,6 +1007,7 @@
               <div class="session-desc">Sarah Weicksel and Laura Ansley (American Historical Association) in conversation about what the AHA is doing, what it can do, and what it needs historians to ask of it on AI and computational methods — including how the annual conference, professional standards, and accreditation can shift to support this work.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
@@ -961,6 +1015,7 @@
               <div class="session-desc">A practitioner-led session in which participants identify one specific method or workflow from the conference they want to implement in their own research, and work through the first concrete steps — tool installation, data identification, or project scoping — before leaving. Facilitated by Jacob Bruggeman. <em>Laptop strongly recommended.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
+            <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
 
           <!-- Closing Remarks -->
@@ -971,6 +1026,7 @@
               <div class="session-desc">Louis Hyman (JHU) closes the conference: synthesis of themes, collective commitments, community infrastructure next steps, and how to stay connected after the conference ends.</div>
             </td>
             <td><span class="track-badge plenary">Closing</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Evening cocktails -->
@@ -981,6 +1037,7 @@
               <div class="session-desc">Unassigned. Open networking. Cash bar. Opportunity for final conversations and exchange of contact information.</div>
             </td>
             <td><span class="track-badge logistics">Reception</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
         </tbody>
@@ -1044,9 +1101,9 @@
       </div>
 
       <div class="speaker-card">
-        <div class="speaker-name">Tom Lippincott</div>
+        <div class="speaker-name">Speaker TBD</div>
         <div class="speaker-affil">Johns Hopkins University</div>
-        <span class="role-badge">Speaker</span>
+        <span class="role-badge">JHU Faculty — Session TBD</span>
       </div>
 
       <div class="speaker-card">
@@ -1071,6 +1128,25 @@
         <div class="speaker-name">Sarah Weicksel</div>
         <div class="speaker-affil">American Historical Association</div>
         <span class="role-badge">Institutional Partner</span>
+      </div>
+
+      <!-- TBD placeholder cards -->
+      <div class="speaker-card" style="border-left:4px dashed var(--gold);">
+        <div class="speaker-name" style="color:#888;">Invited Speaker TBD</div>
+        <div class="speaker-affil">Institution TBD</div>
+        <span class="role-badge">Plenary Speaker, Day 1</span>
+      </div>
+
+      <div class="speaker-card" style="border-left:4px dashed var(--gold);">
+        <div class="speaker-name" style="color:#888;">Workshop Leader TBD</div>
+        <div class="speaker-affil">Institution TBD</div>
+        <span class="role-badge">Hands-On Workshop Facilitator</span>
+      </div>
+
+      <div class="speaker-card" style="border-left:4px dashed var(--gold);">
+        <div class="speaker-name" style="color:#888;">Industry/Foundation Partner TBD</div>
+        <div class="speaker-affil">TBD</div>
+        <span class="role-badge">Funder Perspectives Panel</span>
       </div>
 
     </div>
@@ -1133,6 +1209,44 @@
 </section>
 
 <!-- ══════════════════════════════════════
+     AGORA BUILDING PHOTOS
+════════════════════════════════════════ -->
+<section id="agora" style="background:#F7F8FA;padding:4rem 0;">
+  <div class="section-inner">
+    <h2 class="section-heading">Conference Venue: The Agora at Johns Hopkins</h2>
+    <hr class="section-rule" />
+    <p class="section-text" style="margin-bottom:2.5rem;">
+      The AHA AI Conference 2026 will be held at the Agora, Johns Hopkins University's premier venue for scholarly exchange on the Homewood Campus in Baltimore, Maryland. The Agora features a large assembly hall and three seminar rooms — a perfect setting for the plenary sessions, parallel tracks, and structured conversations that define this conference.
+    </p>
+
+    <!-- Photo gallery — confirmed live URLs from snfagora.jhu.edu -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+      <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        <img src="https://snfagora.jhu.edu/wp-content/uploads/2025/06/Daytime-North-Exterior.jpg"
+             alt="SNF Agora at JHU — Daytime North Exterior"
+             style="width:100%;height:260px;object-fit:cover;display:block;"
+             onerror="this.parentElement.innerHTML='<div style=\'background:#002D72;height:260px;display:flex;align-items:center;justify-content:center;border-radius:8px;\'><span style=\'color:white;font-family:Inter,sans-serif;font-size:0.9rem;text-align:center;\'>Agora Building, JHU<br><small>Photo coming soon</small></span></div>'" />
+      </div>
+      <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        <img src="https://snfagora.jhu.edu/wp-content/uploads/2025/05/Cafe-Path.jpg"
+             alt="SNF Agora at JHU — Cafe Path"
+             style="width:100%;height:260px;object-fit:cover;display:block;"
+             onerror="this.parentElement.innerHTML='<div style=\'background:#002D72;height:260px;display:flex;align-items:center;justify-content:center;border-radius:8px;\'><span style=\'color:white;font-family:Inter,sans-serif;font-size:0.9rem;text-align:center;\'>Agora Building, JHU<br><small>Photo coming soon</small></span></div>'" />
+      </div>
+      <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        <img src="https://snfagora.jhu.edu/wp-content/uploads/2025/04/Large-Meeting-Room-2.jpg"
+             alt="SNF Agora at JHU — Large Meeting Room"
+             style="width:100%;height:260px;object-fit:cover;display:block;"
+             onerror="this.parentElement.innerHTML='<div style=\'background:#002D72;height:260px;display:flex;align-items:center;justify-content:center;border-radius:8px;\'><span style=\'color:white;font-family:Inter,sans-serif;font-size:0.9rem;text-align:center;\'>Agora Building, JHU<br><small>Photo coming soon</small></span></div>'" />
+      </div>
+    </div>
+    <p style="font-family:'Inter',sans-serif;font-size:0.78rem;color:#888;margin-top:0.75rem;text-align:center;">
+      Photos: SNF Agora Institute, Johns Hopkins University. Credit: Kate Dydak.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
      VENUE
 ════════════════════════════════════════ -->
 <section id="venue">
@@ -1174,7 +1288,7 @@
           <li>Capped at 30 participants</li>
           <li>Priority for graduate students and early-career faculty</li>
           <li>Separate (lower) registration fee or waiver available</li>
-          <li>Led by Tom Lippincott and Samuel Backer</li>
+          <li>Led by TBD (Johns Hopkins University) and Samuel Backer</li>
           <li>Followed by a casual dinner for Day 0 arrivals</li>
         </ul>
       </div>
@@ -1203,7 +1317,11 @@
      FOOTER
 ════════════════════════════════════════ -->
 <footer>
-  <p>AHA AI Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.6rem;">
+    <img src="https://brand.jhu.edu/wp-content/uploads/2024/07/logos-vertical-1024x683.jpg" alt="Johns Hopkins University" height="32" style="height:32px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.85;" onerror="this.style.display='none'" />
+    <p style="margin:0;">AHA AI Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  </div>
+  <p style="margin-top:0.25rem;"><a href="https://www.historians.org" style="color:var(--gold);">An Official Conference of the American Historical Association</a></p>
   <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
 </footer>
 
