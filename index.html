@@ -6,19 +6,19 @@
   <title>AHA AI Conference 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* ── Base ── */
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       color: #1a1a2e;
     }
 
     h1, h2, h3, h4 {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
     }
 
     /* ── Color tokens ── */
@@ -55,7 +55,7 @@
     }
 
     .nav-brand {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       font-weight: 600;
       color: var(--navy);
@@ -70,7 +70,7 @@
     }
 
     .nav-links a {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--navy);
@@ -162,7 +162,7 @@
     }
 
     #hero h1 {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.2rem, 5vw, 4rem);
       font-weight: 700;
       color: #fff;
@@ -179,7 +179,7 @@
     }
 
     .hero-date {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 1.1rem;
       font-weight: 400;
       color: rgba(255,255,255,0.85);
@@ -188,7 +188,7 @@
     }
 
     .hero-tagline {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 1.35rem;
       color: rgba(255,255,255,0.9);
@@ -208,7 +208,7 @@
     .btn-gold {
       background: var(--gold);
       color: var(--navy);
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 600;
       font-size: 0.95rem;
       padding: 0.8rem 1.8rem;
@@ -228,7 +228,7 @@
     .btn-outline {
       background: transparent;
       color: #fff;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 600;
       font-size: 0.95rem;
       padding: 0.8rem 1.8rem;
@@ -254,7 +254,7 @@
     }
 
     .section-heading {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.75rem, 3vw, 2.5rem);
       font-weight: 700;
       color: var(--navy);
@@ -270,7 +270,7 @@
     }
 
     .section-text {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 1.05rem;
       line-height: 1.75;
       color: var(--navy);
@@ -288,21 +288,23 @@
     }
 
     .tab-btn {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 600;
-      font-size: 0.9rem;
-      padding: 0.55rem 1.4rem;
-      border-radius: 6px;
+      font-size: 0.88rem;
+      padding: 0.6rem 1.5rem;
+      border-radius: 100px;
       border: 2px solid var(--navy);
       background: transparent;
       color: var(--navy);
       cursor: pointer;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.01em;
     }
 
     .tab-btn.active {
       background: var(--navy);
       color: #fff;
+      box-shadow: 0 4px 12px rgba(0,45,114,0.22);
     }
 
     .tab-btn:hover:not(.active) {
@@ -314,7 +316,7 @@
 
     /* Day sub-heading */
     .day-heading {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.4rem;
       font-weight: 600;
       color: var(--navy);
@@ -325,7 +327,7 @@
     .program-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.9rem;
       margin-bottom: 2.5rem;
       border-radius: 10px;
@@ -426,7 +428,7 @@
     }
 
     .speaker-name {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       font-weight: 600;
       color: var(--navy);
@@ -434,7 +436,7 @@
     }
 
     .speaker-affil {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.85rem;
       color: #666;
       margin-bottom: 0.65rem;
@@ -442,7 +444,7 @@
 
     .role-badge {
       display: inline-block;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -462,7 +464,7 @@
     #meals .section-heading { color: #fff; }
 
     .meals-intro {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 1.05rem;
       line-height: 1.75;
       color: rgba(255,255,255,0.85);
@@ -484,14 +486,14 @@
       border-left: 3px solid var(--gold);
       border-radius: 6px;
       padding: 1rem 1.25rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.95rem;
       line-height: 1.6;
       color: rgba(255,255,255,0.92);
     }
 
     .q-number {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
       font-weight: 700;
       color: var(--gold);
@@ -519,7 +521,7 @@
     }
 
     .venue-card h3 {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
       font-weight: 600;
       color: var(--navy);
@@ -527,7 +529,7 @@
     }
 
     .venue-card p, .venue-card li {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.93rem;
       line-height: 1.7;
       color: #333;
@@ -544,7 +546,7 @@
       color: rgba(255,255,255,0.8);
       text-align: center;
       padding: 2rem 1.5rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
     }
 
@@ -554,6 +556,125 @@
     }
 
     footer a:hover { text-decoration: underline; }
+
+    /* ── Typography refinements ── */
+    h1, h2, h3, h4 { letter-spacing: -0.015em; }
+
+    #hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+      font-weight: 700;
+    }
+
+    .hero-tagline {
+      font-size: 1.5rem;
+      letter-spacing: 0.005em;
+    }
+
+    .section-heading { letter-spacing: -0.02em; }
+
+    .time-cell {
+      font-family: 'DM Mono', monospace !important;
+    }
+
+    /* ── Hero dot grid pattern + entrance animation ── */
+    #hero {
+      background-image: radial-gradient(rgba(255,209,0,0.14) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(0,114,206,0.14) 0%, transparent 45%, rgba(0,45,114,0.28) 100%);
+      pointer-events: none;
+    }
+
+    @keyframes heroSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content > * {
+      opacity: 0;
+      animation: heroSlideUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .hero-content > *:nth-child(1) { animation-delay: 0.10s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.22s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.32s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.42s; }
+    .hero-content > *:nth-child(5) { animation-delay: 0.50s; }
+    .hero-content > *:nth-child(6) { animation-delay: 0.58s; }
+    .hero-content > *:nth-child(7) { animation-delay: 0.66s; }
+
+    /* ── Nav glass on scroll ── */
+    #main-nav.nav-scrolled {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 2px 24px rgba(0,45,114,0.12);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal-stagger.in-view > *:nth-child(1)  { opacity:1; transform:none; transition-delay:0.04s; }
+    .reveal-stagger.in-view > *:nth-child(2)  { opacity:1; transform:none; transition-delay:0.11s; }
+    .reveal-stagger.in-view > *:nth-child(3)  { opacity:1; transform:none; transition-delay:0.18s; }
+    .reveal-stagger.in-view > *:nth-child(4)  { opacity:1; transform:none; transition-delay:0.25s; }
+    .reveal-stagger.in-view > *:nth-child(5)  { opacity:1; transform:none; transition-delay:0.32s; }
+    .reveal-stagger.in-view > *:nth-child(6)  { opacity:1; transform:none; transition-delay:0.39s; }
+    .reveal-stagger.in-view > *:nth-child(7)  { opacity:1; transform:none; transition-delay:0.46s; }
+    .reveal-stagger.in-view > *:nth-child(n+8){ opacity:1; transform:none; transition-delay:0.52s; }
+
+    /* ── Speaker avatar initials ── */
+    .speaker-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .speaker-avatar.avatar-tbd {
+      background: #e5e7eb;
+      color: #aaa;
+      font-size: 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── Stat numbers ── */
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
   </style>
 </head>
 <body>
@@ -584,7 +705,7 @@
      HERO
 ════════════════════════════════════════ -->
 <section id="hero">
-  <div>
+  <div class="hero-content">
     <!-- Co-branding logo row -->
     <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap;">
       <img src="https://www.historians.org/wp-content/uploads/2024/03/AHA-logo.svg"
@@ -599,7 +720,7 @@
     </div>
     <h1>AHA AI Conference 2026</h1>
     <hr class="gold-rule" />
-    <p style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">An Official Conference of the American Historical Association</p>
+    <p style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">An Official Conference of the American Historical Association</p>
     <p class="hero-date">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
     <p class="hero-tagline">Transforming Historical Research with Artificial Intelligence</p>
     <div class="hero-buttons">
@@ -613,7 +734,7 @@
      ABOUT
 ════════════════════════════════════════ -->
 <section id="about" style="background:#fff;">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <h2 class="section-heading">About the Conference</h2>
     <hr class="section-rule" />
     <p class="section-text">
@@ -622,22 +743,22 @@
     <p class="section-text" style="margin-top:1.25rem;">
       The conference addresses the full range of experience — from historians sent by their departments to report back on AI, to scholars already producing advanced computational work — by running leveled tracks in parallel rather than forcing everyone into the same room. A central aim is to break the isolation of the "lone digital historian": attendees should leave with a network of peers, a clearer sense of the field's best current work, and concrete skills or project plans they can use immediately.
     </p>
-    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:2.5rem;">
+    <div class="reveal-stagger" style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:2.5rem;">
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
-        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">120</div>
-        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Participants</div>
+        <div class="stat-number" data-count="120">120</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Participants</div>
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
-        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">3</div>
-        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Parallel Tracks</div>
+        <div class="stat-number" data-count="3">3</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Parallel Tracks</div>
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
-        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">2</div>
-        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Plenary Sessions</div>
+        <div class="stat-number" data-count="2">2</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Plenary Sessions</div>
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
-        <div style="font-family:'Source Serif 4',serif;font-size:2rem;font-weight:700;color:var(--navy);">Oct 14</div>
-        <div style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#555;">Pre-Conference Intensive</div>
+        <div class="stat-number" style="font-size:2.5rem;">Oct 14</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Pre-Conference Intensive</div>
       </div>
     </div>
   </div>
@@ -647,17 +768,17 @@
      PROGRAM
 ════════════════════════════════════════ -->
 <section id="program">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <h2 class="section-heading">Conference Program</h2>
     <hr class="section-rule" />
 
     <!-- Venue sub-header -->
-    <p style="font-family:'Inter',sans-serif;font-size:0.95rem;color:#444;margin-bottom:1.5rem;background:#fff;border-radius:6px;padding:0.85rem 1.25rem;border-left:4px solid var(--navy);box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.95rem;color:#444;margin-bottom:1.5rem;background:#fff;border-radius:6px;padding:0.85rem 1.25rem;border-left:4px solid var(--navy);box-shadow:0 1px 6px rgba(0,0,0,0.05);">
       <strong style="color:var(--navy);">Conference Venue:</strong> All sessions take place at the Agora Building, Johns Hopkins University Homewood Campus, Baltimore, MD
     </p>
 
     <!-- Room legend -->
-    <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-family:'Inter',sans-serif;font-size:0.88rem;color:#444;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
+    <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:#444;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
       <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.6rem;">Room Legend</strong>
       <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
         <span><strong style="color:var(--navy);">Main Hall</strong> <span style="color:#666;">(capacity ~120)</span> — Plenary sessions, opening/closing, receptions</span>
@@ -667,7 +788,7 @@
     </div>
 
     <!-- Pre-conference note -->
-    <div style="background:#fff;border-left:4px solid var(--gold);border-radius:6px;padding:1rem 1.25rem;margin-bottom:2rem;font-family:'Inter',sans-serif;font-size:0.93rem;line-height:1.6;color:#333;">
+    <div style="background:#fff;border-left:4px solid var(--gold);border-radius:6px;padding:1rem 1.25rem;margin-bottom:2rem;font-family:'DM Sans',sans-serif;font-size:0.93rem;line-height:1.6;color:#333;">
       <strong style="color:var(--navy);">Pre-Conference Intensive — Wednesday, October 14, 2026 &nbsp;|&nbsp; 1:00–5:00 pm</strong><br />
       A hands-on half-day workshop led by TBD (Johns Hopkins University) and Samuel Backer (U Maine), capped at 30 participants. Priority registration for graduate students, early-career faculty, and historians new to computational methods. Modules: (1) What AI and machine learning actually do — conceptual framing; (2) Introduction to a no-code web-based text or image analysis tool; (3) Evaluating whether a computational method fits your historical question; (4) Where to find help and community after the conference. Followed by a casual dinner for Day 0 arrivals.
     </div>
@@ -1058,7 +1179,7 @@
       </table>
 
       <!-- Track legend -->
-      <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;font-family:'Inter',sans-serif;font-size:0.88rem;color:#444;display:flex;gap:1.5rem;flex-wrap:wrap;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+      <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:#444;display:flex;gap:1.5rem;flex-wrap:wrap;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
         <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;width:100%;">Track Key</strong>
         <span><span class="track-badge track-a">Track A</span> &nbsp;Methods &amp; Tools — presentation-driven</span>
         <span><span class="track-badge track-b">Track B</span> &nbsp;Discipline, Infrastructure &amp; Careers</span>
@@ -1073,10 +1194,10 @@
      SPEAKERS
 ════════════════════════════════════════ -->
 <section id="speakers">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <h2 class="section-heading">Speakers &amp; Participants</h2>
     <hr class="section-rule" />
-    <div class="speakers-grid">
+    <div class="speakers-grid reveal-stagger">
 
       <div class="speaker-card">
         <div class="speaker-name">Louis Hyman</div>
@@ -1171,7 +1292,7 @@
      MEALS / STRUCTURED CONVERSATIONS
 ════════════════════════════════════════ -->
 <section id="meals">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <h2 class="section-heading">Structured Conversations</h2>
     <hr class="section-rule" style="background:var(--gold);" />
     <p class="meals-intro">
@@ -1184,7 +1305,7 @@
       Service is family-style: platters placed on tables before guests are seated. Dietary information collected at registration; headcount and restrictions delivered to catering by October 8.
     </p>
 
-    <h3 style="font-family:'Source Serif 4',serif;font-size:1.25rem;color:var(--gold);margin-bottom:1.25rem;">Table Conversation Questions</h3>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--gold);margin-bottom:1.25rem;">Table Conversation Questions</h3>
     <ol class="conversation-list">
       <li>
         <span class="q-number">1.</span>
@@ -1226,7 +1347,7 @@
      AGORA BUILDING PHOTOS
 ════════════════════════════════════════ -->
 <section id="agora" style="background:#F7F8FA;padding:4rem 0;">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <h2 class="section-heading">Conference Venue: The Agora at Johns Hopkins</h2>
     <hr class="section-rule" />
     <p class="section-text" style="margin-bottom:2.5rem;">
@@ -1254,7 +1375,7 @@
              onerror="this.parentElement.innerHTML='<div style=\'background:#002D72;height:260px;display:flex;align-items:center;justify-content:center;border-radius:8px;\'><span style=\'color:white;font-family:Inter,sans-serif;font-size:0.9rem;text-align:center;\'>Agora Building, JHU<br><small>Photo coming soon</small></span></div>'" />
       </div>
     </div>
-    <p style="font-family:'Inter',sans-serif;font-size:0.78rem;color:#888;margin-top:0.75rem;text-align:center;">
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:#888;margin-top:0.75rem;text-align:center;">
       Photos: SNF Agora Institute, Johns Hopkins University. Credit: Kate Dydak.
     </p>
   </div>
@@ -1264,7 +1385,7 @@
      VENUE
 ════════════════════════════════════════ -->
 <section id="venue">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <h2 class="section-heading">Venue &amp; Logistics</h2>
     <hr class="section-rule" />
     <p class="section-text">
@@ -1319,7 +1440,7 @@
     </div>
 
     <div style="margin-top:2rem;background:var(--light-gray);border-radius:8px;padding:1.25rem 1.5rem;border-left:4px solid var(--gold);">
-      <p style="font-family:'Inter',sans-serif;font-size:0.93rem;color:#333;line-height:1.6;margin:0;">
+      <p style="font-family:'DM Sans',sans-serif;font-size:0.93rem;color:#333;line-height:1.6;margin:0;">
         <strong>Funder &amp; Institutional Partner Invitations.</strong> NEH digital humanities program officers and selected private foundation contacts will receive personal invitations to attend as audience members and to observe the conference program. If your institution or foundation is interested in a partnership conversation, contact Louis Hyman at <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);">lhyman6@jh.edu</a>.
       </p>
     </div>
@@ -1390,6 +1511,71 @@
       }
     });
   });
+
+  /* ── Nav glass on scroll ── */
+  window.addEventListener('scroll', function() {
+    document.getElementById('main-nav').classList.toggle('nav-scrolled', window.scrollY > 30);
+  }, { passive: true });
+
+  /* ── Scroll reveal ── */
+  (function() {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) {
+      obs.observe(el);
+    });
+  })();
+
+  /* ── Count-up animation for stats ── */
+  (function() {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var target = parseInt(el.dataset.count, 10);
+        var duration = 1400;
+        var start = performance.now();
+        function tick(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var ease = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(ease * target);
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        obs.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number[data-count]').forEach(function(el) {
+      obs.observe(el);
+    });
+  })();
+
+  /* ── Speaker initials avatars ── */
+  (function() {
+    function initials(name) {
+      var p = name.trim().split(/\s+/);
+      return p.length >= 2 ? (p[0][0] + p[p.length - 1][0]).toUpperCase() : p[0][0].toUpperCase();
+    }
+
+    document.querySelectorAll('.speaker-card').forEach(function(card) {
+      var nameEl = card.querySelector('.speaker-name');
+      if (!nameEl) return;
+      var name = nameEl.textContent.trim();
+      var tbd = /tbd|invited|workshop|industry/i.test(name);
+      var av = document.createElement('div');
+      av.className = 'speaker-avatar' + (tbd ? ' avatar-tbd' : '');
+      av.textContent = tbd ? '?' : initials(name);
+      card.insertBefore(av, card.firstChild);
+    });
+  })();
 </script>
 
 </body>

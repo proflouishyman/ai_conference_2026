@@ -6,17 +6,17 @@
   <title>Application Received — AHA AI Conference 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       color: #1a1a2e;
     }
 
-    h1, h2, h3 { font-family: 'Source Serif 4', serif; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
 
     :root {
       --navy: #002D72;
@@ -45,7 +45,7 @@
     }
 
     .nav-brand {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       font-weight: 600;
       color: var(--navy);
@@ -60,7 +60,7 @@
     }
 
     .nav-links a {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--navy);
@@ -132,26 +132,62 @@
     #hero {
       min-height: 60vh;
       background-color: var(--navy);
+      background-image: radial-gradient(rgba(255,209,0,0.13) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 7rem 1.5rem 4rem;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(0,114,206,0.14) 0%, transparent 45%, rgba(0,45,114,0.28) 100%);
+      pointer-events: none;
     }
 
     .hero-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      display: block;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    @keyframes circleIn {
+      from { stroke-dashoffset: 188; }
+      to   { stroke-dashoffset: 0; }
+    }
+
+    @keyframes checkIn {
+      from { stroke-dashoffset: 50; opacity: 0; }
+      to   { stroke-dashoffset: 0; opacity: 1; }
+    }
+
+    .check-circle {
+      stroke-dasharray: 188;
+      stroke-dashoffset: 188;
+      animation: circleIn 0.6s ease 0.2s forwards;
+    }
+
+    .check-mark {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      opacity: 0;
+      animation: checkIn 0.4s ease 0.75s forwards;
     }
 
     #hero h1 {
-      font-family: 'Source Serif 4', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
       font-weight: 700;
       color: #fff;
       margin-bottom: 1rem;
-      line-height: 1.2;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
     }
 
     .gold-rule {
@@ -162,7 +198,7 @@
     }
 
     .hero-text {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 1.05rem;
       color: rgba(255,255,255,0.85);
       max-width: 520px;
@@ -174,7 +210,7 @@
       display: inline-block;
       background: var(--gold);
       color: var(--navy);
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 600;
       font-size: 0.95rem;
       padding: 0.8rem 1.8rem;
@@ -203,7 +239,7 @@
     }
 
     .next-inner h2 {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
       font-weight: 600;
       color: var(--navy);
@@ -242,12 +278,12 @@
       color: var(--gold);
       font-weight: 700;
       font-size: 0.8rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       margin-top: 2px;
     }
 
     .timeline-content {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.93rem;
       line-height: 1.6;
       color: #333;
@@ -261,7 +297,7 @@
       color: rgba(255,255,255,0.8);
       text-align: center;
       padding: 2rem 1.5rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
     }
 
@@ -295,7 +331,12 @@
 ════════════════════════════════════════ -->
 <section id="hero">
   <div>
-    <span class="hero-icon">&#10003;</span>
+    <div class="hero-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle class="check-circle" cx="40" cy="40" r="30" stroke="#FFD100" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <polyline class="check-mark" points="26,41 35,51 54,30" stroke="#FFD100" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
     <h1>Thank You for Applying!</h1>
     <hr class="gold-rule" />
     <p class="hero-text">

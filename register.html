@@ -6,18 +6,18 @@
   <title>Register — AHA AI Conference 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* ── Base ── */
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       color: #1D1D1B;
     }
 
-    h1, h2, h3, h4 { font-family: 'Source Serif 4', serif; }
+    h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
 
     :root {
       --navy:        #002D72;  /* JHU Heritage Blue */
@@ -51,7 +51,7 @@
     }
 
     .nav-brand {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       font-weight: 600;
       color: var(--navy);
@@ -66,7 +66,7 @@
     }
 
     .nav-links a {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--navy);
@@ -146,20 +146,48 @@
     #hero {
       min-height: 40vh;
       background-color: var(--navy);
+      background-image: radial-gradient(rgba(255,209,0,0.13) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 6rem 1.5rem 3.5rem;
+      overflow: hidden;
     }
 
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(0,114,206,0.14) 0%, transparent 45%, rgba(0,45,114,0.28) 100%);
+      pointer-events: none;
+    }
+
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #hero > div > * {
+      opacity: 0;
+      animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    #hero > div > *:nth-child(1) { animation-delay: 0.10s; }
+    #hero > div > *:nth-child(2) { animation-delay: 0.22s; }
+    #hero > div > *:nth-child(3) { animation-delay: 0.32s; }
+    #hero > div > *:nth-child(4) { animation-delay: 0.42s; }
+    #hero > div > *:nth-child(5) { animation-delay: 0.50s; }
+
     #hero h1 {
-      font-family: 'Source Serif 4', serif;
-      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
       font-weight: 700;
       color: #fff;
       margin-bottom: 1rem;
-      line-height: 1.2;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
     }
 
     .gold-rule {
@@ -170,7 +198,7 @@
     }
 
     .hero-sub {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 1rem;
       color: rgba(255,255,255,0.82);
       margin-bottom: 0.5rem;
@@ -200,7 +228,7 @@
     .form-card-white { background: #fff; border: 1px solid #e5e7eb; }
 
     .form-card-heading {
-      font-family: 'Source Serif 4', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
       font-weight: 600;
       color: var(--navy);
@@ -217,7 +245,7 @@
     /* ── Labels & Inputs ── */
     label {
       display: block;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
       font-weight: 500;
       color: #222;
@@ -231,7 +259,7 @@
     select,
     textarea {
       width: 100%;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.9rem;
       color: var(--text);
       background: #fff;
@@ -361,7 +389,7 @@
     }
 
     .exp-label {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.85rem;
       font-weight: 500;
       color: #333;
@@ -370,7 +398,7 @@
     }
 
     .exp-sublabel {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.78rem;
       color: #666;
       display: block;
@@ -401,7 +429,7 @@
       width: 100%;
       background: var(--navy);
       color: var(--gold);
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 700;
       font-size: 1rem;
       padding: 1rem;
@@ -424,7 +452,7 @@
     .form-footer-note {
       text-align: center;
       margin-top: 1.25rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.82rem;
       color: #777;
       line-height: 1.6;
@@ -438,7 +466,7 @@
       color: rgba(255,255,255,0.8);
       text-align: center;
       padding: 2rem 1.5rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.875rem;
     }
 
@@ -485,7 +513,7 @@
   <div>
     <h1>Register for AHA AI Conference 2026</h1>
     <hr class="gold-rule" />
-    <p style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">An Official Conference of the American Historical Association</p>
+    <p style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">An Official Conference of the American Historical Association</p>
     <p class="hero-sub">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
     <p class="hero-sub">Space is limited to 120 participants. Applications close <strong style="color:#FFD100;">August 15, 2026</strong>.</p>
   </div>
