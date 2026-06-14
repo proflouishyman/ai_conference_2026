@@ -387,6 +387,7 @@
     .track-badge.track-a { background: #dce8f7; color: var(--navy); }
     .track-badge.track-b { background: #fce8ff; color: #6b21a8; }
     .track-badge.track-c { background: #e8fff0; color: #166534; }
+    .track-badge.track-d { background: #e0efff; color: #004e9a; border: 1px solid #b3d4ff; }
     .track-badge.plenary { background: #FFF8E1; color: #92400e; border: 1px solid #FFD100; }
     .track-badge.logistics { background: #F7F8FA; color: #555; }
 
@@ -749,7 +750,7 @@
         <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Participants</div>
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
-        <div class="stat-number" data-count="3">3</div>
+        <div class="stat-number" data-count="4">4</div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Parallel Tracks</div>
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
@@ -781,8 +782,8 @@
     <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:#444;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
       <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.6rem;">Room Legend</strong>
       <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
-        <span><strong style="color:var(--navy);">Main Hall</strong> <span style="color:#666;">(capacity ~120)</span> — Plenary sessions, opening/closing, receptions</span>
-        <span><strong style="color:var(--navy);">Room A | Room B | Room C</strong> <span style="color:#666;">(seminar rooms, ~30–40 each)</span> — Parallel breakout tracks</span>
+        <span><strong style="color:var(--navy);">Main Hall</strong> <span style="color:#666;">(capacity ~120)</span> — Plenary sessions, Track D demonstrations, opening/closing, receptions</span>
+        <span><strong style="color:var(--navy);">Room A | Room B | Room C</strong> <span style="color:#666;">(seminar rooms, ~30–40 each)</span> — Parallel breakout tracks (A, B, C)</span>
         <span><strong style="color:var(--navy);">Lobby</strong> — Coffee breaks</span>
       </div>
     </div>
@@ -865,9 +866,9 @@
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
-          <!-- Slot 1 — three tracks -->
+          <!-- Slot 1 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="3">10:45 – 12:15</td>
+            <td class="time-cell" rowspan="4">10:45 – 12:15</td>
             <td>
               <span class="session-title">Reading the Machine: What Large Language Models Actually Do to Historical Text</span>
               <div class="session-desc">A practitioner walkthrough of how LLMs process historical language — OCR noise, archaic usage, named entities across centuries — and where current tools succeed or fail. Presenters share failure cases as honestly as successes, building methodological literacy for the rest of the conference. Panelist: Lauren Tilton.</div>
@@ -891,6 +892,14 @@
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">AI in the Archive: Live Demonstration</span>
+              <div class="session-desc">A live demonstration of using large language models and AI tools to process, transcribe, and extract meaning from archival documents. Presenters work through real historical sources — manuscript letters, institutional records, printed ephemera — showing where AI excels and where it requires careful human oversight. Designed for historians at any level of technical experience. No laptop required.</div>
+            </td>
+            <td><span class="track-badge track-d">Track D: Live Demo</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+          </tr>
 
           <!-- Assigned Lunch Day 1 -->
           <tr class="row-break">
@@ -903,9 +912,9 @@
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
-          <!-- Slot 2 — three tracks -->
+          <!-- Slot 2 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="3">1:15 – 2:45</td>
+            <td class="time-cell" rowspan="4">1:15 – 2:45</td>
             <td>
               <span class="session-title">Text Mining as Historical Method: From Corpus to Argument</span>
               <div class="session-desc">Drawing on Jo Guldi's work with Democracy Viewer and the forthcoming <em>Text Mining as a Historical Method</em>, this session demonstrates how historians move from a large corpus — legislative records, newspapers, institutional archives — to a claim that meets disciplinary standards of evidence. The emphasis is on the interpretive moves, not just the technical pipeline. Presenter: Jo Guldi (Southern Methodist University).</div>
@@ -929,6 +938,14 @@
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Mining the Historical Press: AI-Assisted Newspaper and Periodical Analysis</span>
+              <div class="session-desc">A live demonstration of AI tools applied to historical newspapers and periodicals — including Chronicling America and digitized press archives — showing how to identify patterns, track terminology, and surface arguments across thousands of issues. Presenters demonstrate the full pipeline from corpus selection to publishable claim. No laptop required.</div>
+            </td>
+            <td><span class="track-badge track-d">Track D: Live Demo</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+          </tr>
 
           <!-- Coffee Break -->
           <tr class="row-break">
@@ -938,9 +955,9 @@
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
-          <!-- Slot 3 — three tracks -->
+          <!-- Slot 3 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="3">3:00 – 4:30</td>
+            <td class="time-cell" rowspan="4">3:00 – 4:30</td>
             <td>
               <span class="session-title">Computer Vision and the Visual Historical Record: Photographs, Maps, Manuscripts</span>
               <div class="session-desc">A survey of current applications of image recognition, object detection, and layout analysis to historical visual sources, with honest assessment of where accuracy is sufficient for historical argument and where it is not. Case studies drawn from multiple projects and archives.</div>
@@ -963,6 +980,14 @@
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Seeing the Past: AI for Historical Images, Maps, and Visual Sources</span>
+              <div class="session-desc">A demonstration of computer vision tools applied to photographs, maps, illustrations, and other visual historical sources. Presenters show how AI can classify, describe, and cluster visual material at scale — and discuss what interpretive claims this kind of analysis can and cannot support. No laptop required.</div>
+            </td>
+            <td><span class="track-badge track-d">Track D: Live Demo</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Break -->
@@ -1053,9 +1078,9 @@
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
-          <!-- Slot 4 — three tracks -->
+          <!-- Slot 4 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="3">10:45 – 12:15</td>
+            <td class="time-cell" rowspan="4">10:45 – 12:15</td>
             <td>
               <span class="session-title">Spatial History at Scale: GIS, Geocoding, and Historical Geography</span>
               <div class="session-desc">Geospatial methods have matured significantly in historical practice; this session surveys current best approaches for working with historical place names, boundary changes, and the specific challenges of georeferencing pre-modern and colonial cartography.</div>
@@ -1079,6 +1104,14 @@
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">AI for Oral History and the Spoken Record</span>
+              <div class="session-desc">A demonstration of AI transcription, speaker identification, and thematic analysis applied to oral history collections and recorded interviews. Presenters work through real oral history material, showing how AI can make large audio archives searchable and analyzable without losing the interpretive richness that makes oral history valuable. No laptop required.</div>
+            </td>
+            <td><span class="track-badge track-d">Track D: Live Demo</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+          </tr>
 
           <!-- Assigned Lunch Day 2 -->
           <tr class="row-break">
@@ -1091,9 +1124,9 @@
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
-          <!-- Slot 5 — three tracks -->
+          <!-- Slot 5 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="3">1:15 – 2:45</td>
+            <td class="time-cell" rowspan="4">1:15 – 2:45</td>
             <td>
               <span class="session-title">Computational History in Europe: Methods and Infrastructure from Digital Humanities Centers</span>
               <div class="session-desc">Jo Guldi (SMU) surveys the European digital humanities landscape — from CLARIN and DARIAH to individual center models — identifying specific methodological and institutional practices that American historians could adapt. Emphasis on what is transferable and what is structurally different about European research funding.</div>
@@ -1117,6 +1150,14 @@
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Placing History: Spatial Analysis and AI-Assisted Mapping</span>
+              <div class="session-desc">A live spatial history demonstration — geocoding historical place names, georeferencing period maps, and generating analytical maps from archival sources. Presenters show how AI is accelerating work that previously required specialist GIS training, and where the limits of automated spatial reasoning lie. No laptop required.</div>
+            </td>
+            <td><span class="track-badge track-d">Track D: Live Demo</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+          </tr>
 
           <!-- Coffee Break -->
           <tr class="row-break">
@@ -1126,9 +1167,9 @@
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
-          <!-- Slot 6 — three tracks -->
+          <!-- Slot 6 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="3">3:00 – 4:30</td>
+            <td class="time-cell" rowspan="4">3:00 – 4:30</td>
             <td>
               <span class="session-title">Building the Computational History Community: Substack, Skills Exchange, and Shared Infrastructure</span>
               <div class="session-desc">A forward-looking session on the professional infrastructure the community needs to build: shared code repositories, a skills exchange network (modeled on DLF's approach), a publication venue for methods, and a communication channel for practitioners. Concrete planning, not just aspiration.</div>
@@ -1151,6 +1192,14 @@
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
+          </tr>
+          <tr class="row-breakout">
+            <td>
+              <span class="session-title">Open Demo: Bring Your Research Question</span>
+              <div class="session-desc">An audience-driven demonstration session in which presenters take historical research questions from the floor and demonstrate, live, how AI tools might approach them. Equal parts practical demonstration and honest accounting of failure modes. The session models the critical, iterative engagement with AI that the conference has argued for throughout. No laptop required.</div>
+            </td>
+            <td><span class="track-badge track-d">Track D: Live Demo</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Closing Remarks -->
@@ -1184,6 +1233,7 @@
         <span><span class="track-badge track-a">Track A</span> &nbsp;Methods &amp; Tools — presentation-driven</span>
         <span><span class="track-badge track-b">Track B</span> &nbsp;Discipline, Infrastructure &amp; Careers</span>
         <span><span class="track-badge track-c">Track C</span> &nbsp;Project Workshop / Hands-On Lab — laptop required</span>
+        <span><span class="track-badge track-d">Track D</span> &nbsp;Live Demonstrations — Main Hall, open to all, no laptop required</span>
       </div>
     </div><!-- end panel-day2 -->
 
