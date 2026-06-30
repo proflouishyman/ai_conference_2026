@@ -358,6 +358,20 @@
     .row-plenary  { background: #FFF8E1; }
     .row-break    { background: #F7F8FA; color: #666; }
     .row-breakout { background: #ffffff; }
+    .row-missing  { background: #fff1f2; border-left: 4px solid #f43f5e; }
+
+    .missing-badge {
+      display: inline-block;
+      background: #f43f5e;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.35rem;
+    }
 
     .session-title {
       font-weight: 600;
@@ -838,21 +852,19 @@
             <td class="time-cell">9:30 – 10:00</td>
             <td>
               <span class="session-title">Opening Remarks</span>
-              <div class="session-desc">Welcome and framing from conference organizer Louis Hyman (Johns Hopkins University). Overview of conference goals and structure.</div>
+              <div class="session-desc">Welcome from Louis Hyman and Chris Celenza (Johns Hopkins University). Overview of conference goals and structure.</div>
             </td>
             <td><span class="track-badge plenary">Opening</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
           <!-- Day 1 Plenary -->
-          <tr class="row-plenary">
+          <tr class="row-plenary row-missing">
             <td class="time-cell">10:00 – 10:30</td>
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Plenary: "What AI Actually Does to Historical Evidence"</span>
-              <div class="session-desc">
-                <strong>Speaker: Katie McDonough</strong> (Alan Turing Institute)<br />
-                Historical sources — manuscript, print, image, sound — are not the clean structured data that most AI systems were designed for. This opening plenary names the specific challenges and opportunities that make history a hard case for AI/CS researchers, and frames the conference's central intellectual wager: that historians who understand computational methods are better historians, and that AI researchers who engage seriously with historical evidence produce better tools. The session sets the tone by refusing both uncritical enthusiasm and reflexive skepticism, insisting instead on disciplined evaluation of what works and why. McDonough's MapReader project represents the most methodologically sophisticated current example of building AI tools in direct dialogue with historical source criticism.
-              </div>
+              <div class="session-desc">Historical sources — manuscript, print, image, sound — are not the clean structured data that most AI systems were designed for. This opening plenary names the specific challenges and opportunities that make history a hard case for AI/CS researchers, refusing both uncritical enthusiasm and reflexive skepticism.</div>
             </td>
             <td><span class="track-badge plenary">Plenary</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
@@ -876,8 +888,9 @@
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">The Lone Digital Historian: Isolation, Advocacy, and Institutional Survival</span>
               <div class="session-desc">Many attendees are the only person at their institution doing this work. This session surfaces the professional precarity that isolation creates and maps the advocacy strategies — with departments, deans, and tenure committees — that have worked for practitioners at different career stages.</div>
             </td>
@@ -887,15 +900,16 @@
           <tr class="row-breakout">
             <td>
               <span class="session-title">Getting Started with MapReader: Historical Maps as Machine-Readable Data</span>
-              <div class="session-desc">A facilitated hands-on introduction to the MapReader workflow, led by Lauren Tilton in conversation with Katie McDonough's approach. Participants will patch, classify, and query a set of historical maps, leaving with a working understanding of how computer vision can be applied to cartographic sources. <em>Laptop required. Capped enrollment.</em></div>
+              <div class="session-desc">A facilitated hands-on introduction to the MapReader workflow, led by Katie McDonough. Participants will patch, classify, and query a set of historical maps, leaving with a working understanding of how computer vision can be applied to cartographic sources. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">AI in the Archive: Live Demonstration</span>
-              <div class="session-desc">A live demonstration of using large language models and AI tools to process, transcribe, and extract meaning from archival documents. Presenters work through real historical sources — manuscript letters, institutional records, printed ephemera — showing where AI excels and where it requires careful human oversight. Designed for historians at any level of technical experience. No laptop required.</div>
+              <div class="session-desc">A live demonstration of using large language models and AI tools to process, transcribe, and extract meaning from archival documents. Presenters work through real historical sources — manuscript letters, institutional records, printed ephemera — showing where AI excels and where it requires careful human oversight. No laptop required.</div>
             </td>
             <td><span class="track-badge track-d">Track D: Live Demo</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
@@ -922,24 +936,27 @@
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
-              <span class="session-title">What Graduate Training in Computational History Should Look Like</span>
-              <div class="session-desc">An honest reckoning with the current state of doctoral education: what skills are not being taught, what cross-training between history, statistics, and computer science actually requires, and what departments and graduate programs can do now without waiting for structural transformation. Panelists: Christopher Phillips (Carnegie Mellon), Samuel Backer (U Maine), Sarah Weicksel (AHA).</div>
+              <span class="missing-badge">⚠ Missing Session</span><br />
+              <span class="session-title">Session TBD</span>
+              <div class="session-desc">This session slot is currently unassigned.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Cleaning and Structuring Historical Data: A Working Session</span>
-              <div class="session-desc">Participants bring messy historical datasets — or work with provided examples — and practice the unglamorous but essential work of data normalization, entity resolution, and reproducible documentation. Samuel Backer (U Maine) leads with an emphasis on skills that travel across projects and tools. <em>Laptop required. Capped enrollment.</em></div>
+              <div class="session-desc">Participants bring messy historical datasets — or work with provided examples — and practice the unglamorous but essential work of data normalization, entity resolution, and reproducible documentation. Emphasis on skills that travel across projects and tools. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Network Analysis for Historians: Mapping Social, Economic, and Political Connections</span>
               <div class="session-desc">A live demonstration of network analysis applied to historical data — correspondence networks, trade routes, kinship ties, political alliances. Presenters show how to move from archival sources to a network graph, what interpretive questions network analysis can and cannot answer, and what tools historians can use without advanced programming. No laptop required.</div>
             </td>
@@ -967,24 +984,27 @@
           </tr>
           <tr class="row-breakout">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Funding, IP, and the Legal Landscape: Grants, Copyright, and AI's Use of Historical Sources</span>
-              <div class="session-desc">Two interlocked conversations: Laura Ansley (AHA) on writing competitive grants for computational history projects and what NEH's current digital history priorities are; and a frank discussion of the IP and copyright questions that computational historians cannot avoid — who owns digitized archival material, what AI companies are doing with it, and what the emerging regulatory landscape means for historical research. Includes time for attendees to workshop grant project descriptions.</div>
+              <div class="session-desc">Two interlocked conversations: on writing competitive grants for computational history projects and what NEH's current digital history priorities are; and a frank discussion of the IP and copyright questions that computational historians cannot avoid — who owns digitized archival material, what AI companies are doing with it, and what the emerging regulatory landscape means for historical research.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Building a Reproducible Historical Analysis: From Raw Source to Published Result</span>
               <div class="session-desc">A step-by-step workshop on making computational historical work reproducible: version control, data provenance documentation, code sharing, and the practical choices that determine whether another scholar can replicate your findings. Emphasis on achievable standards, not perfection. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
-              <span class="session-title">Teaching History with AI: Classroom Applications and Pedagogical Questions</span>
-              <div class="session-desc">A demonstration-driven session on using AI tools in history courses — primary source analysis, student research assistance, essay feedback, and the pedagogical questions that AI raises about learning and evidence. Presenters model specific classroom applications and address the hardest question honestly: what does AI do to student historical thinking? No laptop required.</div>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
+              <span class="session-title">Teaching Writing with AI: Classroom Applications and Pedagogical Questions</span>
+              <div class="session-desc">A demonstration-driven session on using AI tools in history writing courses — primary source analysis, student research assistance, essay feedback, and the pedagogical questions that AI raises about learning and evidence. No laptop required.</div>
             </td>
             <td><span class="track-badge track-d">Track D: Live Demo</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
@@ -1079,33 +1099,37 @@
           </tr>
 
           <!-- Slot 4 — four tracks -->
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td class="time-cell" rowspan="4">10:45 – 12:15</td>
             <td>
-              <span class="session-title">Spatial History at Scale: GIS, Geocoding, and Historical Geography</span>
-              <div class="session-desc">Geospatial methods have matured significantly in historical practice; this session surveys current best approaches for working with historical place names, boundary changes, and the specific challenges of georeferencing pre-modern and colonial cartography.</div>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
+              <span class="session-title">AI and Intellectual History</span>
+              <div class="session-desc">Geospatial and analytical methods applied to the history of ideas: how AI tools are opening new approaches to intellectual history, tracing the circulation of concepts, influences, and arguments across large corpora.</div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
-              <span class="session-title">Archives in the Age of AI: What Cultural Heritage Institutions Need Historians to Know</span>
-              <div class="session-desc">Archivists and librarians are the interface between historians and the sources AI is trained and tested on — yet they are rarely in the room when researchers make claims about digitized collections. This session brings the archivist perspective into the conference: rights and access constraints on AI use of digitized material, what metadata can and cannot support, preservation implications, and what productive archive–researcher collaboration actually requires. Includes perspectives from digital collections leads and institutional IT staff.</div>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
+              <span class="session-title">AI and Quantitative History</span>
+              <div class="session-desc">How AI is transforming quantitative historical research: new approaches to large structured datasets, census records, and economic archives that were previously intractable at scale.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Introduction to Python for Historical Research: Your First Analysis</span>
-              <div class="session-desc">A genuinely beginner-friendly lab session for historians with no coding background. Participants work through a structured notebook analyzing a historical dataset — census records, legislative text, or a digital archive — learning just enough Python to understand what they are doing and why. Facilitated by TBD facilitator. <em>Laptop required. Capped enrollment.</em></div>
+              <div class="session-desc">A genuinely beginner-friendly lab session for historians with no coding background. Participants work through a structured notebook analyzing a historical dataset — census records, legislative text, or a digital archive — learning just enough Python to understand what they are doing and why. <em>Laptop required. Capped enrollment.</em></div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">AI for Oral History and the Spoken Record</span>
               <div class="session-desc">A demonstration of AI transcription, speaker identification, and thematic analysis applied to oral history collections and recorded interviews. Presenters work through real oral history material, showing how AI can make large audio archives searchable and analyzable without losing the interpretive richness that makes oral history valuable. No laptop required.</div>
             </td>
@@ -1125,33 +1149,37 @@
           </tr>
 
           <!-- Slot 5 — four tracks -->
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td class="time-cell" rowspan="4">1:15 – 2:45</td>
             <td>
+              <span class="missing-badge">⚠ Missing Lead Presenter</span><br />
               <span class="session-title">Trust and Error: AI Hallucination, Bias, and Evidentiary Standards in Historical Research</span>
-              <div class="session-desc">AI systems confabulate, amplify biases in training data, and produce fluent-sounding errors that a non-specialist cannot catch. This session addresses the hardest methodological problem computational historians face: how do you verify AI output against historical evidence, build in error-checking, and write about AI-assisted findings in a way that meets the discipline's evidentiary standards? Case studies of failures and recoveries. Panelists include Tom Lippincott (JHU).</div>
+              <div class="session-desc">AI systems confabulate, amplify biases in training data, and produce fluent-sounding errors that a non-specialist cannot catch. This session addresses the hardest methodological problem computational historians face: how do you verify AI output against historical evidence, build in error-checking, and write about AI-assisted findings in a way that meets the discipline's evidentiary standards? Case studies of failures and recoveries. Panelist: Tom Lippincott (JHU). <em>Lead presenter still needed.</em></div>
             </td>
             <td><span class="track-badge track-a">Track A: Methods &amp; Tools</span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Publishing Computational History: Journals, Data Repositories, and the Review Problem</span>
               <div class="session-desc">The current publication infrastructure for computational history is poorly suited to the work: reviewers lack technical training, data cannot be peer-reviewed at most journals, and replication is rarely attempted. This session maps the problem and surveys emerging solutions, including the Computational Humanities Research journal model.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
-              <span class="session-title">Project Clinic: Get Feedback on Your Work in Progress</span>
-              <div class="session-desc">An open-format session in which attendees present a project at any stage — idea, pilot, in-progress, stuck — and receive structured feedback from a panel of methodological and historical experts. Presenters submit a brief abstract in advance; the session is curated to maximize diversity of method, period, and geography. <em>Capped enrollment for presenters; open for observers.</em></div>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
+              <span class="session-title">AI and Social History</span>
+              <div class="session-desc">An open-format session exploring how AI methods are transforming social history research — from labor and class to community, migration, and everyday life. Presenters share work in progress and receive structured feedback from methodological and historical experts.</div>
             </td>
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Placing History: Spatial Analysis and AI-Assisted Mapping</span>
               <div class="session-desc">A live spatial history demonstration — geocoding historical place names, georeferencing period maps, and generating analytical maps from archival sources. Presenters show how AI is accelerating work that previously required specialist GIS training, and where the limits of automated spatial reasoning lie. No laptop required.</div>
             </td>
@@ -1168,9 +1196,10 @@
           </tr>
 
           <!-- Slot 6 — four tracks -->
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td class="time-cell" rowspan="4">3:00 – 4:30</td>
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Building the Computational History Community: Substack, Skills Exchange, and Shared Infrastructure</span>
               <div class="session-desc">A forward-looking session on the professional infrastructure the community needs to build: shared code repositories, a skills exchange network (modeled on DLF's approach), a publication venue for methods, and a communication channel for practitioners. Concrete planning, not just aspiration.</div>
             </td>
@@ -1180,7 +1209,7 @@
           <tr class="row-breakout">
             <td>
               <span class="session-title">The AHA's Role: Institutional Support, Advocacy, and the Long Game</span>
-              <div class="session-desc">Sarah Weicksel and Laura Ansley (American Historical Association) in conversation about what the AHA is doing, what it can do, and what it needs historians to ask of it on AI and computational methods — including how the annual conference, professional standards, and accreditation can shift to support this work.</div>
+              <div class="session-desc">Sarah Weicksel (American Historical Association) in conversation about what the AHA is doing, what it can do, and what it needs historians to ask of it on AI and computational methods — including how the annual conference, professional standards, and accreditation can shift to support this work.</div>
             </td>
             <td><span class="track-badge track-b">Track B: Discipline &amp; Careers</span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
@@ -1193,8 +1222,9 @@
             <td><span class="track-badge track-c">Track C: Hands-On Lab</span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout row-missing">
             <td>
+              <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title">Open Demo: Bring Your Research Question</span>
               <div class="session-desc">An audience-driven demonstration session in which presenters take historical research questions from the floor and demonstrate, live, how AI tools might approach them. Equal parts practical demonstration and honest accounting of failure modes. The session models the critical, iterative engagement with AI that the conference has argued for throughout. No laptop required.</div>
             </td>
