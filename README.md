@@ -1,4 +1,4 @@
-# AHA AI and History Conference 2026
+# AI and History Conference 2026
 
 Conference website — October 15–16, 2026, Johns Hopkins University.
 
