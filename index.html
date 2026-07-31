@@ -386,6 +386,25 @@
       margin-bottom: 0.35rem;
     }
 
+    .row-alternative {
+      background: #F0F4FA;
+      border-left: 3px dashed var(--spirit-blue);
+    }
+
+    .alt-badge {
+      display: inline-block;
+      background: transparent;
+      color: var(--spirit-blue);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.5rem;
+      border: 1.5px dashed var(--spirit-blue);
+      border-radius: 4px;
+      margin-bottom: 0.35rem;
+    }
+
     .session-title {
       font-weight: 600;
       color: var(--text);
@@ -896,6 +915,18 @@
             <td><span class="track-badge plenary">Plenary</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
+          <!-- Day 1 Plenary — alternative option -->
+          <tr class="row-plenary row-alternative">
+            <td class="time-cell">10:00 – 10:30</td>
+            <td>
+              <span class="alt-badge">⇄ Alternative to #2</span><br />
+              <span class="session-title"><span class="session-num">2b</span> "AI and the Misrepresentation of History"</span>
+              <span class="session-presenter">Marnie Hughes-Warrington, University of Adelaide</span>
+              <div class="session-desc">What's at stake when historians and the public look to AI for narratives of the past — drawing on new scholarship theorizing AI as a maker of historical narrative in its own right, not just a tool historians use.</div>
+            </td>
+            <td><span class="track-badge plenary">Plenary</span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+          </tr>
 
           <!-- Coffee Break -->
           <tr class="row-break">
@@ -907,11 +938,21 @@
 
           <!-- Slot 1 — four tracks -->
           <tr class="row-breakout row-missing">
-            <td class="time-cell" rowspan="4">10:45 – 12:15</td>
+            <td class="time-cell" rowspan="5">10:45 – 12:15</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">3</span> Reading the Machine: What Large Language Models Actually Do to Historical Text</span>
               <div class="session-desc">A practitioner walkthrough of how LLMs process historical language — OCR noise, archaic usage, named entities across centuries — and where current tools succeed or fail. Presenters share failure cases as honestly as successes, building methodological literacy for the rest of the conference.</div>
+            </td>
+            <td><span class="track-badge track-a"></span></td>
+            <td style="font-size:0.82rem;color:#666;">Room A</td>
+          </tr>
+          <tr class="row-breakout row-alternative">
+            <td>
+              <span class="alt-badge">⇄ Alternative to #3</span><br />
+              <span class="session-title"><span class="session-num">3b</span> Ask a Historian Anything: Office Hours</span>
+              <span class="session-presenter">Needs 2–3 rotating volunteer experts</span>
+              <div class="session-desc">Informal drop-in consulting slots for basic questions about AI and computational methods, modeled on the AHA's own "Ask a Digital Historian Anything" format.</div>
             </td>
             <td><span class="track-badge track-a"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
@@ -1142,7 +1183,7 @@
 
           <!-- Slot 4 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="4">10:45 – 12:15</td>
+            <td class="time-cell" rowspan="5">10:45 – 12:15</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">16</span> Spatial History at Scale: GIS, Geocoding, and Historical Geography</span>
@@ -1175,6 +1216,16 @@
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">19</span> AI for Oral History and the Spoken Record</span>
               <div class="session-desc">AI transcription and thematic analysis on real oral history collections.</div>
+            </td>
+            <td><span class="track-badge track-d"></span></td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+          </tr>
+          <tr class="row-breakout row-alternative">
+            <td>
+              <span class="alt-badge">⇄ Alternative to #19</span><br />
+              <span class="session-title"><span class="session-num">19b</span> Playable Pasts: Making Classroom Games with AI</span>
+              <span class="session-presenter">Adam Clulow, University of Texas at Austin (or Tori Olsen, unverified)</span>
+              <div class="session-desc">A conversation on building playable history — how AI tools are changing what's possible for historians and instructors making games for the classroom. Grounded in Louis Hyman's own "Class War," an isometric social-mobility RPG set in 1970s–80s Baltimore.</div>
             </td>
             <td><span class="track-badge track-d"></span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
