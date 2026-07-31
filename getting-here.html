@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Suggested Hotels — AHA AI and History Conference 2026</title>
+  <title>Getting to Campus — AHA AI and History Conference 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -168,6 +168,22 @@
       padding: 3.5rem 1.5rem 4rem;
     }
 
+    #content h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 2.5rem 0 0.4rem;
+    }
+
+    #content h2:first-of-type { margin-top: 0; }
+
+    .section-rule {
+      width: 50px; height: 3px;
+      background: var(--gold);
+      border: none;
+      margin: 0 0 1.25rem;
+    }
+
     .notice-box {
       background: #FFF8E1;
       border: 1px solid var(--gold);
@@ -176,84 +192,45 @@
       font-size: 0.92rem;
       line-height: 1.65;
       color: #4a4a30;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.75rem;
     }
 
     .notice-box strong { color: var(--navy); }
 
-    .hotel-card {
+    .info-card {
       background: var(--light-gray);
       border-radius: 10px;
       padding: 1.5rem 1.75rem;
       margin-bottom: 1.25rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1rem;
     }
 
-    .hotel-main { flex: 1 1 340px; }
-
-    .hotel-name {
+    .info-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--navy);
       margin-bottom: 0.15rem;
     }
 
-    .hotel-meta {
+    .info-meta {
       font-size: 0.82rem;
       color: #666;
       margin-bottom: 0.6rem;
       font-family: 'DM Mono', monospace;
     }
 
-    .hotel-desc {
+    .info-desc {
       font-size: 0.92rem;
       line-height: 1.6;
       color: #333;
-      margin-bottom: 0.5rem;
     }
 
-    .hotel-note {
-      font-size: 0.85rem;
-      color: #555;
-      font-style: italic;
+    .lead-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 1.25rem;
     }
-
-    .hotel-side {
-      flex: 0 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 0.5rem;
-      min-width: 140px;
-    }
-
-    .price-tag {
-      display: inline-block;
-      background: rgba(0,45,114,0.08);
-      color: var(--navy);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 0.25rem 0.65rem;
-      border-radius: 4px;
-      white-space: nowrap;
-    }
-
-    .book-link {
-      display: inline-block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--navy);
-      text-decoration: none;
-      border-bottom: 2px solid var(--gold);
-      padding-bottom: 1px;
-    }
-
-    .book-link:hover { color: #0072CE; }
 
     .excluded-note {
       font-size: 0.85rem;
@@ -303,8 +280,8 @@
       <a href="index.html#about">About</a>
       <a href="index.html#program">Program</a>
       <a href="index.html#agora">Venue</a>
-      <a href="hotels.html" class="active">Hotels</a>
-      <a href="getting-here.html">Getting Here</a>
+      <a href="hotels.html">Hotels</a>
+      <a href="getting-here.html" class="active">Getting Here</a>
       <a href="register.html">Register</a>
     </div>
   </div>
@@ -314,9 +291,9 @@
      PAGE HEADER
 ════════════════════════════════════════ -->
 <section id="page-header">
-  <h1>Where to Stay</h1>
+  <h1>Getting to Campus</h1>
   <hr class="gold-rule" />
-  <p>There is no conference hotel block for the AHA AI and History Conference 2026. Below are hotels near JHU's Homewood Campus across a range of price points — book directly with the hotel whenever works for you.</p>
+  <p>Parking at JHU, trains to Baltimore, and getting from Baltimore Penn Station to the Homewood Campus.</p>
 </section>
 
 <!-- ══════════════════════════════════════
@@ -324,72 +301,54 @@
 ════════════════════════════════════════ -->
 <section id="content">
 
+  <h2>Parking at JHU Homewood Campus</h2>
+  <hr class="section-rule" />
+
   <div class="notice-box">
-    <strong>No negotiated conference rate.</strong> None of the hotels below have a confirmed discount tied specifically to this conference. It's worth asking directly for a "corporate" or "academic/university visitor" rate when you call or book — several hotels near Homewood extend one informally to JHU visitors. Prices below are recent listing snapshots, not guaranteed rates; confirm current pricing before booking, especially closer to October.
+    <strong>Visitor rates not yet confirmed.</strong> We haven't been able to confirm current visitor daily parking rates. Contact JHU Transportation Services directly at <strong>(410) 516-7275</strong> to confirm rates and ask about "Event Parking" arrangements for the conference specifically — group event parking is sometimes handled differently from standard visitor parking.
   </div>
 
-  <div class="hotel-card">
-    <div class="hotel-main">
-      <div class="hotel-name">The Study at Johns Hopkins</div>
-      <div class="hotel-meta">3215 N Charles St, Baltimore, MD 21218 &nbsp;·&nbsp; ~6 min walk to Homewood Campus</div>
-      <div class="hotel-desc">The only hotel actually on JHU's Homewood Campus — boutique, upscale, and about as close as you can get. Good option if you don't want to think about transportation at all.</div>
-    </div>
-    <div class="hotel-side">
-      <span class="price-tag">~$239–249+/night</span>
-      <a class="book-link" href="https://www.thestudyatjohnshopkins.com/" target="_blank" rel="noopener">Book directly →</a>
-    </div>
+  <div class="info-card">
+    <div class="info-name">South Garage</div>
+    <div class="info-meta">Beneath Mason Hall, 3101 Wyman Park Drive</div>
+    <div class="info-desc">The main visitor entry point, per JHU's own published driving directions to Homewood Campus.</div>
   </div>
 
-  <div class="hotel-card">
-    <div class="hotel-main">
-      <div class="hotel-name">Inn at The Colonnade Baltimore <span style="font-weight:400;font-size:0.85rem;color:#666;">(DoubleTree by Hilton)</span></div>
-      <div class="hotel-meta">4 W University Parkway, Baltimore, MD 21218 &nbsp;·&nbsp; (410) 235-5400 &nbsp;·&nbsp; short walk, directly across from campus and Homewood Field</div>
-      <div class="hotel-desc">Long-standing JHU-adjacent hotel, historically recommended by the university itself for campus visitors. Mid-to-upscale.</div>
-    </div>
-    <div class="hotel-side">
-      <span class="price-tag">Mid–upscale</span>
-      <a class="book-link" href="https://www.hilton.com/en/hotels/bwicoup-inn-at-the-colonnade-baltimore/" target="_blank" rel="noopener">Book directly →</a>
-    </div>
+  <div class="info-card">
+    <div class="info-name">Other visitor options</div>
+    <div class="info-desc">JHU also lists <strong>San Martin Garage</strong>, the top level of <strong>West Gate Garage</strong>, and the <strong>School of Education Lot</strong> as visitor parking on or near Homewood Campus.</div>
   </div>
 
-  <div class="hotel-card">
-    <div class="hotel-main">
-      <div class="hotel-name">Delta Hotels Baltimore North <span style="font-weight:400;font-size:0.85rem;color:#666;">(Marriott)</span></div>
-      <div class="hotel-meta">5100 Falls Road, Baltimore, MD &nbsp;·&nbsp; just north of Homewood Campus</div>
-      <div class="hotel-desc">Straightforward mid-range business hotel, also historically on JHU's own visitor-recommendation list.</div>
-    </div>
-    <div class="hotel-side">
-      <span class="price-tag">Mid-range</span>
-      <a class="book-link" href="https://www.marriott.com/en-us/hotels/bwidt-delta-hotels-baltimore-north/overview/" target="_blank" rel="noopener">Book directly →</a>
-    </div>
+  <h2>Getting to Baltimore by Train</h2>
+  <hr class="section-rule" />
+
+  <p class="lead-text">
+    <strong>Amtrak</strong> (Northeast Regional and Acela) serves <strong>Baltimore Penn Station</strong> (1500 N Charles St) from Washington DC (~1 hr), Philadelphia (~1–1.5 hr), and New York (~2.5–3 hr).
+  </p>
+
+  <p class="lead-text">
+    The <strong>MARC Penn Line</strong> is the cheaper regional option from DC (~1 hr), but runs a limited weekend schedule. That's not an issue for the conference itself — October 15–16, 2026 are a Thursday and Friday — but worth noting if you're arriving the weekend before.
+  </p>
+
+  <div class="notice-box">
+    <strong>Penn Station ≠ BWI.</strong> Baltimore Penn Station is not the same as the BWI Airport rail station, which is much farther from Homewood Campus. If you're flying into BWI, plan on a separate leg into the city rather than assuming the airport station gets you there.
   </div>
 
-  <div class="hotel-card">
-    <div class="hotel-main">
-      <div class="hotel-name">Hotel Indigo Baltimore Downtown</div>
-      <div class="hotel-meta">Mount Vernon &nbsp;·&nbsp; short drive/rideshare south of campus</div>
-      <div class="hotel-desc">Boutique option in the walkable, restaurant-dense Mount Vernon neighborhood, if you'd rather stay somewhere lively than right next to campus.</div>
-    </div>
-    <div class="hotel-side">
-      <span class="price-tag">Mid–upscale</span>
-      <a class="book-link" href="https://www.ihg.com/hotelindigo/hotels/us/en/baltimore/bwiin/hoteldetail" target="_blank" rel="noopener">Book directly →</a>
-    </div>
+  <h2>Penn Station to Homewood Campus</h2>
+  <hr class="section-rule" />
+
+  <div class="info-card">
+    <div class="info-name">JHU Keswick–Penn Commuter Shuttle</div>
+    <div class="info-meta">Monday–Friday only · covers both conference days (Thu–Fri)</div>
+    <div class="info-desc">Stops at Penn Station (both a "Penn Station S" and "Penn Station N" stop) and Bloomberg Student Center on Homewood Campus, looping Keswick → Bloomberg Student Center → Penn Station → Stieff Silver. About 5 morning runs (7:35–9:40 AM departures from Keswick) and 6 afternoon runs (2:25–4:55 PM).</div>
   </div>
 
-  <div class="hotel-card">
-    <div class="hotel-main">
-      <div class="hotel-name">Hotel Revival Baltimore</div>
-      <div class="hotel-meta">Mount Vernon &nbsp;·&nbsp; short drive/rideshare south of campus</div>
-      <div class="hotel-desc">Boutique hotel with a standing promo code for JHU visitors (code <strong>BLUEJAY</strong>) — worth trying when booking, though it's a general JHU-visitor rate, not something arranged for this specific conference.</div>
-    </div>
-    <div class="hotel-side">
-      <span class="price-tag">Mid–upscale</span>
-      <a class="book-link" href="https://www.hotelrevivalbaltimore.com/" target="_blank" rel="noopener">Book directly →</a>
-    </div>
+  <div class="notice-box">
+    <strong>Confirm before relying on it.</strong> The published schedule doesn't make clear whether a rider arriving at Penn Station can catch the same loop back toward campus, or has to wait for the next Keswick-originating run — or whether the shuttle is open to conference visitors at all, as opposed to JHU affiliates only. Call JHU Transportation Services at <strong>(410) 516-7275</strong> or email <strong>shuttles@jhu.edu</strong> to confirm before planning around it.
   </div>
 
-  <p class="excluded-note">
-    <strong>Note:</strong> Hotels marketed as being "at Johns Hopkins" sometimes refer to JHU's East Baltimore medical campus, which is a separate location roughly two miles from Homewood (where this conference is held). Double-check which campus a hotel is describing before booking.
+  <p class="lead-text">
+    <strong>Other options:</strong> it's roughly a 1–1.5 mile walk from Penn Station to Homewood Campus (approximately 25–30 minutes, though we haven't independently verified that estimate), or a short rideshare (Uber/Lyft) — the simplest fallback if the shuttle timing doesn't line up with your train.
   </p>
 
   <a href="index.html#venue" class="back-link">← Back to venue &amp; logistics</a>
