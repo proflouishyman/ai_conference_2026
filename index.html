@@ -4,6 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI and History Conference 2026</title>
+  <meta name="description" content="A practitioner-focused conference for historians using AI and computational methods, October 15–16, 2026 at Johns Hopkins University — an official conference of the American Historical Association." />
+  <link rel="canonical" href="https://proflouishyman.github.io/ai_conference_2026/" />
+  <meta property="og:title" content="AI and History Conference 2026" />
+  <meta property="og:description" content="A practitioner-focused conference for historians using AI and computational methods, October 15–16, 2026 at Johns Hopkins University." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://proflouishyman.github.io/ai_conference_2026/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="AI and History Conference 2026" />
+  <meta name="twitter:description" content="A practitioner-focused conference for historians using AI and computational methods, October 15–16, 2026 at Johns Hopkins University." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "AI and History Conference 2026",
+    "description": "A practitioner-focused conference for historians using AI and computational methods, in partnership with the American Historical Association.",
+    "startDate": "2026-10-15",
+    "endDate": "2026-10-16",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Johns Hopkins University, Homewood Campus (Agora)",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Baltimore",
+        "addressRegion": "MD",
+        "addressCountry": "US"
+      }
+    },
+    "organizer": {
+      "@type": "Person",
+      "name": "Louis Hyman",
+      "email": "lhyman6@jh.edu"
+    },
+    "url": "https://proflouishyman.github.io/ai_conference_2026/"
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -467,10 +504,73 @@
       min-width: 100px;
     }
 
+    .agora-photo-grid { grid-template-columns: repeat(3, 1fr); }
+
     @media (max-width: 640px) {
       .program-table { font-size: 0.8rem; }
       .program-table td { padding: 0.55rem 0.6rem; }
       .time-cell { min-width: 70px; font-size: 0.75rem; }
+
+      .program-table thead { display: none; }
+
+      .program-table,
+      .program-table tbody,
+      .program-table tr,
+      .program-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .program-table tr {
+        margin-bottom: 0.85rem;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+      }
+
+      .program-table td {
+        border-bottom: none;
+      }
+
+      .program-table .time-cell {
+        background: rgba(0,45,114,0.07);
+        min-width: 0;
+        white-space: normal;
+      }
+
+      /* Track cell (3rd td) and Room cell (4th td) become inline mini-labels */
+      .program-table td:nth-of-type(3),
+      .program-table td:nth-of-type(4) {
+        display: inline-block;
+        width: auto;
+        padding: 0.3rem 0.9rem;
+        vertical-align: middle;
+      }
+
+      .program-table td:nth-of-type(3)::before {
+        content: "Track ";
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #888;
+        margin-right: 0.3rem;
+      }
+
+      .program-table td:nth-of-type(4)::before {
+        content: "Room: ";
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #888;
+      }
+
+      .hero-logo-jhu { height: 64px !important; }
+      .hero-logo-divider { height: 64px !important; }
+      #hero > .hero-content > div:first-child { gap: 1rem !important; margin-bottom: 1.5rem !important; }
+
+      .agora-photo-grid { grid-template-columns: 1fr; }
     }
 
     /* ── Speakers ── */
@@ -783,8 +883,8 @@
            alt="American Historical Association"
            style="height:52px;width:auto;filter:brightness(0) invert(1);opacity:0.95;"
            onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'American Historical Association',style:'color:white;font-family:Inter,sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.03em;'}))" />
-      <div style="width:1px;height:180px;background:rgba(255,255,255,0.35);"></div>
-      <img src="https://logo.wine/a/logo/Johns_Hopkins_University/Johns_Hopkins_University-Logo.wine.svg"
+      <div class="hero-logo-divider" style="width:1px;height:180px;background:rgba(255,255,255,0.35);"></div>
+      <img class="hero-logo-jhu" src="https://logo.wine/a/logo/Johns_Hopkins_University/Johns_Hopkins_University-Logo.wine.svg"
            alt="Johns Hopkins University"
            style="height:180px;width:auto;filter:brightness(0) invert(1);opacity:0.95;"
            onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Johns Hopkins University',style:'color:white;font-family:Inter,sans-serif;font-size:1rem;font-weight:600;letter-spacing:0.03em;'}))" />
@@ -938,7 +1038,7 @@
 
           <!-- Slot 1 — four tracks -->
           <tr class="row-breakout row-missing">
-            <td class="time-cell" rowspan="5">10:45 – 12:15</td>
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">3</span> Reading the Machine: What Large Language Models Actually Do to Historical Text</span>
@@ -948,6 +1048,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout row-alternative">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="alt-badge">⇄ Alternative to #3</span><br />
               <span class="session-title"><span class="session-num">3b</span> Ask a Historian Anything: Office Hours</span>
@@ -958,6 +1059,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">4</span> The Lone Digital Historian: Isolation, Advocacy, and Institutional Survival</span>
@@ -968,6 +1070,7 @@
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">5</span> Getting Started with MapReader: Historical Maps as Machine-Readable Data</span>
@@ -978,6 +1081,7 @@
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">6</span> AI in the Archive: Live Demonstration</span>
@@ -1001,7 +1105,7 @@
 
           <!-- Slot 2 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="4">1:15 – 2:45</td>
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">7</span> Text Mining as Historical Method: From Corpus to Argument</span>
@@ -1012,6 +1116,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">8</span> What Graduate Training in Computational History Should Look Like</span>
@@ -1022,6 +1127,7 @@
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">9</span> Cleaning and Structuring Historical Data: A Working Session</span>
@@ -1032,6 +1138,7 @@
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="session-title"><span class="session-num">10</span> Network Analysis for Historians: Mapping Social, Economic, and Political Connections</span>
               <span class="session-presenter">Song Chen, Bucknell University</span>
@@ -1051,7 +1158,7 @@
 
           <!-- Slot 3 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="4">3:00 – 4:30</td>
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">11</span> Computer Vision and the Visual Historical Record: Photographs, Maps, Manuscripts</span>
@@ -1062,6 +1169,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">12</span> Funding, IP, and the Legal Landscape: Grants, Copyright, and AI's Use of Historical Sources</span>
@@ -1072,6 +1180,7 @@
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">13</span> Building a Reproducible Historical Analysis: From Raw Source to Published Result</span>
@@ -1082,6 +1191,7 @@
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">14</span> Teaching History with AI: Classroom Applications and Pedagogical Questions</span>
@@ -1183,7 +1293,7 @@
 
           <!-- Slot 4 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="5">10:45 – 12:15</td>
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">16</span> Spatial History at Scale: GIS, Geocoding, and Historical Geography</span>
@@ -1194,6 +1304,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="session-title"><span class="session-num">17</span> Archives in the Age of AI: What Cultural Heritage Institutions Need Historians to Know</span>
               <span class="session-presenter">Richard Marciano, University of Maryland</span>
@@ -1203,6 +1314,7 @@
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout row-missing">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">18</span> Introduction to Python for Historical Research: Your First Analysis</span>
@@ -1212,6 +1324,7 @@
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout row-missing">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">19</span> AI for Oral History and the Spoken Record</span>
@@ -1221,6 +1334,7 @@
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
           <tr class="row-breakout row-alternative">
+            <td class="time-cell">10:45 – 12:15</td>
             <td>
               <span class="alt-badge">⇄ Alternative to #19</span><br />
               <span class="session-title"><span class="session-num">19b</span> Playable Pasts: Making Classroom Games with AI</span>
@@ -1244,7 +1358,7 @@
 
           <!-- Slot 5 — four tracks -->
           <tr class="row-breakout">
-            <td class="time-cell" rowspan="4">1:15 – 2:45</td>
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="invited-badge">◐ Invited (lead still needed)</span><br />
               <span class="session-title"><span class="session-num">20</span> Trust and Error: AI Hallucination, Bias, and Evidentiary Standards in Historical Research</span>
@@ -1255,6 +1369,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout row-missing">
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">21</span> Publishing Computational History: Journals, Data Repositories, and the Review Problem</span>
@@ -1264,6 +1379,7 @@
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout row-missing">
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">22</span> Project Clinic: Get Feedback on Your Work in Progress</span>
@@ -1273,6 +1389,7 @@
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">1:15 – 2:45</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">23</span> Placing History: Spatial Analysis and AI-Assisted Mapping</span>
@@ -1293,7 +1410,7 @@
 
           <!-- Slot 6 — four tracks -->
           <tr class="row-breakout row-missing">
-            <td class="time-cell" rowspan="4">3:00 – 4:30</td>
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">24</span> Building the Computational History Community: Substack, Skills Exchange, and Shared Infrastructure</span>
@@ -1303,6 +1420,7 @@
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">25</span> The AHA's Role: Institutional Support, Advocacy, and the Long Game</span>
@@ -1313,6 +1431,7 @@
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="invited-badge">◐ Invited</span><br />
               <span class="session-title"><span class="session-num">26</span> Closing Lab: Take One Method Home</span>
@@ -1323,6 +1442,7 @@
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout row-missing">
+            <td class="time-cell">3:00 – 4:30</td>
             <td>
               <span class="missing-badge">⚠ Missing Presenter</span><br />
               <span class="session-title"><span class="session-num">27</span> Open Demo: Bring Your Research Question</span>
@@ -1548,7 +1668,7 @@
     </p>
 
     <!-- Photo gallery — confirmed live URLs from snfagora.jhu.edu -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+    <div class="agora-photo-grid" style="display:grid;gap:1.25rem;">
       <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
         <img src="https://snfagora.jhu.edu/wp-content/uploads/2025/06/Daytime-North-Exterior.jpg"
              alt="SNF Agora at JHU — Daytime North Exterior"
