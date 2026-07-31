@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suggested Hotels — AHA AI and History Conference 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a2e;
+    }
+
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+
+    :root {
+      --navy: #002D72;
+      --gold: #FFD100;
+      --light-gray: #F7F8FA;
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0.75rem; right: 0.75rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a:hover { background: #f9f7ee; }
+
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        padding: 0.75rem 1.5rem 1rem;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.65rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+      }
+
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a::after { display: none; }
+    }
+
+    /* ── Page header ── */
+    #page-header {
+      background-color: var(--navy);
+      background-image: radial-gradient(rgba(255,209,0,0.13) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      padding: 7rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    #page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .gold-rule {
+      width: 70px; height: 3px;
+      background: var(--gold);
+      margin: 0 auto 1.25rem;
+      border: none;
+    }
+
+    #page-header p {
+      color: rgba(255,255,255,0.85);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+
+    /* ── Content ── */
+    #content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 4rem;
+    }
+
+    .notice-box {
+      background: #FFF8E1;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.1rem 1.4rem;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #4a4a30;
+      margin-bottom: 2.5rem;
+    }
+
+    .notice-box strong { color: var(--navy); }
+
+    .hotel-card {
+      background: var(--light-gray);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .hotel-main { flex: 1 1 340px; }
+
+    .hotel-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.15rem;
+    }
+
+    .hotel-meta {
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 0.6rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .hotel-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .hotel-note {
+      font-size: 0.85rem;
+      color: #555;
+      font-style: italic;
+    }
+
+    .hotel-side {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 140px;
+    }
+
+    .price-tag {
+      display: inline-block;
+      background: rgba(0,45,114,0.08);
+      color: var(--navy);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .book-link {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 1px;
+    }
+
+    .book-link:hover { color: #0072CE; }
+
+    .excluded-note {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.6;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--navy);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">AHA AI and History Conference 2026</a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#program">Program</a>
+      <a href="index.html#agora">Venue</a>
+      <a href="hotels.html" class="active">Hotels</a>
+      <a href="register.html">Register</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════ -->
+<section id="page-header">
+  <h1>Where to Stay</h1>
+  <hr class="gold-rule" />
+  <p>There is no conference hotel block for the AHA AI and History Conference 2026. Below are hotels near JHU's Homewood Campus across a range of price points — book directly with the hotel whenever works for you.</p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTENT
+════════════════════════════════════════ -->
+<section id="content">
+
+  <div class="notice-box">
+    <strong>No negotiated conference rate.</strong> None of the hotels below have a confirmed discount tied specifically to this conference. It's worth asking directly for a "corporate" or "academic/university visitor" rate when you call or book — several hotels near Homewood extend one informally to JHU visitors. Prices below are recent listing snapshots, not guaranteed rates; confirm current pricing before booking, especially closer to October.
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-main">
+      <div class="hotel-name">The Study at Johns Hopkins</div>
+      <div class="hotel-meta">3215 N Charles St, Baltimore, MD 21218 &nbsp;·&nbsp; ~6 min walk to Homewood Campus</div>
+      <div class="hotel-desc">The only hotel actually on JHU's Homewood Campus — boutique, upscale, and about as close as you can get. Good option if you don't want to think about transportation at all.</div>
+    </div>
+    <div class="hotel-side">
+      <span class="price-tag">~$239–249+/night</span>
+      <a class="book-link" href="https://www.thestudyatjohnshopkins.com/" target="_blank" rel="noopener">Book directly →</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-main">
+      <div class="hotel-name">Inn at The Colonnade Baltimore <span style="font-weight:400;font-size:0.85rem;color:#666;">(DoubleTree by Hilton)</span></div>
+      <div class="hotel-meta">4 W University Parkway, Baltimore, MD 21218 &nbsp;·&nbsp; (410) 235-5400 &nbsp;·&nbsp; short walk, directly across from campus and Homewood Field</div>
+      <div class="hotel-desc">Long-standing JHU-adjacent hotel, historically recommended by the university itself for campus visitors. Mid-to-upscale.</div>
+    </div>
+    <div class="hotel-side">
+      <span class="price-tag">Mid–upscale</span>
+      <a class="book-link" href="https://www.hilton.com/en/hotels/bwicoup-inn-at-the-colonnade-baltimore/" target="_blank" rel="noopener">Book directly →</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-main">
+      <div class="hotel-name">Delta Hotels Baltimore North <span style="font-weight:400;font-size:0.85rem;color:#666;">(Marriott)</span></div>
+      <div class="hotel-meta">5100 Falls Road, Baltimore, MD &nbsp;·&nbsp; just north of Homewood Campus</div>
+      <div class="hotel-desc">Straightforward mid-range business hotel, also historically on JHU's own visitor-recommendation list.</div>
+    </div>
+    <div class="hotel-side">
+      <span class="price-tag">Mid-range</span>
+      <a class="book-link" href="https://www.marriott.com/en-us/hotels/bwidt-delta-hotels-baltimore-north/overview/" target="_blank" rel="noopener">Book directly →</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-main">
+      <div class="hotel-name">Hotel Indigo Baltimore Downtown</div>
+      <div class="hotel-meta">Mount Vernon &nbsp;·&nbsp; short drive/rideshare south of campus</div>
+      <div class="hotel-desc">Boutique option in the walkable, restaurant-dense Mount Vernon neighborhood, if you'd rather stay somewhere lively than right next to campus.</div>
+    </div>
+    <div class="hotel-side">
+      <span class="price-tag">Mid–upscale</span>
+      <a class="book-link" href="https://www.ihg.com/hotelindigo/hotels/us/en/baltimore/bwiin/hoteldetail" target="_blank" rel="noopener">Book directly →</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <div class="hotel-main">
+      <div class="hotel-name">Hotel Revival Baltimore</div>
+      <div class="hotel-meta">Mount Vernon &nbsp;·&nbsp; short drive/rideshare south of campus</div>
+      <div class="hotel-desc">Boutique hotel with a standing promo code for JHU visitors (code <strong>BLUEJAY</strong>) — worth trying when booking, though it's a general JHU-visitor rate, not something arranged for this specific conference.</div>
+    </div>
+    <div class="hotel-side">
+      <span class="price-tag">Mid–upscale</span>
+      <a class="book-link" href="https://www.hotelrevivalbaltimore.com/" target="_blank" rel="noopener">Book directly →</a>
+    </div>
+  </div>
+
+  <p class="excluded-note">
+    <strong>Note:</strong> Hotels marketed as being "at Johns Hopkins" sometimes refer to JHU's East Baltimore medical campus, which is a separate location roughly two miles from Homewood (where this conference is held). Double-check which campus a hotel is describing before booking.
+  </p>
+
+  <a href="index.html#venue" class="back-link">← Back to venue &amp; logistics</a>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <p>AHA AI and History Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+
+</body>
+</html>

@@ -501,6 +501,7 @@
       <a href="index.html#about">About</a>
       <a href="index.html#program">Program</a>
       <a href="index.html#agora">Venue</a>
+      <a href="hotels.html">Hotels</a>
       <a href="register.html" class="active">Register</a>
     </div>
   </div>
@@ -616,43 +617,10 @@
            SECTION C — Housing
       ═════════════════════════════ -->
       <div class="form-card form-card-white">
-        <h2 class="form-card-heading">C. Hotel Accommodation</h2>
+        <h2 class="form-card-heading">C. Where to Stay</h2>
         <p class="form-card-desc">
-          A hotel block is available at the conference rate: <strong>$189 + tax/night</strong> (30% JHU discount). Indicate your needs below. Block cutoff is August 1, 2026.
+          There is no conference hotel block. See our <a href="hotels.html">list of suggested hotels near JHU's Homewood Campus</a> for options across a range of price points and distances.
         </p>
-
-        <div class="radio-group" role="radiogroup" aria-label="Hotel block preference">
-          <label>
-            <input type="radio" name="hotel" value="Yes — include me in the hotel block" required onchange="toggleNightsField(this)" />
-            <span>Yes, I would like to be included in the hotel block</span>
-          </label>
-          <label>
-            <input type="radio" name="hotel" value="No — I will arrange my own accommodation" onchange="toggleNightsField(this)" />
-            <span>No, I will arrange my own accommodation</span>
-          </label>
-          <label>
-            <input type="radio" name="hotel" value="Undecided — please contact me with details" onchange="toggleNightsField(this)" />
-            <span>Undecided — please contact me with details</span>
-          </label>
-        </div>
-
-        <div class="conditional" id="nights-field">
-          <p style="font-size:0.88rem;font-weight:500;color:#222;margin-bottom:0.5rem;margin-top:0.1rem;">Which nights do you need? (check all that apply)</p>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" name="hotel_nights" value="Wednesday, October 14 (arrival night)" />
-              <span>Wednesday, October 14 (arrival night — Pre-Conference Intensive)</span>
-            </label>
-            <label>
-              <input type="checkbox" name="hotel_nights" value="Thursday, October 15" />
-              <span>Thursday, October 15</span>
-            </label>
-            <label>
-              <input type="checkbox" name="hotel_nights" value="Friday, October 16" />
-              <span>Friday, October 16</span>
-            </label>
-          </div>
-        </div>
       </div><!-- /section C -->
 
       <!-- ══════════════════════════
@@ -886,16 +854,6 @@
       field.classList.remove('visible');
       input.required = false;
       input.value = '';
-    }
-  }
-
-  /* ── Toggle hotel nights checkboxes ── */
-  function toggleNightsField(radio) {
-    var field = document.getElementById('nights-field');
-    if (radio.value === 'Yes — include me in the hotel block') {
-      field.classList.add('visible');
-    } else {
-      field.classList.remove('visible');
     }
   }
 
