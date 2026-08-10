@@ -539,7 +539,7 @@
     <hr class="gold-rule" />
     <p style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">An Official Conference of the American Historical Association</p>
     <p class="hero-sub">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
-    <p class="hero-sub">Everyone is welcome. Registration closes <strong style="color:#FFD100;">August 15, 2026</strong>.</p>
+    <p class="hero-sub">Everyone is welcome. Registration closes <strong style="color:#FFD100;">September 15, 2026</strong>.</p>
   </div>
 </section>
 
@@ -758,32 +758,9 @@
           <textarea id="session-request" name="session_request" rows="3" placeholder="Optional — share anything specific you are hoping to find on the program."></textarea>
         </div>
 
-        <!-- D6 — presenting -->
+        <!-- D6 -->
         <div class="field-group">
-          <label>6. Are you interested in presenting work, leading a workshop, or facilitating a session? <span class="required-star">*</span></label>
-          <div class="radio-group" role="radiogroup">
-            <label>
-              <input type="radio" name="presenting_interest" value="Yes — I have something I could contribute" id="pres-yes" required onchange="togglePresentingDetail(this)" />
-              <span>Yes — I have something I could contribute</span>
-            </label>
-            <label>
-              <input type="radio" name="presenting_interest" value="Possibly — depends on the format" id="pres-possibly" onchange="togglePresentingDetail(this)" />
-              <span>Possibly — depends on the format</span>
-            </label>
-            <label>
-              <input type="radio" name="presenting_interest" value="No — I plan to attend as a participant" id="pres-no" onchange="togglePresentingDetail(this)" />
-              <span>No — I plan to attend as a participant</span>
-            </label>
-          </div>
-          <div class="conditional" id="presenting-detail-field">
-            <label for="presenting-detail" style="margin-top:0.75rem;">Please briefly describe what you could offer:</label>
-            <textarea id="presenting-detail" name="presenting_detail" rows="3" placeholder="Describe a talk, workshop, dataset, project, or facilitation skill you might contribute…"></textarea>
-          </div>
-        </div>
-
-        <!-- D7 -->
-        <div class="field-group">
-          <label for="conference-question">7. Is there a question you would like to ask the whole conference?</label>
+          <label for="conference-question">6. Is there a question you would like to ask the whole conference?</label>
           <textarea id="conference-question" name="conference_question" rows="3" placeholder="Is there a way to use a CPU-based program to differentiate handwritten and printed writing?"></textarea>
         </div>
 
@@ -884,17 +861,6 @@
     var input = document.getElementById('methods-other-text');
     input.style.display = cb.checked ? 'block' : 'none';
     if (!cb.checked) input.value = '';
-  }
-
-  /* ── Toggle presenting detail textarea ── */
-  function togglePresentingDetail(radio) {
-    var field = document.getElementById('presenting-detail-field');
-    if (radio.value === 'Yes — I have something I could contribute' ||
-        radio.value === 'Possibly — depends on the format') {
-      field.classList.add('visible');
-    } else {
-      field.classList.remove('visible');
-    }
   }
 
   /* ── Experience card styling via JS for browsers without :has() ── */
