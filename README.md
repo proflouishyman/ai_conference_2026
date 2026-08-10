@@ -21,6 +21,7 @@ Conference website — October 15–16, 2026, Johns Hopkins University.
 - `correspondence/` — Local archive of real email threads (pulled read-only via the openclaw Gmail/Outlook bridge) relevant to speaker outreach, for Louis's and Claude's reference only — see `correspondence/README.md`.
 - `MOBILE_AND_SEO_AUDIT.md` — Audit findings and fixes for mobile responsiveness and SEO.
 - `SCHEDULE_FILLING_PLAN.md` — Planning notes for filling out the program grid.
+- `registration_form_spec.json` — Field spec for the registration form, in the format the `google-forms` skill's `create_form.py` consumes (see `~/.claude/skills/google-forms/SKILL.md`). Used to migrate registration off Formspree onto a Google Form embedded in `register.html`.
 
 ## Setup: Registration Form
 
