@@ -471,30 +471,7 @@
       line-height: 1.5;
     }
 
-    .track-badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      color: var(--navy);
-      background: rgba(0,45,114,0.08);
-      white-space: nowrap;
-    }
-
-    .track-badge.track-a { background: #dce8f7; color: var(--navy); }
-    .track-badge.track-b { background: #fce8ff; color: #6b21a8; }
-    .track-badge.track-c { background: #e8fff0; color: #166534; }
-    .track-badge.track-d { background: #e0efff; color: #004e9a; border: 1px solid #b3d4ff; }
-    .track-badge.track-a,
-    .track-badge.track-b,
-    .track-badge.track-c,
-    .track-badge.track-d { width: 0.8rem; height: 0.8rem; padding: 0; border-radius: 3px; display: inline-block; vertical-align: middle; font-size: 0; }
     .session-presenter { display: block; font-weight: 700; font-size: 0.82rem; color: #333; margin-top: 0.25rem; }
-    .track-badge.plenary { background: #FFF8E1; color: #92400e; border: 1px solid #FFD100; }
-    .track-badge.logistics { background: #F7F8FA; color: #555; }
 
     .time-cell {
       white-space: nowrap;
@@ -538,9 +515,8 @@
         white-space: normal;
       }
 
-      /* Track cell (3rd td) and Room cell (4th td) become inline mini-labels */
-      .program-table td:nth-of-type(3),
-      .program-table td:nth-of-type(4) {
+      /* Room cell (3rd td) becomes an inline mini-label */
+      .program-table td:nth-of-type(3) {
         display: inline-block;
         width: auto;
         padding: 0.3rem 0.9rem;
@@ -548,16 +524,6 @@
       }
 
       .program-table td:nth-of-type(3)::before {
-        content: "Track ";
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: #888;
-        margin-right: 0.3rem;
-      }
-
-      .program-table td:nth-of-type(4)::before {
         content: "Room: ";
         font-size: 0.65rem;
         font-weight: 700;
@@ -923,7 +889,7 @@
       The AI and History Conference 2026 is a practitioner-focused convening for historians at all career stages who are working with, teaching, or trying to evaluate AI and computational methods in their research and institutions. Unlike Digital Humanities conferences, which serve a broad interdisciplinary audience, this event is anchored squarely in historical practice: its organizing questions are what AI can do for historians specifically, and what structural, methodological, and professional changes the discipline needs to make computational methods sustainable and rigorous.
     </p>
     <p class="section-text" style="margin-top:1.25rem;">
-      The conference addresses the full range of experience — from historians sent by their departments to report back on AI, to scholars already producing advanced computational work — by running leveled tracks in parallel rather than forcing everyone into the same room. A central aim is to break the isolation of the "lone digital historian": attendees should leave with a network of peers, a clearer sense of the field's best current work, and concrete skills or project plans they can use immediately.
+      The conference addresses the full range of experience — from historians sent by their departments to report back on AI, to scholars already producing advanced computational work — by running sessions leveled for different backgrounds in parallel rather than forcing everyone into the same room. A central aim is to break the isolation of the "lone digital historian": attendees should leave with a network of peers, a clearer sense of the field's best current work, and concrete skills or project plans they can use immediately.
     </p>
     <div class="reveal-stagger" style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:2.5rem;">
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
@@ -932,7 +898,7 @@
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
         <div class="stat-number" data-count="4">4</div>
-        <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Parallel Tracks</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#555;">Breakout Rooms</div>
       </div>
       <div style="flex:1;min-width:200px;border-top:3px solid var(--gold);padding-top:1rem;">
         <div class="stat-number" data-count="2">2</div>
@@ -964,8 +930,8 @@
     <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:#444;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
       <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.6rem;">Room Legend</strong>
       <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
-        <span><strong style="color:var(--navy);">Main Hall</strong> <span style="color:#666;">(capacity ~120)</span> — Plenary sessions, Track D demonstrations, opening/closing, receptions</span>
-        <span><strong style="color:var(--navy);">Room A | Room B | Room C</strong> <span style="color:#666;">(seminar rooms, ~30–40 each)</span> — Parallel breakout tracks (A, B, C)</span>
+        <span><strong style="color:var(--navy);">Main Hall</strong> <span style="color:#666;">(capacity ~120)</span> — Plenary sessions, live demonstrations, opening/closing, receptions</span>
+        <span><strong style="color:var(--navy);">Room A | Room B | Room C</strong> <span style="color:#666;">(seminar rooms, ~30–40 each)</span> — Parallel breakout sessions</span>
         <span><strong style="color:var(--navy);">Lobby</strong> — Coffee breaks</span>
       </div>
     </div>
@@ -984,7 +950,6 @@
           <tr>
             <th style="width:110px;">Time</th>
             <th>Session</th>
-            <th style="width:160px;">Track</th>
             <th style="width:100px;">Room</th>
           </tr>
         </thead>
@@ -994,7 +959,6 @@
           <tr class="row-break">
             <td class="time-cell">8:00 – 8:30</td>
             <td><span class="session-title">Registration &amp; Morning Coffee</span></td>
-            <td><span class="track-badge logistics">Logistics</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
@@ -1005,7 +969,6 @@
               <span class="session-title">Breakfast</span>
               <div class="session-desc">Casual, open seating.</div>
             </td>
-            <td><span class="track-badge logistics">Breakfast</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1017,7 +980,6 @@
               <span class="session-presenter">Louis Hyman &amp; Chris Celenza (pending travel confirmation), Johns Hopkins University</span>
               <div class="session-desc">Overview of conference goals and structure.</div>
             </td>
-            <td><span class="track-badge plenary">Opening</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1029,7 +991,6 @@
               <span class="session-presenter">Marnie Hughes-Warrington, University of Adelaide</span>
               <div class="session-desc">What's at stake when historians and the public look to AI for narratives of the past — drawing on new scholarship theorizing AI as a maker of historical narrative in its own right, not just a tool historians use.</div>
             </td>
-            <td><span class="track-badge plenary">Plenary</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1037,14 +998,13 @@
           <tr class="row-break">
             <td class="time-cell">10:30 – 11:30</td>
             <td>
-              <span class="session-title">Coffee Break — Show-and-Tell (Optional)</span>
-              <div class="session-desc">Grab coffee, or drop into a themed room to show off what you're working on — completely optional.</div>
+              <span class="session-title">Coffee Break — Show-and-Tell &amp; Ask a Historian Anything (Optional)</span>
+              <div class="session-desc">Grab coffee, drop into a themed room to show off what you're working on, or bring a basic question about AI and computational methods to the "Ask a Historian Anything" office-hours table, staffed by rotating volunteer experts. Completely optional.</div>
             </td>
-            <td><span class="track-badge logistics">Break</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby + Topic Rooms</td>
           </tr>
 
-          <!-- Slot 1 — four tracks -->
+          <!-- Slot 1 -->
           <tr class="row-breakout row-missing">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
@@ -1052,18 +1012,6 @@
               <span class="session-title"><span class="session-num">3</span> Reading the Machine: What Large Language Models Actually Do to Historical Text</span>
               <div class="session-desc">A practitioner walkthrough of how LLMs process historical language — OCR noise, archaic usage, named entities across centuries — and where current tools succeed or fail. Presenters share failure cases as honestly as successes, building methodological literacy for the rest of the conference.</div>
             </td>
-            <td><span class="track-badge track-a"></span></td>
-            <td style="font-size:0.82rem;color:#666;">Room A</td>
-          </tr>
-          <tr class="row-breakout row-alternative">
-            <td class="time-cell">11:30 – 12:30</td>
-            <td>
-              <span class="alt-badge">⇄ Alternative to #3</span><br />
-              <span class="session-title"><span class="session-num">3b</span> Ask a Historian Anything: Office Hours</span>
-              <span class="session-presenter">Needs 2–3 rotating volunteer experts</span>
-              <div class="session-desc">Informal drop-in consulting slots for basic questions about AI and computational methods, modeled on the AHA's own "Ask a Digital Historian Anything" format.</div>
-            </td>
-            <td><span class="track-badge track-a"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
@@ -1074,7 +1022,6 @@
               <span class="session-presenter">Michelle Moravec, Rosemont College</span>
               <div class="session-desc">Many attendees are the only person at their institution doing this work. This session surfaces the professional precarity that isolation creates and maps the advocacy strategies — with departments, deans, and tenure committees — that have worked for practitioners at different career stages.</div>
             </td>
-            <td><span class="track-badge track-b"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
@@ -1084,7 +1031,6 @@
               <span class="session-presenter">Katie McDonough, Carnegie Mellon University</span>
               <div class="session-desc">A facilitated hands-on introduction to the MapReader workflow. Participants will patch, classify, and query a set of historical maps, leaving with a working understanding of how computer vision can be applied to cartographic sources. <em>Laptop required. Capped enrollment.</em></div>
             </td>
-            <td><span class="track-badge track-c"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
@@ -1095,7 +1041,6 @@
               <span class="session-presenter">Loren Moulds, University of Virginia School of Law</span>
               <div class="session-desc">A live demonstration of using large language models and AI tools to process, transcribe, and extract meaning from archival documents. Presenters work through real historical sources — manuscript letters, institutional records, printed ephemera — showing where AI excels and where it requires careful human oversight. No laptop required.</div>
             </td>
-            <td><span class="track-badge track-d"></span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1106,11 +1051,10 @@
               <span class="session-title">Assigned Lunch</span>
               <div class="session-desc">Structured seating. Table conversation guides provided. Family-style service.</div>
             </td>
-            <td><span class="track-badge logistics">Lunch</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
-          <!-- Slot 2 — four tracks -->
+          <!-- Slot 2 -->
           <tr class="row-breakout">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
@@ -1118,7 +1062,6 @@
               <span class="session-presenter">Jo Guldi, Emory University</span>
               <div class="session-desc">Drawing on Jo Guldi's work with Democracy Viewer and the forthcoming <em>Text Mining as a Historical Method</em>, this session demonstrates how historians move from a large corpus — legislative records, newspapers, institutional archives — to a claim that meets disciplinary standards of evidence. The emphasis is on the interpretive moves, not just the technical pipeline.</div>
             </td>
-            <td><span class="track-badge track-a"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
@@ -1129,7 +1072,6 @@
               <span class="session-presenter">Christopher Phillips (CMU) — confirmed, Sarah Weicksel (AHA) &amp; Matthew L. Jones (Princeton)</span>
               <div class="session-desc">A panel reckoning honestly with what skills aren't being taught in graduate programs and what departments can do now — from methods training to advising to hiring. Draws on perspectives from a research university, a small college, and the AHA itself.</div>
             </td>
-            <td><span class="track-badge track-b"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
@@ -1139,7 +1081,6 @@
               <span class="session-presenter">Jim Clifford, University of Saskatchewan</span>
               <div class="session-desc">How to extract structured, linked open data from archival materials. Participants bring messy historical datasets — or work with provided examples — and practice cleaning source data, structuring it for reuse, and grounding entities in Wikidata so datasets can be interconnected across projects. Grounded in OCR and data-quality problems in historical archives, and new OCR tools built for a digital edition of the Encyclopaedia Britannica. <em>Laptop required. Capped enrollment.</em></div>
             </td>
-            <td><span class="track-badge track-c"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
@@ -1149,7 +1090,6 @@
               <span class="session-presenter">Song Chen, Bucknell University</span>
               <div class="session-desc">Network analysis is a form of data modeling that helps reveal structural patterns in messy and disparate historical evidence — useful for kinship ties and political alliances, but also for subjects like religious cultures and their interactions. Drawing on his work on elite marriage, migration, and temple cults in Tang- and Song-dynasty China, Chen shows how to move from historical sources to network graphs and metrics, what interpretive questions network analysis can and cannot answer, what tools historians can use without advanced programming, and how AI is transforming network data collection, visualization, and analysis. <em>Laptop required.</em></div>
             </td>
-            <td><span class="track-badge track-d"></span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1157,14 +1097,13 @@
           <tr class="row-break">
             <td class="time-cell">2:30 – 3:30</td>
             <td>
-              <span class="session-title">Coffee Break — Show-and-Tell (Optional)</span>
-              <div class="session-desc">Grab coffee, or drop into a themed room to show off what you're working on — completely optional.</div>
+              <span class="session-title">Coffee Break — Show-and-Tell &amp; Ask a Historian Anything (Optional)</span>
+              <div class="session-desc">Grab coffee, drop into a themed room to show off what you're working on, or bring a basic question about AI and computational methods to the "Ask a Historian Anything" office-hours table, staffed by rotating volunteer experts. Completely optional.</div>
             </td>
-            <td><span class="track-badge logistics">Break</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby + Topic Rooms</td>
           </tr>
 
-          <!-- Slot 3 — four tracks -->
+          <!-- Slot 3 -->
           <tr class="row-breakout">
             <td class="time-cell">3:30 – 4:30</td>
             <td>
@@ -1173,7 +1112,6 @@
               <span class="session-presenter">Jacob Polay, University of Saskatchewan</span>
               <div class="session-desc">A tiered OCR workflow for historians: fast open-source tools across whole collections, commercial services only where needed, drawing on a six-system benchmark run on archival documents from 1612-1921. Most of it runs on a good consumer gaming PC, and agentic coding assistants now let historians set up these pipelines without specialized programming.</div>
             </td>
-            <td><span class="track-badge track-a"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
@@ -1184,7 +1122,6 @@
               <span class="session-presenter">Laura Ansley, American Historical Association</span>
               <div class="session-desc">Two interlocked conversations: on writing competitive grants for computational history projects and what NEH's current digital history priorities are; and a frank discussion of the IP and copyright questions that computational historians cannot avoid — who owns digitized archival material, what AI companies are doing with it, and what the emerging regulatory landscape means for historical research.</div>
             </td>
-            <td><span class="track-badge track-b"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
@@ -1195,7 +1132,6 @@
               <span class="session-presenter">Dan Moulton, Larry Santucci &amp; Robyn Smith, Federal Reserve Bank of Philadelphia (provisional)</span>
               <div class="session-desc">A discussion of the practical tradeoffs in building a modular data pipeline for large-scale historical document analysis: evaluating OCR models at scale, weighing frontier against open-weight LLMs, and the cost tradeoffs that determine which pipeline choices hold up across a multi-million-document corpus. Drawing on the presenters' paper "Combining AI and Established Methods for Historical Document Analysis" (Federal Reserve Bank of Philadelphia, 2025), which compares extraction strategies using 56 years of Philadelphia property deeds.</div>
             </td>
-            <td><span class="track-badge track-c"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
@@ -1205,7 +1141,6 @@
               <span class="session-presenter">Nate Sleeter, George Mason University (RRCHNM)</span>
               <div class="session-desc">A conversation on teaching secondary (grades 6-12) with AI, led by Nate Sleeter. Still open: a presenter or format for the higher-ed side — primary source analysis, student research assistance, essay feedback, and the pedagogical questions AI raises about learning and evidence.</div>
             </td>
-            <td><span class="track-badge track-d"></span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1215,7 +1150,6 @@
             <td>
               <span class="session-title">Opening Reception &amp; Cocktails</span>
             </td>
-            <td><span class="track-badge logistics">Reception</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1225,7 +1159,6 @@
               <span class="session-title">Conference Dinner</span>
               <span class="session-presenter">Opening remarks: Dean Moyar, Vice Dean for Humanities, Krieger School of Arts and Sciences</span>
             </td>
-            <td><span class="track-badge logistics">Dinner</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1241,7 +1174,6 @@
           <tr>
             <th style="width:110px;">Time</th>
             <th>Session</th>
-            <th style="width:160px;">Track</th>
             <th style="width:100px;">Room</th>
           </tr>
         </thead>
@@ -1251,7 +1183,6 @@
           <tr class="row-break">
             <td class="time-cell">8:30 – 9:00</td>
             <td><span class="session-title">Morning Coffee</span></td>
-            <td><span class="track-badge logistics">Logistics</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
@@ -1262,7 +1193,6 @@
               <span class="session-title">Breakfast</span>
               <div class="session-desc">Casual, open seating.</div>
             </td>
-            <td><span class="track-badge logistics">Breakfast</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1276,7 +1206,6 @@
                 The second plenary zooms out from methods to structure: what graduate training, hiring practices, publication timelines, and institutional arrangements would allow computational history to become a durable part of the discipline rather than a permanent margin? Drawing on evidence from the conference's own sessions, this plenary catalyzes the move from individual practice to collective infrastructure — including the question of what the AHA can concretely do, and what funding coalitions look like. The session is forward-facing and generative, ending with specific asks of the profession and its institutions. Phillips raised the question of structural change as the defining absence from prior convenings; this session places it at the center.
               </div>
             </td>
-            <td><span class="track-badge plenary">Plenary</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1284,14 +1213,13 @@
           <tr class="row-break">
             <td class="time-cell">10:30 – 11:30</td>
             <td>
-              <span class="session-title">Coffee Break — Show-and-Tell (Optional)</span>
-              <div class="session-desc">Grab coffee, or drop into a themed room to show off what you're working on — completely optional.</div>
+              <span class="session-title">Coffee Break — Show-and-Tell &amp; Ask a Historian Anything (Optional)</span>
+              <div class="session-desc">Grab coffee, drop into a themed room to show off what you're working on, or bring a basic question about AI and computational methods to the "Ask a Historian Anything" office-hours table, staffed by rotating volunteer experts. Completely optional.</div>
             </td>
-            <td><span class="track-badge logistics">Break</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby + Topic Rooms</td>
           </tr>
 
-          <!-- Slot 4 — four tracks -->
+          <!-- Slot 4 -->
           <tr class="row-breakout">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
@@ -1299,7 +1227,6 @@
               <span class="session-presenter">S. Wright Kennedy, University of South Carolina</span>
               <div class="session-desc">A hands-on session building GIS/spatial-history tools — georeferencing, geocoding, and working with historical place names, boundary changes, and pre-modern and colonial cartography.</div>
             </td>
-            <td><span class="track-badge track-a"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout">
@@ -1309,7 +1236,6 @@
               <span class="session-presenter">Richard Marciano, University of Maryland</span>
               <div class="session-desc">An archivist and computational-science perspective on AI applied to digitized collections — rights, access constraints, metadata limits, preservation implications, and what productive archive-researcher collaboration actually requires. Drawing on work applying machine learning and data visualization to archival collections including the FDR Presidential Library.</div>
             </td>
-            <td><span class="track-badge track-b"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout">
@@ -1319,7 +1245,6 @@
               <span class="session-presenter">Jeri Wieringa, Princeton University</span>
               <div class="session-desc">A genuinely beginner-friendly hands-on lab. Historians build a small research tool from scratch — picking up the vocabulary of software building along the way (data model, schema, pipeline, version control) so the process demystifies what "building software" actually involves. Taught from a research software engineering (RSE) perspective, with attention to how LLMs are changing what teaching people to code looks like. No prior coding background assumed. <em>Laptop required. Capped enrollment.</em></div>
             </td>
-            <td><span class="track-badge track-c"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout">
@@ -1329,7 +1254,6 @@
               <span class="session-presenter">Kwok Leong Tang, Harvard University</span>
               <div class="session-desc">Basic theories of game design, then a walkthrough of a game Tang vibe-coded to teach the Warring Kingdoms period in China, and how game-based assignments can replace quizzes in the classroom.</div>
             </td>
-            <td><span class="track-badge track-d"></span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1340,11 +1264,10 @@
               <span class="session-title">Assigned Lunch</span>
               <div class="session-desc">Fresh seating assignment (second rotation). Table conversation guides provided. Family-style service. Last structured meal of the conference.</div>
             </td>
-            <td><span class="track-badge logistics">Lunch</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
-          <!-- Slot 5 — four tracks -->
+          <!-- Slot 5 -->
           <tr class="row-breakout">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
@@ -1353,7 +1276,6 @@
               <span class="session-presenter">A conversation with Edward J. K. Gitre (Virginia Tech) &amp; Samuel Backer (University of Maine)</span>
               <div class="session-desc">AI systems confabulate, amplify biases in training data, and produce fluent-sounding errors that a non-specialist cannot catch. This session addresses the hardest methodological problem computational historians face: how do you verify AI output against historical evidence, build in error-checking, and write about AI-assisted findings in a way that meets the discipline's evidentiary standards? Case studies of failures and recoveries, drawing on Gitre's NEH-funded work on evidentiary reliability in "The American Soldier in WWII" and Backer's own error-rate analysis of AI-extracted historical financial data.</div>
             </td>
-            <td><span class="track-badge track-a"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room A</td>
           </tr>
           <tr class="row-breakout row-missing">
@@ -1363,7 +1285,6 @@
               <span class="session-title"><span class="session-num">21</span> Publishing Computational History: Journals, Data Repositories, and the Review Problem</span>
               <div class="session-desc">The current publication infrastructure for computational history is poorly suited to the work: reviewers lack technical training, data cannot be peer-reviewed at most journals, and replication is rarely attempted. This session maps the problem and surveys emerging solutions, including the Computational Humanities Research journal model.</div>
             </td>
-            <td><span class="track-badge track-b"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room B</td>
           </tr>
           <tr class="row-breakout row-missing">
@@ -1373,7 +1294,6 @@
               <span class="session-title"><span class="session-num">22</span> Project Clinic: Get Feedback on Your Work in Progress</span>
               <div class="session-desc">Attendees present a project at any stage — from early sketch to near-complete — and receive structured feedback from a panel of methodological and historical experts. Capped for presenters, open for observers.</div>
             </td>
-            <td><span class="track-badge track-c"></span></td>
             <td style="font-size:0.82rem;color:#666;">Room C</td>
           </tr>
           <tr class="row-breakout row-missing">
@@ -1383,7 +1303,6 @@
               <span class="session-title"><span class="session-num">23</span> Placing History: Spatial Analysis and AI-Assisted Mapping</span>
               <div class="session-desc">A live spatial history demonstration — geocoding historical place names, georeferencing period maps, and generating analytical maps from archival sources. Presenters show how AI is accelerating work that previously required specialist GIS training, and where the limits of automated spatial reasoning lie. No laptop required.</div>
             </td>
-            <td><span class="track-badge track-d"></span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1393,7 +1312,6 @@
             <td>
               <span class="session-title">Coffee Break</span>
             </td>
-            <td><span class="track-badge logistics">Break</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
@@ -1405,7 +1323,6 @@
               <span class="session-presenter">Louis Hyman, Johns Hopkins University</span>
               <div class="session-desc">Synthesis of themes, collective commitments, community infrastructure next steps, and how to stay connected after the conference ends.</div>
             </td>
-            <td><span class="track-badge plenary">Closing</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1413,7 +1330,6 @@
           <tr class="row-break">
             <td class="time-cell">3:30 – 4:00</td>
             <td><span class="session-title">Short Break</span></td>
-            <td><span class="track-badge logistics">Break</span></td>
             <td style="font-size:0.82rem;color:#666;">Lobby</td>
           </tr>
 
@@ -1425,7 +1341,6 @@
               <span class="session-presenter">Tim O'Reilly, Founder and CEO, O'Reilly Media</span>
               <div class="session-desc">Tim O'Reilly founded O'Reilly Media and has spent decades identifying and naming the technology shifts that reshape the economy, from open source software to Web 2.0 to today's AI platforms. He will speak on the changing role of Silicon Valley.</div>
             </td>
-            <td><span class="track-badge plenary">Lecture</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
@@ -1435,21 +1350,11 @@
             <td>
               <span class="session-title">Closing Cocktails &amp; Farewell Reception</span>
             </td>
-            <td><span class="track-badge logistics">Reception</span></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
 
         </tbody>
       </table>
-
-      <!-- Track legend -->
-      <div style="background:#fff;border-radius:8px;padding:1rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:#444;display:flex;gap:1.5rem;flex-wrap:wrap;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
-        <strong style="color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;width:100%;">Track Key</strong>
-        <span><span class="track-badge track-a">Track A</span> &nbsp;Methods &amp; Tools — presentation-driven</span>
-        <span><span class="track-badge track-b">Track B</span> &nbsp;Discipline, Infrastructure &amp; Careers</span>
-        <span><span class="track-badge track-c">Track C</span> &nbsp;Project Workshop / Hands-On Lab — laptop required</span>
-        <span><span class="track-badge track-d">Track D</span> &nbsp;Live Demonstrations — Main Hall, open to all, no laptop required</span>
-      </div>
     </div><!-- end panel-day2 -->
 
   </div>
@@ -1634,7 +1539,7 @@
     <h2 class="section-heading">Conference Venue: The Agora at Johns Hopkins</h2>
     <hr class="section-rule" />
     <p class="section-text" style="margin-bottom:2.5rem;">
-      The AI and History Conference 2026 will be held at the Agora, Johns Hopkins University's premier venue for scholarly exchange on the Homewood Campus in Baltimore, Maryland. The Agora features a large assembly hall and three seminar rooms — a perfect setting for the plenary sessions, parallel tracks, and structured conversations that define this conference.
+      The AI and History Conference 2026 will be held at the Agora, Johns Hopkins University's premier venue for scholarly exchange on the Homewood Campus in Baltimore, Maryland. The Agora features a large assembly hall and three seminar rooms — a perfect setting for the plenary sessions, parallel breakout sessions, and structured conversations that define this conference.
     </p>
 
     <!-- Photo gallery — confirmed live URLs from snfagora.jhu.edu -->
