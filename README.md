@@ -2,6 +2,10 @@
 
 Conference website — October 15–16, 2026, Johns Hopkins University.
 
+A practitioner-focused conference for historians using AI and computational methods, run as an official conference of the American Historical Association (AHA).
+
+**Live site:** https://proflouishyman.github.io/ai_conference_2026
+
 ## Files
 
 ### Site (public, deployed)
