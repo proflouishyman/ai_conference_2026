@@ -8,8 +8,6 @@ A practitioner-focused conference for historians using AI and computational meth
 
 ## Files
 
-### Site (public, deployed)
-
 - `index.html` — Main conference site (hero, about, full two-day program, speakers, structured conversations, venue); includes mobile-responsive card layout and SEO/Open Graph/JSON-LD tags
 - `register.html` — Registration/application form (Formspree-powered; free for grad students and financial-hardship cases, $100 for faculty/professional)
 - `thanks.html` — Post-submission thank-you page
@@ -17,15 +15,6 @@ A practitioner-focused conference for historians using AI and computational meth
 - `getting-here.html` — Directions, parking, and shuttle info
 - `robots.txt`, `sitemap.xml` — SEO crawl/indexing config
 - `.nojekyll` — Disables Jekyll processing on GitHub Pages
-
-### Organizer working documents (not part of the public site)
-
-- `OUTREACH.md` — Speaker outreach tracker: the full session grid, confirmed/invited speakers with draft invitation emails, and open sessions still needing a presenter. Source of truth for who's been contacted and the status of every session.
-- `MAILING_LIST.md` / `MAILING_LIST.csv` — Broader candidate pool researched for speaker outreach, feeding into `OUTREACH.md` as people are promoted to active outreach.
-- `correspondence/` — Local archive of real email threads (pulled read-only via the openclaw Gmail/Outlook bridge) relevant to speaker outreach, for Louis's and Claude's reference only — see `correspondence/README.md`.
-- `MOBILE_AND_SEO_AUDIT.md` — Audit findings and fixes for mobile responsiveness and SEO.
-- `SCHEDULE_FILLING_PLAN.md` — Planning notes for filling out the program grid.
-- `registration_form_spec.json` — Field spec for the registration form, in the format the `google-forms` skill's `create_form.py` consumes (see `~/.claude/skills/google-forms/SKILL.md`). Used to migrate registration off Formspree onto a Google Form embedded in `register.html`.
 
 ## Setup: Registration Form
 
