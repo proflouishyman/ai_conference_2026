@@ -1,0 +1,11 @@
+.DS_Store
+
+# Internal outreach tracking — contains private correspondence, personal
+# email addresses, and honorarium/financial terms. Never push to GitHub.
+OUTREACH.md
+MAILING_LIST.md
+MAILING_LIST.csv
+MAILING_LIST.xlsx
+SCHEDULE_FILLING_PLAN.md
+correspondence/
+LOGBOOK.md
