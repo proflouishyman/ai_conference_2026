@@ -15,3 +15,8 @@ PRESENTER_GUIDELINES.md
 SOLUTIONS.md
 MOBILE_AND_SEO_AUDIT.md
 registration_form_spec.json
+
+# Local registrations DB — synced from the Google Form, contains registrant
+# PII (names, emails, institutions). Never push to GitHub.
+registrations.db
+scripts/logs/
