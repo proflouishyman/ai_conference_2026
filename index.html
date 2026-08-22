@@ -1963,6 +1963,21 @@
     a.addEventListener('click', function() {
       document.getElementById('nav-links').classList.remove('open');
       document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+
+      /* Jumping straight to a tall section can land the scroll-reveal
+         observer's target so far off-screen (top above viewport, bottom
+         below) that it never intersects and the section stays invisible.
+         Reveal the destination section immediately rather than relying
+         on the observer to catch an instant anchor jump. */
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#') {
+        var target = document.getElementById(href.slice(1));
+        if (target) {
+          target.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) {
+            el.classList.add('in-view');
+          });
+        }
+      }
     });
   });
 
@@ -1998,11 +2013,24 @@
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) {
       obs.observe(el);
     });
+
+    /* A page load that already has a URL hash (a shared/bookmarked link,
+       or browser back/forward) jumps straight to that section before any
+       scroll event fires, which can leave a tall section's reveal
+       elements permanently un-triggered. Reveal the hash target directly. */
+    if (window.location.hash) {
+      var hashTarget = document.querySelector(window.location.hash);
+      if (hashTarget) {
+        hashTarget.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) {
+          el.classList.add('in-view');
+        });
+      }
+    }
   })();
 
   /* ── Count-up animation for stats ── */
