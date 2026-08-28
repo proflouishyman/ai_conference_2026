@@ -714,6 +714,93 @@
       margin-top: 0.5rem;
     }
 
+    /* ── FAQ ── */
+    .faq-lead {
+      background: var(--light-gray);
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .faq-lead h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+
+    .faq-lead p, .faq-lead li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .faq-options {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .faq-options li {
+      background: #fff;
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
+      border: 1px solid #e3e6ec;
+    }
+
+    .faq-options strong { color: var(--navy); }
+
+    .faq-item {
+      border-bottom: 1px solid #e3e6ec;
+      padding: 0.25rem 0;
+    }
+
+    .faq-item summary {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      padding: 0.9rem 2rem 0.9rem 0;
+      list-style: none;
+      position: relative;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: '+';
+      position: absolute;
+      right: 0.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .faq-item[open] summary::after { content: '\2013'; }
+
+    .faq-item summary:hover { color: var(--gold); }
+
+    .faq-item .faq-answer {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: #333;
+      padding: 0 2rem 1.1rem 0;
+    }
+
+    .faq-item .faq-answer p + p { margin-top: 0.75rem; }
+
+    .faq-item .faq-answer a { color: var(--navy); font-weight: 600; }
+
     /* ── Footer ── */
     footer {
       background: var(--navy);
@@ -881,6 +968,7 @@
       <a href="#program">Program</a>
       <a href="#speakers">Speakers</a>
       <a href="#agora">Venue</a>
+      <a href="#faq">FAQ</a>
       <a href="hotels.html">Hotels</a>
       <a href="getting-here.html">Getting Here</a>
       <a href="register.html" class="active">Register</a>
@@ -1923,6 +2011,81 @@
       </div>
 
     </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FAQ
+════════════════════════════════════════ -->
+<section id="faq" style="background:#F7F8FA;">
+  <div class="section-inner reveal">
+    <h2 class="section-heading">Frequently Asked Questions</h2>
+    <hr class="section-rule" />
+
+    <div class="faq-lead">
+      <h3>Your registration options</h3>
+      <p>In-person attendance has reached capacity, so in-person sign-ups now join a waitlist. Online registration is open to everyone and is free. There are three ways to register:</p>
+      <ul class="faq-options">
+        <li><strong>Online only.</strong> Open to all, free regardless of your fee category. Select sessions will stream.</li>
+        <li><strong>Online, plus the in-person waitlist.</strong> You are registered for online right away, and you keep a place in line for a seat in Baltimore if one opens. There is no downside to being on the list.</li>
+        <li><strong>In person.</strong> Joins the waitlist. We will contact you if a place opens up.</li>
+      </ul>
+      <p style="margin-top:1rem;">Questions about any of this? Email Louis Hyman at <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);font-weight:600;">lhyman6@jh.edu</a>.</p>
+    </div>
+
+    <details class="faq-item">
+      <summary>Is in-person attendance really full?</summary>
+      <div class="faq-answer"><p>Yes. We reached capacity faster than expected. Anyone registering for in person now joins a waitlist, and we will be in touch if a place opens up. Places do open, so it is worth joining.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>If I join the waitlist, can I still attend online?</summary>
+      <div class="faq-answer"><p>Yes, and we would encourage it. Choose "Online, and add me to the in-person waitlist" on the registration form. That registers you for online access immediately and keeps your place in line, so you are guaranteed to be able to attend either way.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How much does it cost?</summary>
+      <div class="faq-answer">
+        <p>Online attendance is free for everyone, whatever your category.</p>
+        <p>For in-person attendance, graduate students attend free, and there is a $100 fee for faculty and professionals. If that fee would be a barrier, you do not need to pay it and no documentation is required. Select the financial hardship category on the form. Nothing else about your registration changes either way.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Which sessions will be streamed?</summary>
+      <div class="faq-answer"><p>Streaming will cover select sessions rather than the full program. Which sessions, and how to access them, will be announced closer to the conference. Everyone registered for online attendance will receive those details by email.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Do I need technical experience to attend?</summary>
+      <div class="faq-answer"><p>No. Sessions are run at different levels in parallel rather than putting everyone in the same room, so there is programming for people who have never used these tools and for people who build them. Most registrants so far describe themselves as new to this or just getting started.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>When does registration close?</summary>
+      <div class="faq-answer"><p>September 15, 2026, for both online and in-person waitlist registration.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>I have a dietary restriction or an accessibility need.</summary>
+      <div class="faq-answer"><p>There are fields for both on the registration form, and we plan catering and room setup against what people tell us there. If something comes up after you have registered, email <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a> and we will handle it.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is travel funding available?</summary>
+      <div class="faq-answer"><p>We are not able to offer travel funding for attendees. See our <a href="hotels.html">hotel suggestions</a> and <a href="getting-here.html">travel guide</a> for help keeping costs down.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>I registered already and need to change something.</summary>
+      <div class="faq-answer"><p>Email Louis Hyman at <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a> with what needs changing rather than submitting the form a second time, which creates a duplicate registration.</p></div>
+    </details>
+
+    <details class="faq-item">
+      <summary>I still have a question.</summary>
+      <div class="faq-answer"><p>Email Louis Hyman at <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a>. Anything about registration, the waitlist, the program, or logistics is welcome.</p></div>
+    </details>
 
   </div>
 </section>
