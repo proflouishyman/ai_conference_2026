@@ -105,27 +105,31 @@ CREATE VIEW IF NOT EXISTS registrations_corrected AS
 SELECT
     r.response_id,
     r.create_time,
-    COALESCE(c_email.corrected_value, r.email) AS email,
+    COALESCE(c_email.corrected_value, r.email)               AS email,
     r.first_name,
     r.last_name,
-    r.institution,
+    COALESCE(c_inst.corrected_value, r.institution)          AS institution,
     r.role,
     r.department,
-    r.fee_category,
-    r.attend_type,
+    COALESCE(c_fee.corrected_value, r.fee_category)          AS fee_category,
+    COALESCE(c_attend.corrected_value, r.attend_type)        AS attend_type,
     r.experience_level,
     r.tools_used,
     r.primary_area,
     r.topic_wanted,
     r.question_for_conference,
-    r.dietary_restrictions,
-    r.accessibility_needs,
+    COALESCE(c_diet.corrected_value, r.dietary_restrictions) AS dietary_restrictions,
+    COALESCE(c_acc.corrected_value, r.accessibility_needs)   AS accessibility_needs,
     r.heard_via,
     r.raw_answers_json,
     r.synced_at
 FROM registrations r
-LEFT JOIN corrections c_email
-    ON c_email.response_id = r.response_id AND c_email.field = 'email'
+LEFT JOIN corrections c_email  ON c_email.response_id  = r.response_id AND c_email.field  = 'email'
+LEFT JOIN corrections c_attend ON c_attend.response_id = r.response_id AND c_attend.field = 'attend_type'
+LEFT JOIN corrections c_inst   ON c_inst.response_id   = r.response_id AND c_inst.field   = 'institution'
+LEFT JOIN corrections c_fee    ON c_fee.response_id    = r.response_id AND c_fee.field    = 'fee_category'
+LEFT JOIN corrections c_diet   ON c_diet.response_id   = r.response_id AND c_diet.field   = 'dietary_restrictions'
+LEFT JOIN corrections c_acc    ON c_acc.response_id    = r.response_id AND c_acc.field    = 'accessibility_needs'
 WHERE r.response_id NOT IN (SELECT response_id FROM excluded_duplicates);
 
 CREATE VIEW IF NOT EXISTS panelist_registration_status AS
