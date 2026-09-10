@@ -129,14 +129,23 @@ def lookup(term, gloss):
     n = normalise(term)
     if not n:
         return None, None
-    if n in gloss:
+    if n in gloss:                                   # exact key
         return n, gloss[n]
-    for key, val in gloss.items():
+    for key, val in gloss.items():                   # exact alias
         if n in [normalise(a) for a in val.get("aliases", [])]:
             return key, val
+    # Longest-match containment, so "local llm" does not resolve to "llm"
+    # and "repo" prefers "repository" over an alias of something else.
+    best = None
     for key, val in gloss.items():
-        if len(n) > 3 and (n in key or key in n):
-            return key, val
+        cands = [key] + [normalise(a) for a in val.get("aliases", [])]
+        for c in cands:
+            if len(n) > 3 and (n in c or c in n):
+                score = len(os.path.commonprefix([n, c])) + len(c)
+                if best is None or score > best[0]:
+                    best = (score, key, val)
+    if best:
+        return best[1], best[2]
     return None, None
 
 
@@ -154,13 +163,12 @@ def generate(term, context):
         prompt += f'\n\nThey asked: "{context.strip()}"'
     try:
         client = OpenAI(api_key=key)
-        model = "gpt-4o"
+        model = "gpt-5.4-mini"
         resp = client.chat.completions.create(
             model=model,
             messages=[{"role": "system", "content": SYSTEM},
                       {"role": "user", "content": prompt}],
-            max_tokens=320,
-            temperature=0.2,
+            max_completion_tokens=400,
         )
         return resp.choices[0].message.content.strip(), model
     except Exception as exc:

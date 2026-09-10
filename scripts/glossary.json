@@ -1,4 +1,12 @@
 {
+ "abstraction": {
+  "aliases": [
+   "abstract"
+  ],
+  "definition": "Deliberately leaving out detail so the shape of a thing becomes usable. A finding aid is an abstraction of a collection, and a periodisation is an abstraction of a continuous past. In software it means being able to use a tool without knowing its internals, the same way you can cite a database without knowing how it stores anything. Historians do this constantly and rarely name it.",
+  "link": "https://en.wikipedia.org/wiki/Abstraction_(computer_science)",
+  "term": "Abstraction"
+ },
  "agentic": {
   "aliases": [
    "agent",
@@ -32,6 +40,19 @@
   "definition": "Sorting things into categories automatically. Deciding which scanned pages are letters and which are receipts.",
   "term": "Classification"
  },
+ "command line": {
+  "aliases": [
+   "terminal",
+   "shell",
+   "bash",
+   "cli",
+   "command prompt",
+   "console"
+  ],
+  "definition": "A text window where you type instructions to your computer instead of clicking. Also called the terminal, the shell, or bash. It looks forbidding and is the single biggest barrier historians report, but almost all of it is typing the name of a tool followed by the name of a file. Many of the best tools in this field only have a command-line interface, so a small amount of comfort here opens up a great deal.",
+  "link": "https://www.freecodecamp.org/news/command-line-for-beginners/",
+  "term": "Command line"
+ },
  "computer vision": {
   "aliases": [
    "cv"
@@ -55,6 +76,15 @@
   "definition": "A decision about structure, written down: which fields exist, what goes in them, how records relate. Like designing a spreadsheet's columns before you start typing.",
   "term": "Data model"
  },
+ "database": {
+  "aliases": [
+   "databases",
+   "db"
+  ],
+  "definition": "An organised store of information designed so it can be searched, sorted, and cross-referenced reliably. The distinction from a spreadsheet matters: a spreadsheet is one flat grid you edit by hand, while a database enforces structure, handles far more records, and lets you ask questions across related tables, such as every person who appears in two collections. Most historians who outgrow Excel are looking for a database, whether or not they use the word.",
+  "link": "https://en.wikipedia.org/wiki/Database",
+  "term": "Database"
+ },
  "embedding": {
   "aliases": [
    "vector",
@@ -64,6 +94,14 @@
   "definition": "A way of turning text into numbers so a computer can measure similarity. Documents about similar things end up numerically close together, which is what lets a search find relevant material sharing no keywords.",
   "link": "https://www.cloudflare.com/learning/ai/what-are-embeddings/",
   "term": "Embedding"
+ },
+ "encapsulation": {
+  "aliases": [
+   "encapsulated"
+  ],
+  "definition": "Keeping the workings of a component hidden behind a clear boundary, so the rest of the system uses it without depending on how it does the job. The practical payoff is that you can change the inside without breaking everything else. If your OCR step is properly encapsulated, swapping the OCR engine does not require rebuilding your whole pipeline, which is exactly the situation historians tend to discover too late.",
+  "link": "https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)",
+  "term": "Encapsulation"
  },
  "fine-tuning": {
   "aliases": [
@@ -101,6 +139,26 @@
   "link": "https://en.wikipedia.org/wiki/Geographic_information_system",
   "term": "GIS"
  },
+ "github": {
+  "aliases": [
+   "git hub",
+   "repo",
+   "repository",
+   "gitlab"
+  ],
+  "definition": "A website where people store code and data publicly, track every change to it, and work on it together. For historians it matters in three ways: it is where most of the tools discussed at this conference actually live and can be downloaded free, it is increasingly where scholars deposit the code and data behind an article so others can check it, and it hosts project websites at no cost. You do not need to write code to use it, and reading someone's repository is a legitimate way to understand what their tool really does.",
+  "link": "https://docs.github.com/en/get-started/start-your-journey/about-github-and-git",
+  "term": "GitHub"
+ },
+ "graph database": {
+  "aliases": [
+   "neo4j",
+   "graph db"
+  ],
+  "definition": "A database built around relationships rather than tables, storing entities and the connections between them. It suits questions about who knew whom, how influence travelled, or how institutions overlapped, which are awkward to express in a relational database. Neo4j is the common one. Relevant to network analysis work.",
+  "link": "https://en.wikipedia.org/wiki/Graph_database",
+  "term": "Graph database"
+ },
  "ground truth": {
   "definition": "The correct answer, established by a human, used to measure how well a tool is doing. A page you transcribed by hand becomes the ground truth for judging OCR output.",
   "term": "Ground truth"
@@ -120,6 +178,18 @@
   "session": "Session 20",
   "term": "HTR"
  },
+ "ide": {
+  "aliases": [
+   "vscode",
+   "vs code",
+   "code editor",
+   "jupyter",
+   "integrated development environment"
+  ],
+  "definition": "Integrated Development Environment. A text editor built for writing code, which highlights syntax, flags errors as you type, and runs your code without switching windows. VS Code is the common one and is free. Think of it as the difference between writing in Notepad and writing in Word: the same text, with the machinery that catches mistakes.",
+  "link": "https://code.visualstudio.com/",
+  "term": "IDE"
+ },
  "linked open data": {
   "aliases": [
    "lod",
@@ -137,6 +207,19 @@
   "definition": "Large Language Model, the technology behind ChatGPT and Claude. Trained on enormous quantities of text to predict the next word, which turns out to produce something reading like understanding. Whether it IS understanding is an open argument, and part of what this conference is about.",
   "link": "https://en.wikipedia.org/wiki/Large_language_model",
   "term": "LLM"
+ },
+ "local llm": {
+  "aliases": [
+   "local model",
+   "run locally",
+   "on-device",
+   "ollama",
+   "self-hosted model",
+   "offline llm"
+  ],
+  "definition": "A language model running on your own computer rather than on a company's servers. The appeal for historians is concrete: your archival material never leaves your machine, there is no per-use cost, and no terms of service govern what you may process. The tradeoffs are that it is usually less capable than ChatGPT or Claude, needs a reasonably powerful computer, and takes some setup. Tools like Ollama and LM Studio have made this considerably easier than it was a year ago. Directly relevant if you work with restricted, sensitive, or embargoed collections.",
+  "link": "https://ollama.com/",
+  "term": "Local LLM"
  },
  "machine learning": {
   "aliases": [
@@ -193,6 +276,15 @@
   "definition": "Making inconsistent data consistent. Deciding that Balt., Baltimore City and Baltimore, MD are the same place, and recording them one way.",
   "term": "Normalisation"
  },
+ "nosql": {
+  "aliases": [
+   "mongodb",
+   "document database"
+  ],
+  "definition": "A loose family of databases that do not use tables and SQL, usually storing flexible documents instead. Useful when your records genuinely do not share a common shape. MongoDB is the best known. Most historical projects do not need this, and reaching for it before a relational database is a common early mistake.",
+  "link": "https://en.wikipedia.org/wiki/NoSQL",
+  "term": "NoSQL"
+ },
  "ocr": {
   "definition": "Optical Character Recognition. Turning an image of printed text into text a computer can search. The most common word at this conference, and the entry point for most historians, because it is what stands between a box of scans and a searchable corpus.",
   "link": "https://en.wikipedia.org/wiki/Optical_character_recognition",
@@ -224,6 +316,34 @@
   "definition": "Where a piece of information came from. Historians already care about this more than most. In computational work it means recording which model, which prompt and which date produced each data point, so a result can be traced and rechecked.",
   "term": "Provenance"
  },
+ "python": {
+  "aliases": [
+   "py"
+  ],
+  "definition": "A programming language, and the default one for this kind of work. It was designed to be readable, which is why it took hold in research rather than only in software companies. Nearly every tool discussed at this conference is written in it or has a Python interface, and it is what the hands-on sessions use. Reading it is considerably easier than writing it, and reading is often enough to understand what someone's method actually did.",
+  "link": "https://www.python.org/about/gettingstarted/",
+  "term": "Python"
+ },
+ "relational database": {
+  "aliases": [
+   "sql database",
+   "sqlite",
+   "postgres",
+   "postgresql",
+   "mysql",
+   "relational"
+  ],
+  "definition": "The most common kind, and the one behind most historical projects. Data lives in tables joined by shared identifiers, so a people table can connect to a letters table without repeating anyone's details. You query it in SQL. SQLite is a whole relational database in a single file you can email, which makes it a genuinely good fit for a one-historian project; PostgreSQL and MySQL are the heavier versions for shared or very large projects.",
+  "link": "https://en.wikipedia.org/wiki/Relational_database",
+  "term": "Relational database"
+ },
+ "repository": {
+  "aliases": [
+   "repo"
+  ],
+  "definition": "Two meanings, and they collide badly at this conference. To an archivist, the institution holding collections. To a programmer, a folder of code and its full change history, usually on GitHub. Context almost always resolves it, but it is worth noticing the ambiguity when it happens.",
+  "term": "Repository"
+ },
  "reproducibility": {
   "aliases": [
    "reproducible"
@@ -240,6 +360,11 @@
   "definition": "Finding relevant documents by meaning rather than exact words. A semantic search for unrest can surface a document saying riot without ever using your word.",
   "session": "Session 24",
   "term": "Retrieval"
+ },
+ "sql": {
+  "definition": "Structured Query Language, the way you ask a relational database questions. Pronounced sequel or spelled out, both are accepted. It reads closer to English than most code, and the basic form is learnable in an afternoon: SELECT name FROM people WHERE year < 1850 does exactly what it appears to.",
+  "link": "https://en.wikipedia.org/wiki/SQL",
+  "term": "SQL"
  },
  "structured data": {
   "definition": "Information arranged in consistent fields so it can be counted, sorted and queried. The opposite of a pile of prose. Getting from one to the other is most of the practical work at this conference.",
@@ -279,6 +404,16 @@
   "link": "https://en.wikipedia.org/wiki/Unicode",
   "session": "Session 25",
   "term": "Unicode"
+ },
+ "vector database": {
+  "aliases": [
+   "vector db",
+   "vector store",
+   "pinecone",
+   "chroma"
+  ],
+  "definition": "A database that stores text as numerical representations of meaning, so you can search by similarity rather than exact words. A search for unrest can surface a document that only ever says riot. Underpins the semantic retrieval systems discussed on the program, and generally sits alongside a conventional database rather than replacing it.",
+  "term": "Vector database"
  },
  "version control": {
   "aliases": [
