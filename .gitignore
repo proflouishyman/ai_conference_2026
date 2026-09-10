@@ -25,3 +25,5 @@ scripts/logs/
 scripts/discord_*_state.json
 scripts/unknown_terms.json
 scripts/logs/
+
+scripts/pending_review.json
