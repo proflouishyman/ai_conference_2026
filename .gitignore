@@ -20,3 +20,8 @@ registration_form_spec.json
 # PII (names, emails, institutions). Never push to GitHub.
 registrations.db
 scripts/logs/
+
+# discord bot runtime state
+scripts/discord_*_state.json
+scripts/unknown_terms.json
+scripts/logs/

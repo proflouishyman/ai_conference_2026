@@ -1,0 +1,296 @@
+{
+ "agentic": {
+  "aliases": [
+   "agent",
+   "ai agent",
+   "agents"
+  ],
+  "definition": "Software that carries out a multi-step task on its own rather than answering one question at a time. An agentic tool told to transcribe a collection might decide the order, retry failures, and flag problems without being walked through each step.",
+  "term": "Agentic"
+ },
+ "api": {
+  "definition": "Application Programming Interface. A way for one piece of software to talk to another. Using a company's API means sending your text to their computers and getting a response back, usually metered and paid per use.",
+  "link": "https://en.wikipedia.org/wiki/API",
+  "term": "API"
+ },
+ "benchmark": {
+  "definition": "A standard test used to compare tools on the same material.",
+  "session": "Session 24, the six-system OCR benchmark",
+  "term": "Benchmark"
+ },
+ "bias": {
+  "definition": "Two different meanings that often get confused. Ordinarily, a model reproducing prejudices in its training material. In statistics, a systematic skew in measurement. Both come up here, sometimes in the same session.",
+  "link": "https://en.wikipedia.org/wiki/Algorithmic_bias",
+  "session": "Session 10, Trust and Error",
+  "term": "Bias"
+ },
+ "classification": {
+  "aliases": [
+   "classifier",
+   "classify"
+  ],
+  "definition": "Sorting things into categories automatically. Deciding which scanned pages are letters and which are receipts.",
+  "term": "Classification"
+ },
+ "computer vision": {
+  "aliases": [
+   "cv"
+  ],
+  "definition": "Getting software to interpret images: handwriting, maps, photographs, the layout of a page.",
+  "link": "https://en.wikipedia.org/wiki/Computer_vision",
+  "term": "Computer vision"
+ },
+ "corpus": {
+  "aliases": [
+   "corpora"
+  ],
+  "definition": "The body of texts you are working with. Your sources, counted as a set. Plural: corpora.",
+  "link": "https://en.wikipedia.org/wiki/Text_corpus",
+  "term": "Corpus"
+ },
+ "data model": {
+  "aliases": [
+   "schema"
+  ],
+  "definition": "A decision about structure, written down: which fields exist, what goes in them, how records relate. Like designing a spreadsheet's columns before you start typing.",
+  "term": "Data model"
+ },
+ "embedding": {
+  "aliases": [
+   "vector",
+   "embeddings",
+   "vectors"
+  ],
+  "definition": "A way of turning text into numbers so a computer can measure similarity. Documents about similar things end up numerically close together, which is what lets a search find relevant material sharing no keywords.",
+  "link": "https://www.cloudflare.com/learning/ai/what-are-embeddings/",
+  "term": "Embedding"
+ },
+ "fine-tuning": {
+  "aliases": [
+   "fine tune",
+   "finetuning",
+   "fine-tune"
+  ],
+  "definition": "Taking an existing model and training it further on your own material so it does better on your specific problem. Much cheaper than building from scratch.",
+  "term": "Fine-tuning"
+ },
+ "frontier model": {
+  "aliases": [
+   "frontier"
+  ],
+  "definition": "The largest, newest commercial models: GPT, Claude, Gemini. Contrasted with open-weight models. The distinction mostly matters for cost, privacy and control.",
+  "term": "Frontier model"
+ },
+ "geocoding": {
+  "aliases": [
+   "geocode"
+  ],
+  "definition": "Turning a place name into coordinates. Baltimore becomes a latitude and longitude.",
+  "term": "Geocoding"
+ },
+ "georeferencing": {
+  "aliases": [
+   "georeference"
+  ],
+  "definition": "Aligning a historical map to real-world coordinates so it can be overlaid on a modern one.",
+  "link": "https://en.wikipedia.org/wiki/Georeferencing",
+  "term": "Georeferencing"
+ },
+ "gis": {
+  "definition": "Geographic Information System. Software for working with spatial data: mapping, but with a database behind it.",
+  "link": "https://en.wikipedia.org/wiki/Geographic_information_system",
+  "term": "GIS"
+ },
+ "ground truth": {
+  "definition": "The correct answer, established by a human, used to measure how well a tool is doing. A page you transcribed by hand becomes the ground truth for judging OCR output.",
+  "term": "Ground truth"
+ },
+ "hallucination": {
+  "aliases": [
+   "hallucinate",
+   "hallucinating"
+  ],
+  "definition": "When a model produces something fluent, confident and false. The central evidentiary problem for historians. The word is unfortunate: it implies malfunction, when the model is doing exactly what it was built to do, produce plausible text.",
+  "link": "https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)",
+  "session": "Session 10",
+  "term": "Hallucination"
+ },
+ "htr": {
+  "definition": "Handwritten Text Recognition. OCR for handwriting, and much harder than print.",
+  "session": "Session 20",
+  "term": "HTR"
+ },
+ "linked open data": {
+  "aliases": [
+   "lod",
+   "linked data"
+  ],
+  "definition": "Publishing data so it can be connected to other people's data, usually by pointing shared entities at common identifiers such as Wikidata.",
+  "term": "Linked open data"
+ },
+ "llm": {
+  "aliases": [
+   "large language model",
+   "large language models",
+   "llms"
+  ],
+  "definition": "Large Language Model, the technology behind ChatGPT and Claude. Trained on enormous quantities of text to predict the next word, which turns out to produce something reading like understanding. Whether it IS understanding is an open argument, and part of what this conference is about.",
+  "link": "https://en.wikipedia.org/wiki/Large_language_model",
+  "term": "LLM"
+ },
+ "machine learning": {
+  "aliases": [
+   "ml"
+  ],
+  "definition": "Software that improves at a task by being shown examples rather than given explicit rules. The umbrella term over most of this vocabulary.",
+  "link": "https://en.wikipedia.org/wiki/Machine_learning",
+  "term": "Machine learning"
+ },
+ "metadata": {
+  "definition": "Data about data. For a document: who wrote it, when, where it is held, what collection it belongs to. Archivists have been doing this rigorously for a century.",
+  "term": "Metadata"
+ },
+ "model": {
+  "aliases": [
+   "models"
+  ],
+  "definition": "The most overloaded word at this conference. Here it means a trained piece of software that takes an input and produces an output. The model transcribed the page means the software did. It does NOT mean a theoretical model in the historian's sense, and the collision causes real confusion.",
+  "term": "Model"
+ },
+ "ner": {
+  "aliases": [
+   "named entity recognition",
+   "named entity",
+   "named entities"
+  ],
+  "definition": "Named Entity Recognition. Automatically finding the people, places, organisations and dates in a text. The step that turns a wall of prose into something queryable.",
+  "session": "Sessions 24 and 25",
+  "term": "NER"
+ },
+ "network analysis": {
+  "aliases": [
+   "network science",
+   "social network analysis"
+  ],
+  "definition": "Studying relationships as a structure: who corresponded with whom, what connected to what. Produces both a picture and measurements.",
+  "session": "Session 13",
+  "term": "Network analysis"
+ },
+ "nlp": {
+  "aliases": [
+   "natural language processing"
+  ],
+  "definition": "Natural Language Processing. The broad field of getting computers to work with human language. Text mining is one part of it.",
+  "link": "https://en.wikipedia.org/wiki/Natural_language_processing",
+  "term": "NLP"
+ },
+ "normalisation": {
+  "aliases": [
+   "normalization",
+   "normalise",
+   "normalize"
+  ],
+  "definition": "Making inconsistent data consistent. Deciding that Balt., Baltimore City and Baltimore, MD are the same place, and recording them one way.",
+  "term": "Normalisation"
+ },
+ "ocr": {
+  "definition": "Optical Character Recognition. Turning an image of printed text into text a computer can search. The most common word at this conference, and the entry point for most historians, because it is what stands between a box of scans and a searchable corpus.",
+  "link": "https://en.wikipedia.org/wiki/Optical_character_recognition",
+  "term": "OCR"
+ },
+ "open-weight model": {
+  "aliases": [
+   "open weight",
+   "open-weight",
+   "open source model"
+  ],
+  "definition": "A model whose internals are published, so you can run it on your own machine rather than sending material to a company. Usually less capable than frontier models, but free, private, and not subject to anyone's terms of service.",
+  "session": "Session 19",
+  "term": "Open-weight model"
+ },
+ "pipeline": {
+  "definition": "A sequence of processing steps applied in order: scan, OCR, clean, extract names, load into a database. Saying pipeline rather than process signals the steps are automated and repeatable.",
+  "term": "Pipeline"
+ },
+ "prompt": {
+  "aliases": [
+   "prompting",
+   "prompt engineering"
+  ],
+  "definition": "What you type to a language model. Prompt engineering means working out how to phrase requests to get better results, and is less of a dark art than it sounds.",
+  "term": "Prompt"
+ },
+ "provenance": {
+  "definition": "Where a piece of information came from. Historians already care about this more than most. In computational work it means recording which model, which prompt and which date produced each data point, so a result can be traced and rechecked.",
+  "term": "Provenance"
+ },
+ "reproducibility": {
+  "aliases": [
+   "reproducible"
+  ],
+  "definition": "Whether someone else, given your data and method, gets your result. A live problem when the method involves a commercial model that may be updated or withdrawn.",
+  "term": "Reproducibility"
+ },
+ "retrieval": {
+  "aliases": [
+   "semantic search",
+   "rag",
+   "semantic"
+  ],
+  "definition": "Finding relevant documents by meaning rather than exact words. A semantic search for unrest can surface a document saying riot without ever using your word.",
+  "session": "Session 24",
+  "term": "Retrieval"
+ },
+ "structured data": {
+  "definition": "Information arranged in consistent fields so it can be counted, sorted and queried. The opposite of a pile of prose. Getting from one to the other is most of the practical work at this conference.",
+  "term": "Structured data"
+ },
+ "technology stack": {
+  "aliases": [
+   "stack",
+   "tech stack"
+  ],
+  "definition": "The full set of tools used together to do a job: language, libraries, database, model. Asking what's your stack means asking what you built it out of.",
+  "term": "Technology stack"
+ },
+ "text mining": {
+  "aliases": [
+   "text analysis"
+  ],
+  "definition": "Extracting patterns and information from large bodies of text: word frequencies, topics, changes over time.",
+  "session": "Session 7",
+  "term": "Text mining"
+ },
+ "token": {
+  "aliases": [
+   "tokens",
+   "tokenisation",
+   "tokenization"
+  ],
+  "definition": "The unit a language model reads and writes, roughly three quarters of a word. Matters because tools are priced per token, so cost per thousand tokens is how you work out what a project will cost.",
+  "term": "Token"
+ },
+ "training data": {
+  "definition": "The material a model learned from. Its shape determines what the model is good at and what it silently gets wrong. Also where the copyright and consent questions come from.",
+  "term": "Training data"
+ },
+ "unicode": {
+  "definition": "The standard letting computers represent every writing system, in principle. In practice its coverage of historical scripts is uneven, which is a historical and political question as much as a technical one.",
+  "link": "https://en.wikipedia.org/wiki/Unicode",
+  "session": "Session 25",
+  "term": "Unicode"
+ },
+ "version control": {
+  "aliases": [
+   "git"
+  ],
+  "definition": "A system tracking every change to a set of files, so you can see what changed, when, and undo it. Standard in software, increasingly expected for research code and data. Usually means Git.",
+  "link": "https://www.atlassian.com/git/tutorials/what-is-version-control",
+  "term": "Version control"
+ },
+ "wikidata": {
+  "definition": "A free, collaboratively edited database of things, each with a permanent identifier. Used as a common reference point so separate projects can agree they mean the same person or place.",
+  "link": "https://www.wikidata.org/",
+  "term": "Wikidata"
+ }
+}
