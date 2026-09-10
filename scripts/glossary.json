@@ -53,6 +53,14 @@
   "link": "https://www.freecodecamp.org/news/command-line-for-beginners/",
   "term": "Command line"
  },
+ "compute": {
+  "aliases": [
+   "computation",
+   "compute budget"
+  ],
+  "definition": "Used as a noun in this field, meaning processing capacity as a resource you spend, like saying you need more compute for a project. Worth recognising because it is the unit budgets and grant applications are increasingly written in, and because it is what you are actually buying when you pay for an AI service.",
+  "term": "Compute"
+ },
  "computer vision": {
   "aliases": [
    "cv"
@@ -60,6 +68,15 @@
   "definition": "Getting software to interpret images: handwriting, maps, photographs, the layout of a page.",
   "link": "https://en.wikipedia.org/wiki/Computer_vision",
   "term": "Computer vision"
+ },
+ "conda": {
+  "aliases": [
+   "anaconda",
+   "miniconda"
+  ],
+  "definition": "An alternative to pip that manages virtual environments and packages together, and can install non-Python things pip cannot. Common in scientific computing, and usually met through Anaconda or the lighter Miniconda. Mixing conda and pip in one environment is a well-known way to break it, so pick one per project.",
+  "link": "https://docs.conda.io/projects/conda/en/stable/user-guide/getting-started.html",
+  "term": "conda"
  },
  "corpus": {
   "aliases": [
@@ -84,6 +101,18 @@
   "definition": "An organised store of information designed so it can be searched, sorted, and cross-referenced reliably. The distinction from a spreadsheet matters: a spreadsheet is one flat grid you edit by hand, while a database enforces structure, handles far more records, and lets you ask questions across related tables, such as every person who appears in two collections. Most historians who outgrow Excel are looking for a database, whether or not they use the word.",
   "link": "https://en.wikipedia.org/wiki/Database",
   "term": "Database"
+ },
+ "docker": {
+  "aliases": [
+   "dockerize",
+   "container",
+   "containerise",
+   "containerize",
+   "dockerise"
+  ],
+  "definition": "Packages an entire computing environment, operating system included, into a container that runs identically anywhere. Where a virtual environment isolates one language's packages, a container isolates everything. For historians it solves two real problems: running someone else's tool without spending a day on installation, and preserving your own pipeline so it still runs in five years. To dockerize something is to wrap it this way.",
+  "link": "https://docs.docker.com/get-started/overview/",
+  "term": "Docker"
  },
  "embedding": {
   "aliases": [
@@ -142,13 +171,22 @@
  "github": {
   "aliases": [
    "git hub",
-   "repo",
-   "repository",
    "gitlab"
   ],
   "definition": "A website where people store code and data publicly, track every change to it, and work on it together. For historians it matters in three ways: it is where most of the tools discussed at this conference actually live and can be downloaded free, it is increasingly where scholars deposit the code and data behind an article so others can check it, and it hosts project websites at no cost. You do not need to write code to use it, and reading someone's repository is a legitimate way to understand what their tool really does.",
   "link": "https://docs.github.com/en/get-started/start-your-journey/about-github-and-git",
   "term": "GitHub"
+ },
+ "gpu": {
+  "aliases": [
+   "gpus",
+   "cuda",
+   "graphics card",
+   "nvidia"
+  ],
+  "definition": "Graphics Processing Unit. A chip built to do many simple calculations at once, which turns out to be exactly what neural networks need. It is why AI work is expensive and why a specific machine matters. A GPU can make an OCR or transcription job that would take a week on a laptop finish in hours. Your HPC cluster probably has some.",
+  "link": "https://en.wikipedia.org/wiki/Graphics_processing_unit",
+  "term": "GPU"
  },
  "graph database": {
   "aliases": [
@@ -173,6 +211,17 @@
   "session": "Session 10",
   "term": "Hallucination"
  },
+ "hpc": {
+  "aliases": [
+   "cluster",
+   "supercomputer",
+   "high performance computing",
+   "slurm"
+  ],
+  "definition": "High-Performance Computing. A shared cluster of powerful machines that your university most likely already runs and that you may well have free access to. It is how you process a corpus too large for a laptop, and the usual route in is an email to research computing rather than a purchase. You submit a job to a queue rather than working interactively, which is the main adjustment.",
+  "link": "https://en.wikipedia.org/wiki/High-performance_computing",
+  "term": "HPC"
+ },
  "htr": {
   "definition": "Handwritten Text Recognition. OCR for handwriting, and much harder than print.",
   "session": "Session 20",
@@ -189,6 +238,15 @@
   "definition": "Integrated Development Environment. A text editor built for writing code, which highlights syntax, flags errors as you type, and runs your code without switching windows. VS Code is the common one and is free. Think of it as the difference between writing in Notepad and writing in Word: the same text, with the machinery that catches mistakes.",
   "link": "https://code.visualstudio.com/",
   "term": "IDE"
+ },
+ "inference": {
+  "aliases": [
+   "training",
+   "inference vs training",
+   "training vs inference"
+  ],
+  "definition": "Training is building a model from data, which happens once, costs enormous amounts, and is done by a handful of organisations. Inference is using the finished model to get an answer, which happens every time you send it a prompt and is comparatively cheap. Nearly everything historians do is inference. The distinction matters because the two have completely different costs, and because it is the difference between your material being used to build a model and merely being processed by one.",
+  "term": "Inference vs training"
  },
  "linked open data": {
   "aliases": [
@@ -300,6 +358,11 @@
   "session": "Session 19",
   "term": "Open-weight model"
  },
+ "pip": {
+  "definition": "Python's installer. `pip install pandas` fetches a package and its dependencies from the public repository and puts them where Python can find them. Almost every set of instructions you will follow at this conference begins with a pip command.",
+  "link": "https://pip.pypa.io/en/stable/getting-started/",
+  "term": "pip"
+ },
  "pipeline": {
   "definition": "A sequence of processing steps applied in order: scan, OCR, clean, extract names, load into a database. Saying pipeline rather than process signals the steps are automated and repeatable.",
   "term": "Pipeline"
@@ -315,6 +378,18 @@
  "provenance": {
   "definition": "Where a piece of information came from. Historians already care about this more than most. In computational work it means recording which model, which prompt and which date produced each data point, so a result can be traced and rechecked.",
   "term": "Provenance"
+ },
+ "pull": {
+  "aliases": [
+   "push",
+   "pull request",
+   "git pull",
+   "git push",
+   "pr"
+  ],
+  "definition": "The two directions of moving code with Git. Pull brings other people's changes down to your computer; push sends yours up to the shared copy, usually on GitHub. Pull before you start and push when you finish, and most collaboration problems never arise. A pull request, confusingly, is neither: it is a proposal that someone review your changes before they are merged in.",
+  "link": "https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository",
+  "term": "Pull and push"
  },
  "python": {
   "aliases": [
@@ -339,9 +414,12 @@
  },
  "repository": {
   "aliases": [
-   "repo"
+   "repo",
+   "repos",
+   "git repo",
+   "code repository"
   ],
-  "definition": "Two meanings, and they collide badly at this conference. To an archivist, the institution holding collections. To a programmer, a folder of code and its full change history, usually on GitHub. Context almost always resolves it, but it is worth noticing the ambiguity when it happens.",
+  "definition": "Two meanings, and they collide badly at this conference. To an archivist, the institution holding collections. To a programmer, a folder of code and its full change history, usually hosted on GitHub, and almost always shortened to repo. Context normally resolves it, but it is worth noticing when it does not, because the two audiences are both in the room here.",
   "term": "Repository"
  },
  "reproducibility": {
@@ -422,6 +500,17 @@
   "definition": "A system tracking every change to a set of files, so you can see what changed, when, and undo it. Standard in software, increasingly expected for research code and data. Usually means Git.",
   "link": "https://www.atlassian.com/git/tutorials/what-is-version-control",
   "term": "Version control"
+ },
+ "virtual environment": {
+  "aliases": [
+   "venv",
+   "virtualenv",
+   "environment",
+   "virtual env"
+  ],
+  "definition": "A self-contained sandbox holding one project's software dependencies, so two projects on the same computer can use different versions of the same tool without breaking each other. This sounds like housekeeping and is in fact the most common reason a historian's setup stops working: you install something for a new project and a working one silently breaks. Making a fresh environment per project prevents nearly all of it.",
+  "link": "https://realpython.com/python-virtual-environments-a-primer/",
+  "term": "Virtual environment"
  },
  "wikidata": {
   "definition": "A free, collaboratively edited database of things, each with a permanent identifier. Used as a common reference point so separate projects can agree they mean the same person or place.",
