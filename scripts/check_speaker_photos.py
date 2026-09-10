@@ -18,7 +18,8 @@ import urllib.error
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-INDEX = os.path.join(HERE, os.pardir, "index.html")
+ROOT = os.path.normpath(os.path.join(HERE, os.pardir))
+INDEX = os.path.join(ROOT, "index.html")
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/122.0 Safari/537.36")
 IMAGE_TYPES = ("image/jpeg", "image/png", "image/webp", "image/gif",
@@ -26,7 +27,16 @@ IMAGE_TYPES = ("image/jpeg", "image/png", "image/webp", "image/gif",
 
 
 def check(url, timeout=15):
-    """Return (ok, detail). Uses GET, since some hosts refuse HEAD."""
+    """Return (ok, detail). Local paths are checked on disk; remote ones by
+    GET, since some hosts refuse HEAD."""
+    if not url.startswith(("http://", "https://")):
+        path = os.path.normpath(os.path.join(ROOT, url))
+        if not os.path.isfile(path):
+            return False, "local file missing"
+        size = os.path.getsize(path)
+        if size < 500:
+            return False, f"local file too small ({size} b)"
+        return True, f"local, {size // 1024} KB"
     ctx = ssl.create_default_context()
     req = urllib.request.Request(url, method="GET")
     req.add_header("User-Agent", UA)
