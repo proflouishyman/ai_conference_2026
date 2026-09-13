@@ -27,3 +27,13 @@ scripts/unknown_terms.json
 scripts/logs/
 
 scripts/pending_review.json
+
+# Internal planning logs and working docs — contain attendee names, email
+# addresses, and correspondence detail. Never push to GitHub.
+plans/
+docs/
+scratchpad_promo_list_DRAFT.md
+
+# Python bytecode
+__pycache__/
+*.pyc
