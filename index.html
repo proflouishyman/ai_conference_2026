@@ -228,6 +228,54 @@
       letter-spacing: 0.02em;
     }
 
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 0 auto 2rem;
+    }
+    .countdown-unit {
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,209,0,0.45);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      min-width: 74px;
+    }
+    .countdown-num {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .countdown-label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.2rem;
+    }
+    .countdown-live {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,209,0,0.45);
+      border-radius: 8px;
+      padding: 0.7rem 1.4rem;
+    }
+    @media (max-width: 480px) {
+      .countdown { gap: 0.5rem; }
+      .countdown-unit { min-width: 62px; padding: 0.5rem 0.65rem; }
+      .countdown-num { font-size: 1.5rem; }
+      .countdown-label { font-size: 0.6rem; letter-spacing: 0.08em; }
+    }
     .hero-tagline {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
@@ -1013,6 +1061,12 @@
     <p style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">An Official Conference of the American Historical Association</p>
     <p class="hero-date">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
     <p class="hero-tagline">Transforming Historical Research with Artificial Intelligence</p>
+    <div class="countdown" id="countdown" role="timer" aria-live="off" aria-label="Time until the conference begins" hidden>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Days</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Hours</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">Minutes</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">Seconds</span></div>
+    </div>
     <p class="hero-capacity" style="font-family:'DM Sans',sans-serif;font-size:1rem;line-height:1.6;color:#fff;background:rgba(0,0,0,0.28);border-left:4px solid var(--gold);border-radius:6px;padding:0.9rem 1.25rem;margin:0 auto 1.5rem;max-width:640px;text-align:left;">
       <strong style="color:#fff;">Online registration is free, open to everyone, and has no deadline.</strong> Register any time before October 15, and you can join online while staying on the in-person waitlist. <strong style="color:var(--gold);">In-person attendance is at capacity</strong>, so in-person sign-ups now join a waitlist. Questions? Email <a href="mailto:lhyman6@jh.edu" style="color:var(--gold);text-decoration:underline;">lhyman6@jh.edu</a>.
     </p>
@@ -2253,6 +2307,61 @@
      JS
 ════════════════════════════════════════ -->
 <script>
+  /* ── Countdown to the conference ──
+     Target is 9:00 AM Eastern on Thursday, October 15 2026. EDT is UTC-4, so
+     that is 13:00 UTC. Pinning the target in UTC means every visitor counts
+     down to the same instant regardless of their own timezone, which a local
+     "2026-10-15T09:00" string would not do.
+     The end instant is 5:00 PM Eastern on Friday, October 16 (21:00 UTC). */
+  (function () {
+    var START = Date.UTC(2026, 9, 15, 13, 0, 0);
+    var END   = Date.UTC(2026, 9, 16, 21, 0, 0);
+    var box   = document.getElementById('countdown');
+    if (!box) return;
+
+    var els = {
+      days:  document.getElementById('cd-days'),
+      hours: document.getElementById('cd-hours'),
+      mins:  document.getElementById('cd-mins'),
+      secs:  document.getElementById('cd-secs')
+    };
+
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+    function banner(text) {
+      box.innerHTML = '<div class="countdown-live">' + text + '</div>';
+    }
+
+    function tick() {
+      var diff = START - Date.now();
+
+      if (diff <= 0) {
+        if (Date.now() <= END) { banner('The conference is underway'); }
+        else { box.hidden = true; }
+        return false;
+      }
+
+      var secs  = Math.floor(diff / 1000);
+      var days  = Math.floor(secs / 86400);
+      var hours = Math.floor((secs % 86400) / 3600);
+      var mins  = Math.floor((secs % 3600) / 60);
+      var rem   = secs % 60;
+
+      els.days.textContent  = days;
+      els.hours.textContent = pad(hours);
+      els.mins.textContent  = pad(mins);
+      els.secs.textContent  = pad(rem);
+      box.hidden = false;
+      return true;
+    }
+
+    if (tick()) {
+      var timer = setInterval(function () {
+        if (!tick()) clearInterval(timer);
+      }, 1000);
+    }
+  })();
+
   /* ── Tab switching ── */
   function showDay(day) {
     ['day1', 'day2'].forEach(function(d) {
