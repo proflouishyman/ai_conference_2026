@@ -37,3 +37,6 @@ scratchpad_promo_list_DRAFT.md
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Seating/catering workbook — attendee PII, never publish
+conference_seating.xlsx
