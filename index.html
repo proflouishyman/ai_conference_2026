@@ -625,9 +625,20 @@
         color: #888;
       }
 
-      .hero-logo-jhu { height: 64px !important; }
-      .hero-logo-divider { height: 64px !important; }
-      #hero > .hero-content > div:first-child { gap: 1rem !important; margin-bottom: 1.5rem !important; }
+      /* The lockup is a wide mark (3.1:1), so constrain it by width -- forcing a
+         height, as the old tall JHU wordmark needed, would squash it. AHA, a
+         vertical rule and a wide lockup will not sit on one line on a phone, so
+         stack them and turn the rule horizontal. */
+      .hero-logo-jhu { width: min(300px, 82vw) !important; height: auto !important; }
+      .hero-logo-divider {
+        width: 60px !important;
+        height: 1px !important;
+      }
+      #hero > .hero-content > div:first-child {
+        flex-direction: column !important;
+        gap: 1.1rem !important;
+        margin-bottom: 1.5rem !important;
+      }
 
       .agora-photo-grid { grid-template-columns: 1fr; }
     }
@@ -1062,11 +1073,19 @@
            alt="American Historical Association"
            style="height:52px;width:auto;filter:brightness(0) invert(1);opacity:0.95;"
            onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'American Historical Association',style:'color:white;font-family:Inter,sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.03em;'}))" />
-      <div class="hero-logo-divider" style="width:1px;height:180px;background:rgba(255,255,255,0.35);"></div>
-      <img class="hero-logo-jhu" src="https://logo.wine/a/logo/Johns_Hopkins_University/Johns_Hopkins_University-Logo.wine.svg"
-           alt="Johns Hopkins University"
-           style="height:180px;width:auto;filter:brightness(0) invert(1);opacity:0.95;"
-           onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Johns Hopkins University',style:'color:white;font-family:Inter,sans-serif;font-size:1rem;font-weight:600;letter-spacing:0.03em;'}))" />
+      <div class="hero-logo-divider" style="width:1px;height:120px;background:rgba(255,255,255,0.35);"></div>
+      <!-- The institutional lockup from the printed conference banner: Hopkins
+           shield, SNF Agora Institute, and the Center for Economy and Society.
+           This replaces a generic JHU wordmark that was hot-linked from
+           logo.wine, an external host we do not control, and that credited the
+           university without naming either of the units actually running the
+           conference. Sized by width rather than height, since the mark is
+           3.1:1 rather than a tall wordmark. -->
+      <img class="hero-logo-jhu" src="assets/logos/ces-snf-lockup.png"
+           srcset="assets/logos/ces-snf-lockup.png 1x, assets/logos/ces-snf-lockup@2x.png 2x"
+           alt="Johns Hopkins University, Stavros Niarchos Foundation SNF Agora Institute, Center for Economy and Society"
+           style="width:min(420px,60vw);height:auto;opacity:0.95;"
+           onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Johns Hopkins University — SNF Agora Institute — Center for Economy and Society',style:'color:white;font-family:Inter,sans-serif;font-size:1rem;font-weight:600;letter-spacing:0.03em;'}))" />
     </div>
     <h1>AI and History Conference 2026</h1>
     <hr class="gold-rule" />
@@ -1265,7 +1284,7 @@
               <div class="session-desc">A genuinely beginner-friendly hands-on lab. Historians build a small research tool from scratch — picking up the vocabulary of software building along the way (data model, schema, pipeline, version control) so the process demystifies what "building software" actually involves. Taught from a research software engineering (RSE) perspective, with attention to how LLMs are changing what teaching people to code looks like. No prior coding background assumed.</div>
             </td>
             <td class="category-cell">Pedagogy</td>
-            <td style="font-size:0.82rem;color:#666;">Room 110</td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
           <tr class="row-breakout">
             <td class="time-cell">11:30 – 12:30</td>
@@ -1517,12 +1536,12 @@
           <tr class="row-breakout">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">19</span> Constructing a Modular Data Pipeline: Cost Tradeoffs at Scale</span>
-              <span class="session-presenter">Robyn Smith (Federal Reserve Bank of Philadelphia)</span>
-              <div class="session-desc">A discussion of the practical tradeoffs in building a modular data pipeline for large-scale historical document analysis: evaluating OCR models at scale, weighing frontier against open-weight LLMs, and the cost tradeoffs that determine which pipeline choices hold up across a multi-million-document corpus. Drawing on the presenter's paper, <a href="https://www.philadelphiafed.org/-/media/FRBP/Assets/Consumer-Finance/Discussion-Papers/dp25-02.pdf" target="_blank" rel="noopener">"Combining AI and Established Methods for Historical Document Analysis"</a> (Federal Reserve Bank of Philadelphia, Consumer Finance Institute Discussion Paper No. 25-2, 2025), which compares extraction strategies using 56 years of Philadelphia property deeds.</div>
+              <span class="session-title"><span class="session-num">24</span> From Ledger to Query: OCR, Named Entity Recognition, and Machine-Mediated Search</span>
+              <span class="session-presenter">Jacob Polay (University of Saskatchewan), Keith Pemberton (Yale University) &amp; Bob Pasker (CUNY Graduate Center)</span>
+              <div class="session-desc">Three projects tracing one continuum, from the manuscript page through to the query, and the archival questions raised at each step. Jacob Polay presents a tiered OCR workflow for historians: fast open-source tools across whole collections, commercial services only where needed, drawing on <a href="https://working-papers-in-critical-search.github.io/paper-004-ocr-benchmark/" target="_blank" rel="noopener">a six-system OCR benchmark run on archival documents from 1612-1921</a>. Most of it runs on a good consumer gaming PC, and agentic coding assistants now let historians set up these pipelines without specialized programming. Keith Pemberton takes up named entity recognition and its historical relationship to OCR, how identifying people, places, and organizations depends on first reading the text accurately, and where the two tasks are converging in modern pipelines. Bob Pasker takes up the parallel task of retrieval, drawing on Roscoe, a semantic-retrieval system built over roughly eight million digitized U.S. appellate court decisions and used as the infrastructure for his own corpus-scale study of antebellum opinions. For the nineteenth-century court reporters his case runs from handwritten ledgers through manual transcription to printed volumes, from print to OCR, and from OCR to embeddings, with entity recognition and semantic search as sibling operations on the resulting text. Each transformation is an archival event, which makes the evidentiary questions unavoidable: what is lost at each step, and what a historian is actually searching when the search is machine-mediated.</div>
             </td>
-            <td class="category-cell">Data Pipelines</td>
-            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
+            <td class="category-cell">OCR</td>
+            <td style="font-size:0.82rem;color:#666;">Room 242</td>
           </tr>
           <tr class="row-breakout">
             <td class="time-cell">11:30 – 12:30</td>
@@ -1590,12 +1609,12 @@
           <tr class="row-breakout">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">24</span> From Ledger to Query: OCR, Named Entity Recognition, and Machine-Mediated Search</span>
-              <span class="session-presenter">Jacob Polay (University of Saskatchewan), Keith Pemberton (Yale University) &amp; Bob Pasker (CUNY Graduate Center)</span>
-              <div class="session-desc">Three projects tracing one continuum, from the manuscript page through to the query, and the archival questions raised at each step. Jacob Polay presents a tiered OCR workflow for historians: fast open-source tools across whole collections, commercial services only where needed, drawing on <a href="https://working-papers-in-critical-search.github.io/paper-004-ocr-benchmark/" target="_blank" rel="noopener">a six-system OCR benchmark run on archival documents from 1612-1921</a>. Most of it runs on a good consumer gaming PC, and agentic coding assistants now let historians set up these pipelines without specialized programming. Keith Pemberton takes up named entity recognition and its historical relationship to OCR, how identifying people, places, and organizations depends on first reading the text accurately, and where the two tasks are converging in modern pipelines. Bob Pasker takes up the parallel task of retrieval, drawing on Roscoe, a semantic-retrieval system built over roughly eight million digitized U.S. appellate court decisions and used as the infrastructure for his own corpus-scale study of antebellum opinions. For the nineteenth-century court reporters his case runs from handwritten ledgers through manual transcription to printed volumes, from print to OCR, and from OCR to embeddings, with entity recognition and semantic search as sibling operations on the resulting text. Each transformation is an archival event, which makes the evidentiary questions unavoidable: what is lost at each step, and what a historian is actually searching when the search is machine-mediated.</div>
+              <span class="session-title"><span class="session-num">19</span> Constructing a Modular Data Pipeline: Cost Tradeoffs at Scale</span>
+              <span class="session-presenter">Robyn Smith (Federal Reserve Bank of Philadelphia)</span>
+              <div class="session-desc">A discussion of the practical tradeoffs in building a modular data pipeline for large-scale historical document analysis: evaluating OCR models at scale, weighing frontier against open-weight LLMs, and the cost tradeoffs that determine which pipeline choices hold up across a multi-million-document corpus. Drawing on the presenter's paper, <a href="https://www.philadelphiafed.org/-/media/FRBP/Assets/Consumer-Finance/Discussion-Papers/dp25-02.pdf" target="_blank" rel="noopener">"Combining AI and Established Methods for Historical Document Analysis"</a> (Federal Reserve Bank of Philadelphia, Consumer Finance Institute Discussion Paper No. 25-2, 2025), which compares extraction strategies using 56 years of Philadelphia property deeds.</div>
             </td>
-            <td class="category-cell">OCR</td>
-            <td style="font-size:0.82rem;color:#666;">Room 112</td>
+            <td class="category-cell">Data Pipelines</td>
+            <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
           <tr class="row-break">
             <td class="time-cell">1:30 – 2:30</td>
