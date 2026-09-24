@@ -67,6 +67,22 @@ for rid,fn,ln,em,inst,role,diet,tools,exp,e15,e16,ext in rows:
 DIET_N=n
 style(ws2,[18,15,34,52,10,10])
 
+
+# --- ASL: the interpreters sit with the person they interpret for -----------
+# Two Gateway interpreters attend Thursday for William Ennis. They are seated
+# at his table in both Thursday meals, and a table that holds them needs three
+# extra chairs rather than one. Seating them anywhere else would defeat the
+# booking, so this is enforced after the allocator runs rather than left to it.
+ASL_IDS = ('MANUAL-ASL-INTERPRETER-1', 'MANUAL-ASL-INTERPRETER-2')
+ENNIS = 'ennis'
+
+def pull_asl(pool):
+    """Take the interpreters out of a diner pool; return (pool, interpreters)."""
+    keep, asl = [], []
+    for r in pool:
+        (asl if r[0] in ASL_IDS else keep).append(r)
+    return keep, asl
+
 # ---- 3. Meal 1 seating
 SESSION_TOOL={4:"GIS/mapping",16:"GIS/mapping",23:"GIS/mapping",20:"OCR",24:"OCR",3:"OCR",
  13:"Networks",21:"Databases",9:"Databases",17:"Archives",11:"ML/CV",5:"Databases",19:"Databases",
@@ -124,6 +140,7 @@ ws3.append(["Table","Theme","Seat","Name","Institution","Role","Panelist","Dieta
 pan_emails={p[2].lower() for t in tables for p in t["p"]}
 # attendees by best-matching theme -- BALANCED fill
 attend=[r for r in rows if r[9]==1 and (not is_panelist(r[3]) or "hyman" in r[3].lower())]
+attend, asl1 = pull_asl(attend)
 cap=10
 seats={t["id"]:cap-len(t["p"]) for t in tables}
 theme_of={t["id"]:t["theme"] for t in tables}
@@ -147,6 +164,13 @@ for r in unplaced:
     if not open_t: break
     t=max(open_t, key=lambda t: seats[t])
     assigned[t].append(r); seats[t]-=1
+
+# Seat the interpreters at Ennis's table, over the normal cap.
+_et = next((t["id"] for t in tables
+            if any(ENNIS in f"{r[1]} {r[2]}".lower() for r in assigned[t["id"]])
+            or any(ENNIS in nm.lower() for nm,_,_ in t["p"])), None)
+if _et is None and tables: _et = tables[0]["id"]
+if _et is not None: assigned[_et].extend(asl1)
 
 for t in tables:
     seat=0
@@ -180,6 +204,7 @@ LABEL={"political-diplomatic":"Political & diplomatic",
  "social-cultural":"Social & cultural","gender-sexuality":"Social & cultural",
  "unknown":"Mixed"}
 diners=[r for r in rows if r[9]==1]
+diners, asl2 = pull_asl(diners)
 byid={r[0]:r for r in diners}
 NT=18; CAP=10; PCAP=2
 # group people by subfield label
@@ -238,6 +263,14 @@ for _ in range(200):
     if len(dst[1])>CAP:
         back=next((x for x in reversed(dst[1]) if not is_panelist(byid[x][3])), None)
         if back is not None: dst[1].remove(back); src[1].append(back)
+
+# Seat the interpreters with Ennis here too, over the cap.
+for r in asl2: byid[r[0]] = r
+_ennis_tbl = next((t for t in tables
+                   if any(ENNIS in f"{byid[x][1]} {byid[x][2]}".lower() for x in t[1])), None)
+if _ennis_tbl is None and tables: _ennis_tbl = tables[0]
+if _ennis_tbl is not None:
+    _ennis_tbl[1].extend(r[0] for r in asl2)
 
 tables.sort(key=lambda t:(t[0],-len(t[1])))
 for tid,(g,mem) in enumerate(tables,1):
