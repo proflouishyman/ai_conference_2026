@@ -260,6 +260,20 @@ for row in bt.iter_rows(min_row=hdr_row + 1):
 for col, w in zip("ABCDE", [16, 7, 24, 60, 34]): bt.column_dimensions[col].width = w
 bt.freeze_panes = bt.cell(row=hdr_row + 1, column=1)
 
+# ---- Late additions with a seat but no meal reservation
+la = wb.create_sheet("Late adds, no meals")
+la.append(["Added after catering closed. They have a seat and a badge but no meal reservation and no table."])
+la["A1"].font = bold
+la.append([])
+la.append(["First name", "Last name", "Email", "Institution", "Note"])
+for c in la[3]: c.font = bold; c.fill = fill
+for fn, ln, em, inst, note in con.execute("""SELECT r.first_name, r.last_name, lower(trim(r.email)), r.institution, e.notes
+        FROM attendance_extent e JOIN registrations_corrected r USING(response_id)
+        WHERE e.source = 'late-add-no-meals' ORDER BY lower(r.last_name)"""):
+    first, last = badge_name(fn, ln, em)
+    la.append([first, last, em, badge_inst(inst), note])
+for col, w in zip("ABCDE", [16, 20, 30, 34, 60]): la.column_dimensions[col].width = w
+
 # ---- Conversation starters, written per table from its theme, its speakers'
 # sessions and what the people seated there said they work on.
 if os.path.exists("scripts/table_starters.json"):
