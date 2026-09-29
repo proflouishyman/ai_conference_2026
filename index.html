@@ -403,6 +403,25 @@
     .day-panel { display: block; }
     .day-panel.hidden { display: none; }
 
+    /* ── Per-session link anchors ── */
+    tr[id^="session-"] { scroll-margin-top: 96px; }
+    tr[id^="session-"]:target td { background: #FFF7CC; transition: background 0.6s; }
+    .session-link {
+      margin-left: 0.35rem;
+      color: #9aa3b2;
+      text-decoration: none;
+      font-weight: 600;
+      opacity: 0.55;
+    }
+    .session-link:hover, .session-link:focus { color: var(--blue, #002D72); opacity: 1; }
+    .session-link.copied::after {
+      content: "Link copied";
+      margin-left: 0.4rem;
+      font-size: 0.75rem;
+      color: #555;
+      font-weight: 400;
+    }
+
     /* Day sub-heading */
     .day-heading {
       font-family: 'Cormorant Garamond', serif;
@@ -1216,10 +1235,10 @@
           </tr>
 
           <!-- Opening Remarks -->
-          <tr class="row-plenary">
+          <tr class="row-plenary" id="session-1">
             <td class="time-cell">9:00 – 9:30</td>
             <td>
-              <span class="session-title"><span class="session-num">1</span> Opening Remarks</span>
+              <span class="session-title"><span class="session-num">1</span> Opening Remarks</span><a class="session-link" href="#session-1" aria-label="Link to session 1" title="Copy link to this session">#</a>
               <span class="session-presenter"><a href="https://computationalhistory.substack.com/" target="_blank" rel="noopener">Louis Hyman</a> (Johns Hopkins University) &amp; Chris Celenza, Dean of the Krieger School of Arts and Sciences (Johns Hopkins University)</span>
               <div class="session-desc">Overview of conference goals and structure.</div>
             </td>
@@ -1228,10 +1247,10 @@
           </tr>
 
           <!-- Day 1 Plenary -->
-          <tr class="row-plenary">
+          <tr class="row-plenary" id="session-2">
             <td class="time-cell">9:30 – 10:30</td>
             <td>
-              <span class="session-title"><span class="session-num">2</span> "AI and the Misrepresentation of History"</span>
+              <span class="session-title"><span class="session-num">2</span> "AI and the Misrepresentation of History"</span><a class="session-link" href="#session-2" aria-label="Link to session 2" title="Copy link to this session">#</a>
               <span class="session-presenter">Marnie Hughes-Warrington (University of Adelaide)</span>
               <div class="session-desc">What's at stake when historians and the public look to AI for narratives of the past — drawing on new scholarship theorizing AI as a maker of historical narrative in its own right, not just a tool historians use, including Hughes-Warrington's own book <a href="https://doi.org/10.4324/9781003275084" target="_blank" rel="noopener"><em>Artificial Historians</em></a> (Routledge, 2025, open access).</div>
             </td>
@@ -1260,50 +1279,50 @@
           </tr>
 
           <!-- Slot 1 -->
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-3">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">3</span> Reading the Machine: What Large Language Models Actually Do to Historical Text<span class="session-digital">Digital Only</span></span>
+              <span class="session-title"><span class="session-num">3</span> Reading the Machine: What Large Language Models Actually Do to Historical Text<span class="session-digital">Digital Only</span><a class="session-link" href="#session-3" aria-label="Link to session 3" title="Copy link to this session">#</a></span>
               <span class="session-presenter">Mark Humphries (Wilfrid Laurier University) &mdash; presenting remotely</span>
               <div class="session-desc">A practitioner walkthrough of how large language models handle historical language and handwriting at scale, drawing on Humphries' record-linkage work tracing individuals across massive archives — "Through Veterans' Eyes" (10M+ pages of digitized WWI soldiers' files) and ongoing AI-driven fur-trade record linkage — plus his work through DeepMind's Early Access Program testing Gemini 3 Pro on historical handwriting transcription. Covers the open-source archival research tools he's released, where these models succeed and fail on real, messy historical text, and what that means for record linkage and transcription work at scale.</div>
             </td>
             <td class="category-cell">NLP & Text Analysis</td>
             <td style="font-size:0.82rem;color:#666;">Online</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-4">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">4</span> Building Historical Infrastructure at Scale: The World Historical Gazetteer</span>
+              <span class="session-title"><span class="session-num">4</span> Building Historical Infrastructure at Scale: The World Historical Gazetteer</span><a class="session-link" href="#session-4" aria-label="Link to session 4" title="Copy link to this session">#</a>
               <span class="session-presenter">Ruth Mostern (University of Pittsburgh)</span>
               <div class="session-desc">Ruth Mostern directs the World Historical Gazetteer, open digital infrastructure linking over 2.2 million historical places across languages and time periods through reconciled records and cross-script phonetic search, and the Institute for Spatial History Innovation (ISHI), Pittsburgh's home for spatial and digital history infrastructure. This session explores how large-scale place-name reconciliation and human-in-the-loop data curation are reshaping historical GIS — and what it takes to build infrastructure the whole field can build on, not just a single project.</div>
             </td>
             <td class="category-cell">GIS & Spatial</td>
             <td style="font-size:0.82rem;color:#666;">Room 108</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-5">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">5</span> Build Your First Software: A Historian's Introduction to Writing Code</span>
+              <span class="session-title"><span class="session-num">5</span> Build Your First Software: A Historian's Introduction to Writing Code</span><a class="session-link" href="#session-5" aria-label="Link to session 5" title="Copy link to this session">#</a>
               <span class="session-presenter">Jeri Wieringa (Princeton University)</span>
               <div class="session-desc">A genuinely beginner-friendly hands-on lab. Historians build a small research tool from scratch — picking up the vocabulary of software building along the way (data model, schema, pipeline, version control) so the process demystifies what "building software" actually involves. Taught from a research software engineering (RSE) perspective, with attention to how LLMs are changing what teaching people to code looks like. No prior coding background assumed.</div>
             </td>
             <td class="category-cell">Pedagogy</td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-6">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">6</span> Teaching AI to Novices: Experiences from Gateway Computing at JHU</span>
+              <span class="session-title"><span class="session-num">6</span> Teaching AI to Novices: Experiences from Gateway Computing at JHU</span><a class="session-link" href="#session-6" aria-label="Link to session 6" title="Copy link to this session">#</a>
               <span class="session-presenter">Mark Spindler (Johns Hopkins University, Gateway Computing)</span>
               <div class="session-desc">How to teach technical AI skills to people starting from zero, and what it takes to build a real sequence of courses rather than one-off workshops. Drawing on his experience training Gateway Computing's TAs, Mark Spindler makes the case for cross-department partnerships, arguing that people with deep experience working with true novices, not just graduate students in computer science, may be the better resource for reaching humanities students starting from scratch.</div>
             </td>
             <td class="category-cell">Pedagogy</td>
             <td style="font-size:0.82rem;color:#666;">Room 112</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-17">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">17</span> Archives in the Age of AI: What Cultural Heritage Institutions Need Historians to Know</span>
+              <span class="session-title"><span class="session-num">17</span> Archives in the Age of AI: What Cultural Heritage Institutions Need Historians to Know</span><a class="session-link" href="#session-17" aria-label="Link to session 17" title="Copy link to this session">#</a>
               <span class="session-presenter">Richard Marciano (University of Maryland), Rajesh Gnanasekaran (University of Maryland), Linde Brocato (University of Arkansas)</span>
               <div class="session-desc">An archivist and computational-science perspective on AI applied to digitized collections — rights, access constraints, metadata limits, preservation implications, and what productive archive-researcher collaboration actually requires. Drawing on work applying machine learning and data visualization to archival collections including the FDR Presidential Library, part of Marciano's broader <a href="https://ai-collaboratory.net/cas/" target="_blank" rel="noopener">Computational Archival Science</a> research program.</div>
             </td>
@@ -1331,50 +1350,50 @@
           </tr>
 
           <!-- Slot 2 -->
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-7">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">7</span> Who Gets to Argue with the Data? Rent Control and Democratic Knowledge</span>
+              <span class="session-title"><span class="session-num">7</span> Who Gets to Argue with the Data? Rent Control and Democratic Knowledge</span><a class="session-link" href="#session-7" aria-label="Link to session 7" title="Copy link to this session">#</a>
               <span class="session-presenter">Jo Guldi (Emory University)</span>
               <div class="session-desc">A preview of Guldi's book <em>The War Over Rent</em>, which applies data methods to a century-long struggle over one of the most controversial interventions in the housing market, drawing on stories from nineteenth-century Ireland. The talk asks why arguments over rent have so often become arguments over evidence itself — which numbers count, who produces them, and whom the public should trust — and connects that history to the present: as increasingly powerful AI systems mediate our encounters with evidence, the challenge isn't just better analysis, but building a public culture where claims remain inspectable and contestable.</div>
             </td>
             <td class="category-cell">Data Methods</td>
             <td style="font-size:0.82rem;color:#666;">Room 242</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-8">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">8</span> What Graduate Training in Computational History Should Look Like</span>
+              <span class="session-title"><span class="session-num">8</span> What Graduate Training in Computational History Should Look Like</span><a class="session-link" href="#session-8" aria-label="Link to session 8" title="Copy link to this session">#</a>
               <span class="session-presenter">Christopher Phillips (Carnegie Mellon University), <a href="https://rootsofprogress.org/fellow/jacob-bruggeman/" target="_blank" rel="noopener">Jacob Bruggeman</a> (Ohio State University), <a href="https://amanda-regan.com/" target="_blank" rel="noopener">Amanda Regan</a> (Clemson University), Sarah Weicksel (American Historical Association)</span>
               <div class="session-desc">A panel reckoning honestly with what skills aren't being taught in graduate programs and what departments can do now — from methods training to advising to hiring. Draws on perspectives from a research university, a small college, and the AHA itself.</div>
             </td>
             <td class="category-cell">Career & Field</td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-9">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">9</span> Cleaning and Structuring Historical Data: A Working Session</span>
+              <span class="session-title"><span class="session-num">9</span> Cleaning and Structuring Historical Data: A Working Session</span><a class="session-link" href="#session-9" aria-label="Link to session 9" title="Copy link to this session">#</a>
               <span class="session-presenter">Jim Clifford (University of Saskatchewan)</span>
               <div class="session-desc">How to extract structured, linked open data from archival materials. Participants bring messy historical datasets — or work with provided examples — and practice cleaning source data, structuring it for reuse, and grounding entities in Wikidata so datasets can be interconnected across projects. Grounded in OCR and data-quality problems in historical archives, and new OCR tools built for a digital edition of the Encyclopaedia Britannica.</div>
             </td>
             <td class="category-cell">Data Pipelines</td>
             <td style="font-size:0.82rem;color:#666;">Room 110</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-10">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">10</span> Trust and Error: AI Hallucination, Bias, and Evidentiary Standards in Historical Research</span>
+              <span class="session-title"><span class="session-num">10</span> Trust and Error: AI Hallucination, Bias, and Evidentiary Standards in Historical Research</span><a class="session-link" href="#session-10" aria-label="Link to session 10" title="Copy link to this session">#</a>
               <span class="session-presenter">A conversation with Edward J. K. Gitre (Virginia Tech) &amp; Samuel Backer (University of Maine)</span>
               <div class="session-desc">AI systems confabulate, amplify biases in training data, and produce fluent-sounding errors that a non-specialist cannot catch. This session addresses the hardest methodological problem computational historians face: how do you verify AI output against historical evidence, build in error-checking, and write about AI-assisted findings in a way that meets the discipline's evidentiary standards? Case studies of failures and recoveries, drawing on Gitre's NEH-funded work on evidentiary reliability in "The American Soldier in WWII" and Backer's own error-rate analysis of AI-extracted historical financial data.</div>
             </td>
             <td class="category-cell">Ethics & Evidence</td>
             <td style="font-size:0.82rem;color:#666;">Room 108</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-19">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">19</span> Constructing a Modular Data Pipeline: Cost Tradeoffs at Scale</span>
+              <span class="session-title"><span class="session-num">19</span> Constructing a Modular Data Pipeline: Cost Tradeoffs at Scale</span><a class="session-link" href="#session-19" aria-label="Link to session 19" title="Copy link to this session">#</a>
               <span class="session-presenter">Robyn Smith (Federal Reserve Bank of Philadelphia)</span>
               <div class="session-desc">A discussion of the practical tradeoffs in building a modular data pipeline for large-scale historical document analysis: evaluating OCR models at scale, weighing frontier against open-weight LLMs, and the cost tradeoffs that determine which pipeline choices hold up across a multi-million-document corpus. Drawing on the presenter's paper, <a href="https://www.philadelphiafed.org/-/media/FRBP/Assets/Consumer-Finance/Discussion-Papers/dp25-02.pdf" target="_blank" rel="noopener">"Combining AI and Established Methods for Historical Document Analysis"</a> (Federal Reserve Bank of Philadelphia, Consumer Finance Institute Discussion Paper No. 25-2, 2025), which compares extraction strategies using 56 years of Philadelphia property deeds.</div>
             </td>
@@ -1403,40 +1422,40 @@
           </tr>
 
           <!-- Slot 3 -->
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-11">
             <td class="time-cell">3:30 – 4:30</td>
             <td>
-              <span class="session-title"><span class="session-num">11</span> Working with Computer Scientists</span>
+              <span class="session-title"><span class="session-num">11</span> Working with Computer Scientists</span><a class="session-link" href="#session-11" aria-label="Link to session 11" title="Copy link to this session">#</a>
               <span class="session-presenter">Anjalie Field (Johns Hopkins University, Data Science and AI Institute), Daphne Ippolito (Carnegie Mellon University) &amp; Michael Harrower (Johns Hopkins University, Near Eastern Studies)</span>
               <div class="session-desc">A conversation on how historians can approach and collaborate with computer scientists on historical work — why computer scientists find historical material interesting, why they're often confused by historians' methods and questions, and why historians are interesting to them in turn.</div>
             </td>
             <td class="category-cell">Policy & Funding</td>
             <td style="font-size:0.82rem;color:#666;">Room 108</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-12">
             <td class="time-cell">3:30 – 4:30</td>
             <td>
-              <span class="session-title"><span class="session-num">12</span> Teaching History with AI: Classroom Applications and Pedagogical Questions</span>
+              <span class="session-title"><span class="session-num">12</span> Teaching History with AI: Classroom Applications and Pedagogical Questions</span><a class="session-link" href="#session-12" aria-label="Link to session 12" title="Copy link to this session">#</a>
               <span class="session-presenter">Nate Sleeter (George Mason University, RRCHNM), Kristin Dutcher Mann (University of Arkansas at Little Rock) &amp; Meghan McGlinn Manfra (North Carolina State University)</span>
               <div class="session-desc">A conversation across the secondary and higher-ed classroom. Nate Sleeter leads on teaching grades 6-12 with AI. Kristin Dutcher Mann brings the university side, drawing on assignments that use and critique AI in U.S., world, and Latin American history courses as well as social studies education. Meghan McGlinn Manfra adds the teacher-education and AI-literacy angle, drawing on her work as Faculty Director of AI Literacy at NC State's Data Science and AI Academy. Together they take up primary source analysis, student research assistance, essay feedback, and the pedagogical questions AI raises about learning and evidence.</div>
             </td>
             <td class="category-cell">Pedagogy</td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-13">
             <td class="time-cell">3:30 – 4:30</td>
             <td>
-              <span class="session-title"><span class="session-num">13</span> Network Analysis for Historians: Mapping Social, Political, and Cultural Connections</span>
+              <span class="session-title"><span class="session-num">13</span> Network Analysis for Historians: Mapping Social, Political, and Cultural Connections</span><a class="session-link" href="#session-13" aria-label="Link to session 13" title="Copy link to this session">#</a>
               <span class="session-presenter">Song Chen (Bucknell University)</span>
               <div class="session-desc">Network analysis is a form of data modeling that helps reveal structural patterns in messy and disparate historical evidence — useful for kinship ties and political alliances, but also for subjects like religious cultures and their interactions. Drawing on his work on elite marriage, migration, and temple cults in Tang- and Song-dynasty China, Chen shows how to move from historical sources to network graphs and metrics, what interpretive questions network analysis can and cannot answer, what tools historians can use without advanced programming, and how AI is transforming network data collection, visualization, and analysis.</div>
             </td>
             <td class="category-cell">Data Methods</td>
             <td style="font-size:0.82rem;color:#666;">Room 112</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-14">
             <td class="time-cell">3:30 – 4:30</td>
             <td>
-              <span class="session-title"><span class="session-num">14</span> AI in the Archive: Live Demonstration</span>
+              <span class="session-title"><span class="session-num">14</span> AI in the Archive: Live Demonstration</span><a class="session-link" href="#session-14" aria-label="Link to session 14" title="Copy link to this session">#</a>
               <span class="session-presenter">Loren Moulds (University of Virginia School of Law)</span>
               <div class="session-desc">A live walkthrough of the multi-pass AI pipeline Moulds has built for a Mellon-funded project (with UNC) developing tools to help archivists and historians process large collections at scale. His case study: tens of thousands of printed Scottish Court of Session documents (17th-18th century), moved from individual manuscripts to a searchable, richly tagged dataset using a chain of OCR and AI passes — traditional OCR for page geometry and bounding boxes, frontier and open-weight models for text correction, document-boundary detection, and case clustering. Every extracted data point carries full provenance: which model produced it, on what date, with what prompt, and how it links back to the original page. Honest about what's changed methodologically in the last decade, not just what's possible now.</div>
             </td>
@@ -1511,10 +1530,10 @@
           </tr>
 
           <!-- Day 2 Plenary -->
-          <tr class="row-plenary">
+          <tr class="row-plenary" id="session-15">
             <td class="time-cell">9:30 – 10:30</td>
             <td>
-              <span class="session-title"><span class="session-num">15</span> Plenary: "The Discipline We Need to Build"</span>
+              <span class="session-title"><span class="session-num">15</span> Plenary: "The Discipline We Need to Build"</span><a class="session-link" href="#session-15" aria-label="Link to session 15" title="Copy link to this session">#</a>
               <div class="session-desc">
                 <strong>Speakers: Christopher Phillips</strong> (Carnegie Mellon University), <strong>Matthew Connelly</strong> (Columbia University), <strong>Jo Guldi</strong> (Emory University) &nbsp;|&nbsp; Moderator: Sarah Weicksel (AHA)<br />
                 The second plenary zooms out from methods to structure: what graduate training, hiring practices, publication timelines, and institutional arrangements would allow computational history to become a durable part of the discipline rather than a permanent margin? Drawing on evidence from the conference's own sessions, this plenary catalyzes the move from individual practice to collective infrastructure — including the question of what the AHA can concretely do, and what funding coalitions look like. The session is forward-facing and generative, ending with specific asks of the profession and its institutions. Phillips raised the question of structural change as the defining absence from prior convenings; this session places it at the center.
@@ -1545,50 +1564,50 @@
           </tr>
 
           <!-- Slot 4 -->
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-16">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">16</span> Building Your Own Tools: Spatial History</span>
+              <span class="session-title"><span class="session-num">16</span> Building Your Own Tools: Spatial History</span><a class="session-link" href="#session-16" aria-label="Link to session 16" title="Copy link to this session">#</a>
               <span class="session-presenter">S. Wright Kennedy (University of South Carolina)</span>
               <div class="session-desc">A hands-on session building GIS/spatial-history tools — georeferencing, geocoding, and working with historical place names, boundary changes, and pre-modern and colonial cartography.</div>
             </td>
             <td class="category-cell">GIS & Spatial</td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-24">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">24</span> From Ledger to Query: OCR, Named Entity Recognition, and Machine-Mediated Search</span>
+              <span class="session-title"><span class="session-num">24</span> From Ledger to Query: OCR, Named Entity Recognition, and Machine-Mediated Search</span><a class="session-link" href="#session-24" aria-label="Link to session 24" title="Copy link to this session">#</a>
               <span class="session-presenter">Jacob Polay (University of Saskatchewan), Keith Pemberton (Yale University) &amp; Bob Pasker (CUNY Graduate Center)</span>
               <div class="session-desc">Three projects tracing one continuum, from the manuscript page through to the query, and the archival questions raised at each step. Jacob Polay presents a tiered OCR workflow for historians: fast open-source tools across whole collections, commercial services only where needed, drawing on <a href="https://working-papers-in-critical-search.github.io/paper-004-ocr-benchmark/" target="_blank" rel="noopener">a six-system OCR benchmark run on archival documents from 1612-1921</a>. Most of it runs on a good consumer gaming PC, and agentic coding assistants now let historians set up these pipelines without specialized programming. Keith Pemberton takes up named entity recognition and its historical relationship to OCR, how identifying people, places, and organizations depends on first reading the text accurately, and where the two tasks are converging in modern pipelines. Bob Pasker takes up the parallel task of retrieval, drawing on Roscoe, a semantic-retrieval system built over roughly eight million digitized U.S. appellate court decisions and used as the infrastructure for his own corpus-scale study of antebellum opinions. For the nineteenth-century court reporters his case runs from handwritten ledgers through manual transcription to printed volumes, from print to OCR, and from OCR to embeddings, with entity recognition and semantic search as sibling operations on the resulting text. Each transformation is an archival event, which makes the evidentiary questions unavoidable: what is lost at each step, and what a historian is actually searching when the search is machine-mediated.</div>
             </td>
             <td class="category-cell">OCR</td>
             <td style="font-size:0.82rem;color:#666;">Room 242</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-18">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">18</span> Playable Pasts: Making Classroom Games with AI</span>
+              <span class="session-title"><span class="session-num">18</span> Playable Pasts: Making Classroom Games with AI</span><a class="session-link" href="#session-18" aria-label="Link to session 18" title="Copy link to this session">#</a>
               <span class="session-presenter">Kwok Leong Tang (Harvard University) &amp; Tore Olsson (University of Tennessee)</span>
               <div class="session-desc">Basic theories of game design, then a walkthrough of <a href="https://kltng.github.io/yzgt-codex/" target="_blank" rel="noopener">a game Tang vibe-coded</a> to teach the Warring Kingdoms period in China, and how game-based assignments can replace quizzes in the classroom — alongside Olsson's contrasting approach, using an existing commercial game (Grand Theft Auto) as a lens on post-1980 U.S. history rather than building a bespoke one.</div>
             </td>
             <td class="category-cell">Pedagogy</td>
             <td style="font-size:0.82rem;color:#666;">Room 110</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-25">
             <td class="time-cell">11:30 – 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">25</span> What Machines Can't Read: Unicode and the Politics of Open-Ended Character Sets</span>
+              <span class="session-title"><span class="session-num">25</span> What Machines Can't Read: Unicode and the Politics of Open-Ended Character Sets</span><a class="session-link" href="#session-25" aria-label="Link to session 25" title="Copy link to this session">#</a>
               <span class="session-presenter">Raja Adal (University of Pittsburgh)</span>
               <div class="session-desc">A character that Unicode has not encoded cannot be searched, indexed, or reliably passed through an OCR pipeline or an AI model's tokenizer. For the Latin alphabet, which has an effectively stable repertoire, this is a limited concern. For open-ended scripts it is not. The encoding of new Sinographs has been a flashpoint since the Unicode Standard's inception in the early 1990s. Emoji, also an open-ended set, acquired a formal annual proposal process. The marks that never did, such as marginalia, graffiti, and scribbles, remain outside the standard entirely. This talk traces who decides, and what those decisions mean for historians whose sources involve world scripts with open and unsettled repertoires or marks that no machine can read.</div>
             </td>
             <td class="category-cell">OCR</td>
             <td style="font-size:0.82rem;color:#666;">Room 107</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-28">
             <td class="time-cell">11:30 &#8211; 12:30</td>
             <td>
-              <span class="session-title"><span class="session-num">28</span> Environmental History and AI</span>
+              <span class="session-title"><span class="session-num">28</span> Environmental History and AI</span><a class="session-link" href="#session-28" aria-label="Link to session 28" title="Copy link to this session">#</a>
               <span class="session-presenter">Alexander More (University of Massachusetts Boston; Harvard University)</span>
               <div class="session-desc">Climate change is a slow disease, hard to see with the naked eye. Eyewitnesses remember catastrophes and record gradual change only in passing, yet it is the gradual change that sets the baseline for how climate shapes health and economic fate. This session draws on a geo-database of 56,000 records of pre-modern weather and health events, assembled by scholars at every level over ten years and then standardized and de-duplicated into maps of outbreaks, weather, and climate spanning more than a thousand years. The methods run from OCR through GIS to computational frameworks for testing historical reconstructions, and the argument cuts at historians too: the open secret of big data is that we can only see big changes, until machine learning becomes reliable enough to lend a hand without loosening the grip on the primary sources.</div>
             </td>
@@ -1617,30 +1636,30 @@
           </tr>
 
           <!-- Slot 5 -->
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-21">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">21</span> Migrant Connections: Building Digital Infrastructure for Migration History</span>
+              <span class="session-title"><span class="session-num">21</span> Migrant Connections: Building Digital Infrastructure for Migration History</span><a class="session-link" href="#session-21" aria-label="Link to session 21" title="Copy link to this session">#</a>
               <span class="session-presenter">Atiba Pertilla (German Historical Institute Washington)</span>
               <div class="session-desc">What it takes to link scattered archival collections across institutions and countries into a single, queryable resource. Drawing on Migrant Connections, a digital platform integrating German-American migration sources from archives across the US and Germany, and on Land of Dollars, a Baltimore-grounded study of immigrant financial practices from 1870-1935 built from correspondence, banking records, and legal testimony, Pertilla walks through the curatorial and technical choices behind building shared digital infrastructure for migration history — and where the connections between dispersed sources actually pay off.</div>
             </td>
             <td class="category-cell">Archives</td>
             <td style="font-size:0.82rem;color:#666;">Room 108</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-22">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">22</span> Teaching Computational History: History and CS in Conversation</span>
+              <span class="session-title"><span class="session-num">22</span> Teaching Computational History: History and CS in Conversation</span><a class="session-link" href="#session-22" aria-label="Link to session 22" title="Copy link to this session">#</a>
               <span class="session-presenter">Jeffrey McClurken (University of Mary Washington) &amp; Greg Hager (Computer Science, Johns Hopkins University)</span>
               <div class="session-desc">A cross-disciplinary conversation on teaching AI and computational methods to historians: what a computer science classroom assumes that a history classroom can't, and where pedagogical translation between the two breaks down and what each field could actually borrow from the other.</div>
             </td>
             <td class="category-cell">Pedagogy</td>
             <td style="font-size:0.82rem;color:#666;">Room 110</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-23">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">23</span> Getting Started with MapReader: Historical Maps as Machine-Readable Data</span>
+              <span class="session-title"><span class="session-num">23</span> Getting Started with MapReader: Historical Maps as Machine-Readable Data</span><a class="session-link" href="#session-23" aria-label="Link to session 23" title="Copy link to this session">#</a>
               <span class="session-presenter">Katie McDonough (Carnegie Mellon University)</span>
               <div class="session-desc">A facilitated hands-on introduction to the MapReader workflow. Participants will patch, classify, and query a set of historical maps, leaving with a working understanding of how computer vision can be applied to cartographic sources.</div>
             </td>
@@ -1656,10 +1675,10 @@
             <td class="category-cell"></td>
             <td style="font-size:0.82rem;color:#666;">Main Hall</td>
           </tr>
-          <tr class="row-breakout">
+          <tr class="row-breakout" id="session-20">
             <td class="time-cell">1:30 – 2:30</td>
             <td>
-              <span class="session-title"><span class="session-num">20</span> Experiments in AI and Handwriting Recognition</span>
+              <span class="session-title"><span class="session-num">20</span> Experiments in AI and Handwriting Recognition</span><a class="session-link" href="#session-20" aria-label="Link to session 20" title="Copy link to this session">#</a>
               <span class="session-presenter">Laurel Bestock, Haley Price, Anya Lewis-Meeks, Cody Carvel &amp; Ashley Champagne (Brown University)</span>
               <div class="session-desc">A multilingual handwriting-recognition project spanning 17th-century Florence through 20th- and 21st-century Egypt and the Caribbean, working across English, Tuscan Italian, Latin, German, French, and Spanish sources.</div>
             </td>
@@ -1686,10 +1705,10 @@
           </tr>
 
           <!-- Closing Remarks -->
-          <tr class="row-plenary">
+          <tr class="row-plenary" id="session-26">
             <td class="time-cell">3:00 – 3:30</td>
             <td>
-              <span class="session-title"><span class="session-num">26</span> Closing Remarks &amp; Next Steps</span>
+              <span class="session-title"><span class="session-num">26</span> Closing Remarks &amp; Next Steps</span><a class="session-link" href="#session-26" aria-label="Link to session 26" title="Copy link to this session">#</a>
               <span class="session-presenter"><a href="https://computationalhistory.substack.com/" target="_blank" rel="noopener">Louis Hyman</a> (Johns Hopkins University)</span>
               <div class="session-desc">Synthesis of themes, collective commitments, community infrastructure next steps, and how to stay connected after the conference ends.</div>
             </td>
@@ -1706,10 +1725,10 @@
           </tr>
 
           <!-- Margaret Levi Lecture -->
-          <tr class="row-plenary">
+          <tr class="row-plenary" id="session-27">
             <td class="time-cell">4:00 – 5:00</td>
             <td>
-              <span class="session-title"><span class="session-num">27</span> Annual Margaret Levi Lecture in Political Economy: "From Value Creation to Value Extraction in Silicon Valley"</span>
+              <span class="session-title"><span class="session-num">27</span> Annual Margaret Levi Lecture in Political Economy: "From Value Creation to Value Extraction in Silicon Valley"</span><a class="session-link" href="#session-27" aria-label="Link to session 27" title="Copy link to this session">#</a>
               <span class="session-presenter">Tim O'Reilly (Founder and CEO, O'Reilly Media)</span>
               <div class="session-desc">Silicon Valley once promised to create more value than it captured, building open networks that connected people, knowledge, and opportunity. Over the past several decades, that model has increasingly given way to extraction. Drawing on more than forty years as a technology entrepreneur and observer, this talk traces how the incentives of modern shareholder capitalism transformed the digital economy and asks whether the emerging AI economy will repeat the same trajectory. O'Reilly argues that AI offers a rare opportunity to redesign the rules of the game around openness, distributed innovation, and shared prosperity so Silicon Valley can once again create more value than it captures.</div>
             </td>
@@ -2450,6 +2469,35 @@
   })();
 
   /* ── Tab switching ── */
+
+  // Deep links to individual sessions (#session-N): switch to the right day
+  // tab first, since Day 2 is hidden by default, then scroll to the row.
+  function openSessionFromHash() {
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!/^session-/.test(id)) return;
+    var row = document.getElementById(id);
+    if (!row) return;
+    var panel = row.closest('.day-panel');
+    if (panel) showDay(panel.id.replace('panel-', ''));
+    // Re-apply a few times: images and fade-in animations shift the layout
+    // after load, which otherwise leaves the row short of the top.
+    var go = function () { window.scrollTo({ top: row.getBoundingClientRect().top + window.scrollY - 96, behavior: 'instant' }); };
+    [0, 150, 500, 1200].forEach(function (t) { setTimeout(go, t); });
+  }
+  window.addEventListener('hashchange', openSessionFromHash);
+  window.addEventListener('load', openSessionFromHash);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('.session-link');
+    if (!a) return;
+    var url = location.href.split('#')[0] + a.getAttribute('href');
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function () {
+        a.classList.add('copied');
+        setTimeout(function () { a.classList.remove('copied'); }, 1500);
+      }).catch(function () {});
+    }
+  });
+
   function showDay(day) {
     ['day1', 'day2'].forEach(function(d) {
       var panel = document.getElementById('panel-' + d);
