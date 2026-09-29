@@ -1,0 +1,520 @@
+{
+ "abstraction": {
+  "aliases": [
+   "abstract"
+  ],
+  "definition": "Deliberately leaving out detail so the shape of a thing becomes usable. A finding aid is an abstraction of a collection, and a periodisation is an abstraction of a continuous past. In software it means being able to use a tool without knowing its internals, the same way you can cite a database without knowing how it stores anything. Historians do this constantly and rarely name it.",
+  "link": "https://en.wikipedia.org/wiki/Abstraction_(computer_science)",
+  "term": "Abstraction"
+ },
+ "agentic": {
+  "aliases": [
+   "agent",
+   "ai agent",
+   "agents"
+  ],
+  "definition": "Software that carries out a multi-step task on its own rather than answering one question at a time. An agentic tool told to transcribe a collection might decide the order, retry failures, and flag problems without being walked through each step.",
+  "term": "Agentic"
+ },
+ "api": {
+  "definition": "Application Programming Interface. A way for one piece of software to talk to another. Using a company's API means sending your text to their computers and getting a response back, usually metered and paid per use.",
+  "link": "https://en.wikipedia.org/wiki/API",
+  "term": "API"
+ },
+ "benchmark": {
+  "definition": "A standard test used to compare tools on the same material.",
+  "session": "Session 24, the six-system OCR benchmark",
+  "term": "Benchmark"
+ },
+ "bias": {
+  "definition": "Two different meanings that often get confused. Ordinarily, a model reproducing prejudices in its training material. In statistics, a systematic skew in measurement. Both come up here, sometimes in the same session.",
+  "link": "https://en.wikipedia.org/wiki/Algorithmic_bias",
+  "session": "Session 10, Trust and Error",
+  "term": "Bias"
+ },
+ "classification": {
+  "aliases": [
+   "classifier",
+   "classify"
+  ],
+  "definition": "Sorting things into categories automatically. Deciding which scanned pages are letters and which are receipts.",
+  "term": "Classification"
+ },
+ "command line": {
+  "aliases": [
+   "terminal",
+   "shell",
+   "bash",
+   "cli",
+   "command prompt",
+   "console"
+  ],
+  "definition": "A text window where you type instructions to your computer instead of clicking. Also called the terminal, the shell, or bash. It looks forbidding and is the single biggest barrier historians report, but almost all of it is typing the name of a tool followed by the name of a file. Many of the best tools in this field only have a command-line interface, so a small amount of comfort here opens up a great deal.",
+  "link": "https://www.freecodecamp.org/news/command-line-for-beginners/",
+  "term": "Command line"
+ },
+ "compute": {
+  "aliases": [
+   "computation",
+   "compute budget"
+  ],
+  "definition": "Used as a noun in this field, meaning processing capacity as a resource you spend, like saying you need more compute for a project. Worth recognising because it is the unit budgets and grant applications are increasingly written in, and because it is what you are actually buying when you pay for an AI service.",
+  "term": "Compute"
+ },
+ "computer vision": {
+  "aliases": [
+   "cv"
+  ],
+  "definition": "Getting software to interpret images: handwriting, maps, photographs, the layout of a page.",
+  "link": "https://en.wikipedia.org/wiki/Computer_vision",
+  "term": "Computer vision"
+ },
+ "conda": {
+  "aliases": [
+   "anaconda",
+   "miniconda"
+  ],
+  "definition": "An alternative to pip that manages virtual environments and packages together, and can install non-Python things pip cannot. Common in scientific computing, and usually met through Anaconda or the lighter Miniconda. Mixing conda and pip in one environment is a well-known way to break it, so pick one per project.",
+  "link": "https://docs.conda.io/projects/conda/en/stable/user-guide/getting-started.html",
+  "term": "conda"
+ },
+ "corpus": {
+  "aliases": [
+   "corpora"
+  ],
+  "definition": "The body of texts you are working with. Your sources, counted as a set. Plural: corpora.",
+  "link": "https://en.wikipedia.org/wiki/Text_corpus",
+  "term": "Corpus"
+ },
+ "data model": {
+  "aliases": [
+   "schema"
+  ],
+  "definition": "A decision about structure, written down: which fields exist, what goes in them, how records relate. Like designing a spreadsheet's columns before you start typing.",
+  "term": "Data model"
+ },
+ "database": {
+  "aliases": [
+   "databases",
+   "db"
+  ],
+  "definition": "An organised store of information designed so it can be searched, sorted, and cross-referenced reliably. The distinction from a spreadsheet matters: a spreadsheet is one flat grid you edit by hand, while a database enforces structure, handles far more records, and lets you ask questions across related tables, such as every person who appears in two collections. Most historians who outgrow Excel are looking for a database, whether or not they use the word.",
+  "link": "https://en.wikipedia.org/wiki/Database",
+  "term": "Database"
+ },
+ "docker": {
+  "aliases": [
+   "dockerize",
+   "container",
+   "containerise",
+   "containerize",
+   "dockerise"
+  ],
+  "definition": "Packages an entire computing environment, operating system included, into a container that runs identically anywhere. Where a virtual environment isolates one language's packages, a container isolates everything. For historians it solves two real problems: running someone else's tool without spending a day on installation, and preserving your own pipeline so it still runs in five years. To dockerize something is to wrap it this way.",
+  "link": "https://docs.docker.com/get-started/overview/",
+  "term": "Docker"
+ },
+ "embedding": {
+  "aliases": [
+   "vector",
+   "embeddings",
+   "vectors"
+  ],
+  "definition": "A way of turning text into numbers so a computer can measure similarity. Documents about similar things end up numerically close together, which is what lets a search find relevant material sharing no keywords.",
+  "link": "https://www.cloudflare.com/learning/ai/what-are-embeddings/",
+  "term": "Embedding"
+ },
+ "encapsulation": {
+  "aliases": [
+   "encapsulated"
+  ],
+  "definition": "Keeping the workings of a component hidden behind a clear boundary, so the rest of the system uses it without depending on how it does the job. The practical payoff is that you can change the inside without breaking everything else. If your OCR step is properly encapsulated, swapping the OCR engine does not require rebuilding your whole pipeline, which is exactly the situation historians tend to discover too late.",
+  "link": "https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)",
+  "term": "Encapsulation"
+ },
+ "fine-tuning": {
+  "aliases": [
+   "fine tune",
+   "finetuning",
+   "fine-tune"
+  ],
+  "definition": "Taking an existing model and training it further on your own material so it does better on your specific problem. Much cheaper than building from scratch.",
+  "term": "Fine-tuning"
+ },
+ "frontier model": {
+  "aliases": [
+   "frontier"
+  ],
+  "definition": "The largest, newest commercial models: GPT, Claude, Gemini. Contrasted with open-weight models. The distinction mostly matters for cost, privacy and control.",
+  "term": "Frontier model"
+ },
+ "geocoding": {
+  "aliases": [
+   "geocode"
+  ],
+  "definition": "Turning a place name into coordinates. Baltimore becomes a latitude and longitude.",
+  "term": "Geocoding"
+ },
+ "georeferencing": {
+  "aliases": [
+   "georeference"
+  ],
+  "definition": "Aligning a historical map to real-world coordinates so it can be overlaid on a modern one.",
+  "link": "https://en.wikipedia.org/wiki/Georeferencing",
+  "term": "Georeferencing"
+ },
+ "gis": {
+  "definition": "Geographic Information System. Software for working with spatial data: mapping, but with a database behind it.",
+  "link": "https://en.wikipedia.org/wiki/Geographic_information_system",
+  "term": "GIS"
+ },
+ "github": {
+  "aliases": [
+   "git hub",
+   "gitlab"
+  ],
+  "definition": "A website where people store code and data publicly, track every change to it, and work on it together. For historians it matters in three ways: it is where most of the tools discussed at this conference actually live and can be downloaded free, it is increasingly where scholars deposit the code and data behind an article so others can check it, and it hosts project websites at no cost. You do not need to write code to use it, and reading someone's repository is a legitimate way to understand what their tool really does.",
+  "link": "https://docs.github.com/en/get-started/start-your-journey/about-github-and-git",
+  "term": "GitHub"
+ },
+ "gpu": {
+  "aliases": [
+   "gpus",
+   "cuda",
+   "graphics card",
+   "nvidia"
+  ],
+  "definition": "Graphics Processing Unit. A chip built to do many simple calculations at once, which turns out to be exactly what neural networks need. It is why AI work is expensive and why a specific machine matters. A GPU can make an OCR or transcription job that would take a week on a laptop finish in hours. Your HPC cluster probably has some.",
+  "link": "https://en.wikipedia.org/wiki/Graphics_processing_unit",
+  "term": "GPU"
+ },
+ "graph database": {
+  "aliases": [
+   "neo4j",
+   "graph db"
+  ],
+  "definition": "A database built around relationships rather than tables, storing entities and the connections between them. It suits questions about who knew whom, how influence travelled, or how institutions overlapped, which are awkward to express in a relational database. Neo4j is the common one. Relevant to network analysis work.",
+  "link": "https://en.wikipedia.org/wiki/Graph_database",
+  "term": "Graph database"
+ },
+ "ground truth": {
+  "definition": "The correct answer, established by a human, used to measure how well a tool is doing. A page you transcribed by hand becomes the ground truth for judging OCR output.",
+  "term": "Ground truth"
+ },
+ "hallucination": {
+  "aliases": [
+   "hallucinate",
+   "hallucinating"
+  ],
+  "definition": "When a model produces something fluent, confident and false. The central evidentiary problem for historians. The word is unfortunate: it implies malfunction, when the model is doing exactly what it was built to do, produce plausible text.",
+  "link": "https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)",
+  "session": "Session 10",
+  "term": "Hallucination"
+ },
+ "hpc": {
+  "aliases": [
+   "cluster",
+   "supercomputer",
+   "high performance computing",
+   "slurm"
+  ],
+  "definition": "High-Performance Computing. A shared cluster of powerful machines that your university most likely already runs and that you may well have free access to. It is how you process a corpus too large for a laptop, and the usual route in is an email to research computing rather than a purchase. You submit a job to a queue rather than working interactively, which is the main adjustment.",
+  "link": "https://en.wikipedia.org/wiki/High-performance_computing",
+  "term": "HPC"
+ },
+ "htr": {
+  "definition": "Handwritten Text Recognition. OCR for handwriting, and much harder than print.",
+  "session": "Session 20",
+  "term": "HTR"
+ },
+ "ide": {
+  "aliases": [
+   "vscode",
+   "vs code",
+   "code editor",
+   "jupyter",
+   "integrated development environment"
+  ],
+  "definition": "Integrated Development Environment. A text editor built for writing code, which highlights syntax, flags errors as you type, and runs your code without switching windows. VS Code is the common one and is free. Think of it as the difference between writing in Notepad and writing in Word: the same text, with the machinery that catches mistakes.",
+  "link": "https://code.visualstudio.com/",
+  "term": "IDE"
+ },
+ "inference": {
+  "aliases": [
+   "training",
+   "inference vs training",
+   "training vs inference"
+  ],
+  "definition": "Training is building a model from data, which happens once, costs enormous amounts, and is done by a handful of organisations. Inference is using the finished model to get an answer, which happens every time you send it a prompt and is comparatively cheap. Nearly everything historians do is inference. The distinction matters because the two have completely different costs, and because it is the difference between your material being used to build a model and merely being processed by one.",
+  "term": "Inference vs training"
+ },
+ "linked open data": {
+  "aliases": [
+   "lod",
+   "linked data"
+  ],
+  "definition": "Publishing data so it can be connected to other people's data, usually by pointing shared entities at common identifiers such as Wikidata.",
+  "term": "Linked open data"
+ },
+ "llm": {
+  "aliases": [
+   "large language model",
+   "large language models",
+   "llms"
+  ],
+  "definition": "Large Language Model, the technology behind ChatGPT and Claude. Trained on enormous quantities of text to predict the next word, which turns out to produce something reading like understanding. Whether it IS understanding is an open argument, and part of what this conference is about.",
+  "link": "https://en.wikipedia.org/wiki/Large_language_model",
+  "term": "LLM"
+ },
+ "local llm": {
+  "aliases": [
+   "local model",
+   "run locally",
+   "on-device",
+   "ollama",
+   "self-hosted model",
+   "offline llm"
+  ],
+  "definition": "A language model running on your own computer rather than on a company's servers. The appeal for historians is concrete: your archival material never leaves your machine, there is no per-use cost, and no terms of service govern what you may process. The tradeoffs are that it is usually less capable than ChatGPT or Claude, needs a reasonably powerful computer, and takes some setup. Tools like Ollama and LM Studio have made this considerably easier than it was a year ago. Directly relevant if you work with restricted, sensitive, or embargoed collections.",
+  "link": "https://ollama.com/",
+  "term": "Local LLM"
+ },
+ "machine learning": {
+  "aliases": [
+   "ml"
+  ],
+  "definition": "Software that improves at a task by being shown examples rather than given explicit rules. The umbrella term over most of this vocabulary.",
+  "link": "https://en.wikipedia.org/wiki/Machine_learning",
+  "term": "Machine learning"
+ },
+ "metadata": {
+  "definition": "Data about data. For a document: who wrote it, when, where it is held, what collection it belongs to. Archivists have been doing this rigorously for a century.",
+  "term": "Metadata"
+ },
+ "model": {
+  "aliases": [
+   "models"
+  ],
+  "definition": "The most overloaded word at this conference. Here it means a trained piece of software that takes an input and produces an output. The model transcribed the page means the software did. It does NOT mean a theoretical model in the historian's sense, and the collision causes real confusion.",
+  "term": "Model"
+ },
+ "ner": {
+  "aliases": [
+   "named entity recognition",
+   "named entity",
+   "named entities"
+  ],
+  "definition": "Named Entity Recognition. Automatically finding the people, places, organisations and dates in a text. The step that turns a wall of prose into something queryable.",
+  "session": "Sessions 24 and 25",
+  "term": "NER"
+ },
+ "network analysis": {
+  "aliases": [
+   "network science",
+   "social network analysis"
+  ],
+  "definition": "Studying relationships as a structure: who corresponded with whom, what connected to what. Produces both a picture and measurements.",
+  "session": "Session 13",
+  "term": "Network analysis"
+ },
+ "nlp": {
+  "aliases": [
+   "natural language processing"
+  ],
+  "definition": "Natural Language Processing. The broad field of getting computers to work with human language. Text mining is one part of it.",
+  "link": "https://en.wikipedia.org/wiki/Natural_language_processing",
+  "term": "NLP"
+ },
+ "normalisation": {
+  "aliases": [
+   "normalization",
+   "normalise",
+   "normalize"
+  ],
+  "definition": "Making inconsistent data consistent. Deciding that Balt., Baltimore City and Baltimore, MD are the same place, and recording them one way.",
+  "term": "Normalisation"
+ },
+ "nosql": {
+  "aliases": [
+   "mongodb",
+   "document database"
+  ],
+  "definition": "A loose family of databases that do not use tables and SQL, usually storing flexible documents instead. Useful when your records genuinely do not share a common shape. MongoDB is the best known. Most historical projects do not need this, and reaching for it before a relational database is a common early mistake.",
+  "link": "https://en.wikipedia.org/wiki/NoSQL",
+  "term": "NoSQL"
+ },
+ "ocr": {
+  "definition": "Optical Character Recognition. Turning an image of printed text into text a computer can search. The most common word at this conference, and the entry point for most historians, because it is what stands between a box of scans and a searchable corpus.",
+  "link": "https://en.wikipedia.org/wiki/Optical_character_recognition",
+  "term": "OCR"
+ },
+ "open-weight model": {
+  "aliases": [
+   "open weight",
+   "open-weight",
+   "open source model"
+  ],
+  "definition": "A model whose internals are published, so you can run it on your own machine rather than sending material to a company. Usually less capable than frontier models, but free, private, and not subject to anyone's terms of service.",
+  "session": "Session 19",
+  "term": "Open-weight model"
+ },
+ "pip": {
+  "definition": "Python's installer. `pip install pandas` fetches a package and its dependencies from the public repository and puts them where Python can find them. Almost every set of instructions you will follow at this conference begins with a pip command.",
+  "link": "https://pip.pypa.io/en/stable/getting-started/",
+  "term": "pip"
+ },
+ "pipeline": {
+  "definition": "A sequence of processing steps applied in order: scan, OCR, clean, extract names, load into a database. Saying pipeline rather than process signals the steps are automated and repeatable.",
+  "term": "Pipeline"
+ },
+ "prompt": {
+  "aliases": [
+   "prompting",
+   "prompt engineering"
+  ],
+  "definition": "What you type to a language model. Prompt engineering means working out how to phrase requests to get better results, and is less of a dark art than it sounds.",
+  "term": "Prompt"
+ },
+ "provenance": {
+  "definition": "Where a piece of information came from. Historians already care about this more than most. In computational work it means recording which model, which prompt and which date produced each data point, so a result can be traced and rechecked.",
+  "term": "Provenance"
+ },
+ "pull": {
+  "aliases": [
+   "push",
+   "pull request",
+   "git pull",
+   "git push",
+   "pr"
+  ],
+  "definition": "The two directions of moving code with Git. Pull brings other people's changes down to your computer; push sends yours up to the shared copy, usually on GitHub. Pull before you start and push when you finish, and most collaboration problems never arise. A pull request, confusingly, is neither: it is a proposal that someone review your changes before they are merged in.",
+  "link": "https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository",
+  "term": "Pull and push"
+ },
+ "python": {
+  "aliases": [
+   "py"
+  ],
+  "definition": "A programming language, and the default one for this kind of work. It was designed to be readable, which is why it took hold in research rather than only in software companies. Nearly every tool discussed at this conference is written in it or has a Python interface, and it is what the hands-on sessions use. Reading it is considerably easier than writing it, and reading is often enough to understand what someone's method actually did.",
+  "link": "https://www.python.org/about/gettingstarted/",
+  "term": "Python"
+ },
+ "relational database": {
+  "aliases": [
+   "sql database",
+   "sqlite",
+   "postgres",
+   "postgresql",
+   "mysql",
+   "relational"
+  ],
+  "definition": "The most common kind, and the one behind most historical projects. Data lives in tables joined by shared identifiers, so a people table can connect to a letters table without repeating anyone's details. You query it in SQL. SQLite is a whole relational database in a single file you can email, which makes it a genuinely good fit for a one-historian project; PostgreSQL and MySQL are the heavier versions for shared or very large projects.",
+  "link": "https://en.wikipedia.org/wiki/Relational_database",
+  "term": "Relational database"
+ },
+ "repository": {
+  "aliases": [
+   "repo",
+   "repos",
+   "git repo",
+   "code repository"
+  ],
+  "definition": "Two meanings, and they collide badly at this conference. To an archivist, the institution holding collections. To a programmer, a folder of code and its full change history, usually hosted on GitHub, and almost always shortened to repo. Context normally resolves it, but it is worth noticing when it does not, because the two audiences are both in the room here.",
+  "term": "Repository"
+ },
+ "reproducibility": {
+  "aliases": [
+   "reproducible"
+  ],
+  "definition": "Whether someone else, given your data and method, gets your result. A live problem when the method involves a commercial model that may be updated or withdrawn.",
+  "term": "Reproducibility"
+ },
+ "retrieval": {
+  "aliases": [
+   "semantic search",
+   "rag",
+   "semantic"
+  ],
+  "definition": "Finding relevant documents by meaning rather than exact words. A semantic search for unrest can surface a document saying riot without ever using your word.",
+  "session": "Session 24",
+  "term": "Retrieval"
+ },
+ "sql": {
+  "definition": "Structured Query Language, the way you ask a relational database questions. Pronounced sequel or spelled out, both are accepted. It reads closer to English than most code, and the basic form is learnable in an afternoon: SELECT name FROM people WHERE year < 1850 does exactly what it appears to.",
+  "link": "https://en.wikipedia.org/wiki/SQL",
+  "term": "SQL"
+ },
+ "structured data": {
+  "definition": "Information arranged in consistent fields so it can be counted, sorted and queried. The opposite of a pile of prose. Getting from one to the other is most of the practical work at this conference.",
+  "term": "Structured data"
+ },
+ "technology stack": {
+  "aliases": [
+   "stack",
+   "tech stack"
+  ],
+  "definition": "The full set of tools used together to do a job: language, libraries, database, model. Asking what's your stack means asking what you built it out of.",
+  "term": "Technology stack"
+ },
+ "text mining": {
+  "aliases": [
+   "text analysis"
+  ],
+  "definition": "Extracting patterns and information from large bodies of text: word frequencies, topics, changes over time.",
+  "session": "Session 7",
+  "term": "Text mining"
+ },
+ "token": {
+  "aliases": [
+   "tokens",
+   "tokenisation",
+   "tokenization"
+  ],
+  "definition": "The unit a language model reads and writes, roughly three quarters of a word. Matters because tools are priced per token, so cost per thousand tokens is how you work out what a project will cost.",
+  "term": "Token"
+ },
+ "training data": {
+  "definition": "The material a model learned from. Its shape determines what the model is good at and what it silently gets wrong. Also where the copyright and consent questions come from.",
+  "term": "Training data"
+ },
+ "unicode": {
+  "definition": "The standard letting computers represent every writing system, in principle. In practice its coverage of historical scripts is uneven, which is a historical and political question as much as a technical one.",
+  "link": "https://en.wikipedia.org/wiki/Unicode",
+  "session": "Session 25",
+  "term": "Unicode"
+ },
+ "vector database": {
+  "aliases": [
+   "vector db",
+   "vector store",
+   "pinecone",
+   "chroma"
+  ],
+  "definition": "A database that stores text as numerical representations of meaning, so you can search by similarity rather than exact words. A search for unrest can surface a document that only ever says riot. Underpins the semantic retrieval systems discussed on the program, and generally sits alongside a conventional database rather than replacing it.",
+  "term": "Vector database"
+ },
+ "version control": {
+  "aliases": [
+   "git"
+  ],
+  "definition": "A system tracking every change to a set of files, so you can see what changed, when, and undo it. Standard in software, increasingly expected for research code and data. Usually means Git.",
+  "link": "https://www.atlassian.com/git/tutorials/what-is-version-control",
+  "term": "Version control"
+ },
+ "virtual environment": {
+  "aliases": [
+   "venv",
+   "virtualenv",
+   "environment",
+   "virtual env"
+  ],
+  "definition": "A self-contained sandbox holding one project's software dependencies, so two projects on the same computer can use different versions of the same tool without breaking each other. This sounds like housekeeping and is in fact the most common reason a historian's setup stops working: you install something for a new project and a working one silently breaks. Making a fresh environment per project prevents nearly all of it.",
+  "link": "https://realpython.com/python-virtual-environments-a-primer/",
+  "term": "Virtual environment"
+ },
+ "wikidata": {
+  "definition": "A free, collaboratively edited database of things, each with a permanent identifier. Used as a common reference point so separate projects can agree they mean the same person or place.",
+  "link": "https://www.wikidata.org/",
+  "term": "Wikidata"
+ }
+}

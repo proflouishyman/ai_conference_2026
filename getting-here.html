@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting to Campus — AI and History Conference 2026</title>
+  <meta name="description" content="Parking, train, and campus-access information for attendees of the AI and History Conference 2026 at Johns Hopkins University." />
+  <link rel="canonical" href="https://proflouishyman.github.io/ai_conference_2026/getting-here.html" />
+  <meta property="og:title" content="Getting to Campus — AI and History Conference 2026" />
+  <meta property="og:description" content="Parking at JHU, trains to Baltimore, and getting from Baltimore Penn Station to the Homewood Campus." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://proflouishyman.github.io/ai_conference_2026/getting-here.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Getting to Campus — AI and History Conference 2026" />
+  <meta name="twitter:description" content="Parking at JHU, trains to Baltimore, and getting from Baltimore Penn Station to the Homewood Campus." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a2e;
+    }
+
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+
+    :root {
+      --navy: #002D72;
+      --gold: #FFD100;
+      --light-gray: #F7F8FA;
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0.75rem; right: 0.75rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a:hover { background: #f9f7ee; }
+
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        padding: 0.75rem 1.5rem 1rem;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.65rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+      }
+
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a::after { display: none; }
+    }
+
+    /* ── Page header ── */
+    #page-header {
+      background-color: var(--navy);
+      background-image: radial-gradient(rgba(255,209,0,0.13) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      padding: 7rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    #page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .gold-rule {
+      width: 70px; height: 3px;
+      background: var(--gold);
+      margin: 0 auto 1.25rem;
+      border: none;
+    }
+
+    #page-header p {
+      color: rgba(255,255,255,0.85);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+
+    /* ── Content ── */
+    #content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 4rem;
+    }
+
+    #content h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 2.5rem 0 0.4rem;
+    }
+
+    #content h2:first-of-type { margin-top: 0; }
+
+    .section-rule {
+      width: 50px; height: 3px;
+      background: var(--gold);
+      border: none;
+      margin: 0 0 1.25rem;
+    }
+
+    .notice-box {
+      background: #FFF8E1;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.1rem 1.4rem;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #4a4a30;
+      margin-bottom: 1.75rem;
+    }
+
+    .notice-box strong { color: var(--navy); }
+
+    .info-card {
+      background: var(--light-gray);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .info-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.15rem;
+    }
+
+    .info-meta {
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 0.6rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .info-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .lead-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 1.25rem;
+    }
+
+    .excluded-note {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.6;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--navy);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">AI and History Conference 2026</a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#program">Program</a>
+      <a href="index.html#agora">Venue</a>
+      <a href="hotels.html">Hotels</a>
+      <a href="getting-here.html" class="active">Getting Here</a>
+      <a href="register.html">Register</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════ -->
+<section id="page-header">
+  <h1>Getting to Campus</h1>
+  <hr class="gold-rule" />
+  <p>Parking at JHU, trains to Baltimore, and getting from Baltimore Penn Station to the Homewood Campus.</p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTENT
+════════════════════════════════════════ -->
+<section id="content">
+
+  <h2>Parking at JHU Homewood Campus</h2>
+  <hr class="section-rule" />
+
+  <div class="notice-box">
+    <strong>Visitor rates not yet confirmed.</strong> We haven't been able to confirm current visitor daily parking rates. Contact JHU Transportation Services directly at <strong>(410) 516-7275</strong> to confirm rates and ask about "Event Parking" arrangements for the conference specifically — group event parking is sometimes handled differently from standard visitor parking.
+  </div>
+
+  <div class="info-card">
+    <div class="info-name">South Garage</div>
+    <div class="info-meta">Beneath Mason Hall, 3101 Wyman Park Drive</div>
+    <div class="info-desc">The main visitor entry point, per JHU's own published driving directions to Homewood Campus.</div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-name">Other visitor options</div>
+    <div class="info-desc">JHU also lists <strong>San Martin Garage</strong>, the top level of <strong>West Gate Garage</strong>, and the <strong>School of Education Lot</strong> as visitor parking on or near Homewood Campus.</div>
+  </div>
+
+  <h2>Getting to Baltimore by Train</h2>
+  <hr class="section-rule" />
+
+  <p class="lead-text">
+    <strong>Amtrak</strong> (Northeast Regional and Acela) serves <strong>Baltimore Penn Station</strong> (1500 N Charles St) from Washington DC (~1 hr), Philadelphia (~1–1.5 hr), and New York (~2.5–3 hr).
+  </p>
+
+  <p class="lead-text">
+    The <strong>MARC Penn Line</strong> is the cheaper regional option from DC (~1 hr), but runs a limited weekend schedule. That's not an issue for the conference itself — October 15–16, 2026 are a Thursday and Friday — but worth noting if you're arriving the weekend before.
+  </p>
+
+  <div class="notice-box">
+    <strong>Penn Station ≠ BWI.</strong> Baltimore Penn Station is not the same as the BWI Airport rail station, which is much farther from Homewood Campus. If you're flying into BWI, plan on a separate leg into the city rather than assuming the airport station gets you there.
+  </div>
+
+  <h2>Penn Station to Homewood Campus</h2>
+  <hr class="section-rule" />
+
+  <div class="info-card">
+    <div class="info-name">JHU Keswick–Penn Commuter Shuttle</div>
+    <div class="info-meta">Monday–Friday only · covers both conference days (Thu–Fri)</div>
+    <div class="info-desc">Stops at Penn Station (both a "Penn Station S" and "Penn Station N" stop) and Bloomberg Student Center on Homewood Campus, looping Keswick → Bloomberg Student Center → Penn Station → Stieff Silver. About 5 morning runs (7:35–9:40 AM departures from Keswick) and 6 afternoon runs (2:25–4:55 PM).</div>
+  </div>
+
+  <div class="notice-box">
+    <strong>Confirm before relying on it.</strong> The published schedule doesn't make clear whether a rider arriving at Penn Station can catch the same loop back toward campus, or has to wait for the next Keswick-originating run — or whether the shuttle is open to conference visitors at all, as opposed to JHU affiliates only. Call JHU Transportation Services at <strong>(410) 516-7275</strong> or email <strong>shuttles@jhu.edu</strong> to confirm before planning around it.
+  </div>
+
+  <p class="lead-text">
+    <strong>Other options:</strong> it's roughly a 1–1.5 mile walk from Penn Station to Homewood Campus (approximately 25–30 minutes), or a short rideshare (Uber/Lyft) — the simplest fallback if the shuttle timing doesn't line up with your train.
+  </p>
+
+  <a href="index.html#venue" class="back-link">← Back to venue &amp; logistics</a>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <p>AI and History Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+
+</body>
+</html>

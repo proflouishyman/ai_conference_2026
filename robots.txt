@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://proflouishyman.github.io/ai_conference_2026/sitemap.xml

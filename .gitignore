@@ -1,0 +1,53 @@
+.DS_Store
+
+# Internal outreach tracking — contains private correspondence, personal
+# email addresses, and honorarium/financial terms. Never push to GitHub.
+OUTREACH.md
+MAILING_LIST.md
+MAILING_LIST.csv
+MAILING_LIST.xlsx
+SCHEDULE_FILLING_PLAN.md
+correspondence/
+LOGBOOK.md
+
+# Internal dev/planning docs — not used by the live site
+PRESENTER_GUIDELINES.md
+SOLUTIONS.md
+MOBILE_AND_SEO_AUDIT.md
+registration_form_spec.json
+
+# Local registrations DB — synced from the Google Form, contains registrant
+# PII (names, emails, institutions). Never push to GitHub.
+registrations.db
+scripts/logs/
+
+# discord bot runtime state
+scripts/discord_*_state.json
+scripts/unknown_terms.json
+scripts/logs/
+
+scripts/pending_review.json
+
+# Internal planning logs and working docs — contain attendee names, email
+# addresses, and correspondence detail. Never push to GitHub.
+plans/
+docs/
+scratchpad_promo_list_DRAFT.md
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Seating/catering workbook — attendee PII, never publish
+conference_seating.xlsx
+
+# Personal overrides for seating/catering scripts (names, emails, dietary
+# form text). Never push.
+scripts/private_overrides.json
+
+# Local Claude instructions: contain staff email addresses. Keep local only.
+CLAUDE.md
+
+# Internal email-audit tool: quotes subject lines, mail-system internals.
+scripts/audit_sends.py
+.claude/settings.local.json

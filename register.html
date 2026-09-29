@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — AI and History Conference 2026</title>
+  <meta name="description" content="Register or apply to attend the AI and History Conference 2026, October 15–16 at Johns Hopkins University." />
+  <link rel="canonical" href="https://proflouishyman.github.io/ai_conference_2026/register.html" />
+  <meta property="og:title" content="Register — AI and History Conference 2026" />
+  <meta property="og:description" content="Register or apply to attend the AI and History Conference 2026, October 15–16 at Johns Hopkins University." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://proflouishyman.github.io/ai_conference_2026/register.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Register — AI and History Conference 2026" />
+  <meta name="twitter:description" content="Register or apply to attend the AI and History Conference 2026, October 15–16 at Johns Hopkins University." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #1D1D1B;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+
+    :root {
+      --navy:        #002D72;  /* JHU Heritage Blue */
+      --spirit-blue: #0072CE;  /* JHU Spirit Blue */
+      --silla-blue:  #68ACE5;  /* JHU Silla Blue */
+      --gold:        #FFD100;  /* JHU Heritage Gold */
+      --white:       #FFFFFF;
+      --light-gray:  #F7F8FA;
+      --gold-tint:   #FFFDF0;
+      --text:        #1D1D1B;  /* JHU Sable */
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0.75rem; right: 0.75rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a:hover { background: #f9f7ee; }
+
+    .nav-links a.active {
+      background: var(--navy);
+      color: #fff;
+    }
+    .nav-links a.active::after { display: none; }
+
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        padding: 0.75rem 1.5rem 1rem;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.65rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+      }
+
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a::after { display: none; }
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 40vh;
+      background-color: var(--navy);
+      background-image: radial-gradient(rgba(255,209,0,0.13) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 3.5rem;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(0,114,206,0.14) 0%, transparent 45%, rgba(0,45,114,0.28) 100%);
+      pointer-events: none;
+    }
+
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #hero > div > * {
+      opacity: 0;
+      animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    #hero > div > *:nth-child(1) { animation-delay: 0.10s; }
+    #hero > div > *:nth-child(2) { animation-delay: 0.22s; }
+    #hero > div > *:nth-child(3) { animation-delay: 0.32s; }
+    #hero > div > *:nth-child(4) { animation-delay: 0.42s; }
+    #hero > div > *:nth-child(5) { animation-delay: 0.50s; }
+
+    #hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+
+    .gold-rule {
+      width: 80px; height: 3px;
+      background: var(--gold);
+      margin: 0 auto 1.25rem;
+      border: none;
+    }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 0.5rem;
+    }
+
+    .registration-notice {
+      max-width: 680px;
+      margin: 2rem auto 0;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      background: var(--gold-tint);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* ── Form page wrapper ── */
+    #form-section {
+      background: var(--light-gray);
+      padding: 3.5rem 1.5rem 4rem;
+    }
+
+    .form-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Form section cards ── */
+    .form-card {
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .form-card-gold { background: var(--gold-tint); }
+    .form-card-gray { background: #fff; border: 1px solid #e5e7eb; }
+    .form-card-white { background: #fff; border: 1px solid #e5e7eb; }
+
+    .form-card-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-card-desc {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Labels & Inputs ── */
+    label {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #222;
+      margin-bottom: 0.3rem;
+    }
+
+    .required-star { color: #c0392b; margin-left: 2px; }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: #fff;
+      border: 1.5px solid #d1d5db;
+      border-radius: 6px;
+      padding: 0.55rem 0.75rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(0,45,114,0.12);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23002D72' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.25rem;
+    }
+
+    textarea { resize: vertical; }
+
+    .field-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    @media (max-width: 500px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Radio / Checkbox standard ── */
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-weight: 400;
+      cursor: pointer;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1.5px solid #e5e7eb;
+      background: #fff;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.5;
+    }
+
+    .radio-group label:hover,
+    .checkbox-group label:hover {
+      border-color: var(--gold);
+      background: #fffdf0;
+    }
+
+    .radio-group input[type="radio"],
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      min-width: 16px;
+      margin-top: 2px;
+      accent-color: var(--navy);
+      flex-shrink: 0;
+    }
+
+    /* Checked state highlight */
+    .radio-group input[type="radio"]:checked + span,
+    .checkbox-group input[type="checkbox"]:checked + span {
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* Experience level card-style radios */
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 500px) {
+      .experience-grid { grid-template-columns: 1fr; }
+    }
+
+    .exp-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+
+    .exp-card:hover { border-color: var(--gold); background: #fffdf0; }
+
+    .exp-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+
+    .exp-card input[type="radio"]:checked ~ .exp-label {
+      color: var(--navy);
+    }
+
+    .exp-card:has(input:checked) {
+      border-color: var(--navy);
+      background: #f0f4fb;
+    }
+
+    .exp-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #333;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .exp-sublabel {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      color: #666;
+      display: block;
+      line-height: 1.4;
+    }
+
+    /* ── Inline text input after checkbox "Other" ── */
+    .inline-other {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .inline-other input[type="text"] {
+      flex: 1;
+      min-width: 140px;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    /* ── Hidden conditional fields ── */
+    .conditional { display: none; margin-top: 0.75rem; }
+    .conditional.visible { display: block; }
+
+    /* ── Submit button ── */
+    .submit-btn {
+      width: 100%;
+      background: var(--navy);
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover {
+      background: #001d4a;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    /* ── Below-form note ── */
+    .form-footer-note {
+      text-align: center;
+      margin-top: 1.25rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    .form-footer-note a { color: var(--navy); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* small helper text */
+    .field-hint {
+      font-size: 0.78rem;
+      color: #777;
+      margin-top: 0.25rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" style="display:flex;align-items:center;gap:0.6rem;">
+      <img src="assets/logos/aha-logo-blue.svg" alt="AHA" height="28" style="height:28px;width:auto;display:block;" onerror="this.style.display='none'" />
+      AI and History Conference 2026
+    </a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#program">Program</a>
+      <a href="index.html#agora">Venue</a>
+      <a href="hotels.html">Hotels</a>
+      <a href="getting-here.html">Getting Here</a>
+      <a href="register.html" class="active">Register</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="hero">
+  <div>
+    <h1>Register for AI and History Conference 2026</h1>
+    <hr class="gold-rule" />
+    <p style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">An Official Conference of the American Historical Association</p>
+    <p class="hero-sub">October 15–16, 2026 &nbsp;|&nbsp; Johns Hopkins University, Baltimore, MD</p>
+    <p class="hero-sub">Everyone is welcome. <strong style="color:#FFD100;">Online registration is free and has no deadline</strong> — sign up any time before the conference.</p>
+    <p class="hero-sub"><strong style="color:#FFD100;">In-person attendance is at capacity — in-person sign-ups now join a waitlist.</strong></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FORM
+════════════════════════════════════════ -->
+<section id="form-section">
+  <div class="form-container">
+
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.95rem;color:#444;margin-bottom:1.5rem;background:#fff8e1;border-radius:6px;padding:0.85rem 1.25rem;border-left:4px solid var(--gold);box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+      <strong style="color:var(--navy);">In-person attendance is at capacity.</strong> In-person sign-ups now join a <strong>waitlist</strong>, and we will contact you if a place opens up. <strong>Online registration is open to everyone and is free</strong>, regardless of registration category. The form offers three choices: online only, in-person waitlist, or <strong>online plus the in-person waitlist</strong> — that last option registers you for online right away and still holds your place in line for a seat in Baltimore, so there is no downside to being on the list. Every session will be streamed, so online attendance covers the full program, and details on how to access the streams will follow closer to the conference. <strong style="color:var(--navy);">Any question about registration or the waitlist, email Louis Hyman at <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);">lhyman6@jh.edu</a>.</strong>
+    </p>
+
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.95rem;color:#444;margin-bottom:1.5rem;background:#f0f4fb;border-radius:6px;padding:0.85rem 1.25rem;border-left:4px solid var(--navy);box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+      <strong style="color:var(--navy);">Already registered under the $100 faculty/professional fee?</strong> Pay here: <a href="https://cglink.me/2dh/r1989944" style="color:var(--navy);font-weight:600;">cglink.me/2dh/r1989944</a>. The page runs on the Hopkins events system and asks you to sign in first; if you are not at Hopkins, use <strong>SIGN UP</strong> under "First Time User" and choose <strong>Guest</strong> as the account type, and the payment step follows. If that fee would be a financial barrier, you do not need to pay it and no documentation is required. Nothing else about your registration changes either way.
+    </p>
+
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSfh_6V_31oRwBnhoISvR89kI4pvfBop2BR5v0rP7zp9OPPHJQ/viewform?embedded=true"
+      width="100%"
+      height="4050"
+      style="border:0;"
+      title="AI and History Conference 2026 Registration"
+    >Loading…</iframe>
+
+    <div class="form-footer-note">
+      <p><strong>Submitted the form?</strong> <a href="thanks.html" style="color:var(--navy);font-weight:600;">See what happens next</a>.</p>
+      <p>Questions about registration, the waitlist, or anything else? Contact Louis Hyman at <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+      <p style="margin-top:0.4rem;">By submitting this form, you agree to be contacted regarding conference logistics and future AHA AI events.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <!-- Same institutional lockup as index.html, taken from the printed banner. -->
+  <img src="assets/logos/ces-snf-lockup.png"
+       srcset="assets/logos/ces-snf-lockup.png 1x, assets/logos/ces-snf-lockup@2x.png 2x"
+       alt="Johns Hopkins University, Stavros Niarchos Foundation SNF Agora Institute, Center for Economy and Society"
+       style="display:block;width:100%;max-width:460px;height:auto;margin:0 auto 1.25rem;opacity:0.95;"
+       onerror="this.style.display='none'" />
+  <p style="margin:0 0 0.6rem;">AI and History Conference 2026 &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <p style="margin-top:0.25rem;"><a href="https://www.historians.org" style="color:var(--gold);">An Official Conference of the American Historical Association</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
+</footer>
+
+<!-- ══════════════════════════════════════
+     JS
+════════════════════════════════════════ -->
+<script>
+  /* ── Hamburger ── */
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  document.querySelectorAll('#nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.remove('open');
+      document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+    });
+  });
+
+</script>
+
+</body>
+</html>
