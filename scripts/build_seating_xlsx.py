@@ -184,6 +184,15 @@ if _et is not None:
         if mv is None or dst is None or occ(dst)>=cap: break
         assigned[_et].remove(mv); assigned[dst].append(mv)
 
+# Manual lunch swaps, same idea as DINNER_SWAPS below: each pair of emails trades seats.
+for e1, e2 in PRIV.get('lunch_swaps', []):
+    t1 = next((t for t in assigned for r in assigned[t] if r[3].strip().lower() == e1), None)
+    t2 = next((t for t in assigned for r in assigned[t] if r[3].strip().lower() == e2), None)
+    if t1 is None or t2 is None or t1 == t2: continue
+    r1 = next(r for r in assigned[t1] if r[3].strip().lower() == e1)
+    r2 = next(r for r in assigned[t2] if r[3].strip().lower() == e2)
+    assigned[t1][assigned[t1].index(r1)] = r2; assigned[t2][assigned[t2].index(r2)] = r1
+
 # The wheelchair user sits at table 1, the table nearest the door: swap table numbers.
 DOOR = PRIV['door_seat_name_contains']
 _dt = next((t for t in tables if any(DOOR in f"{r[1]} {r[2]}".lower() for r in assigned[t["id"]])), None)
@@ -334,6 +343,15 @@ for tid,(g,mem) in enumerate(tables,1):
         ws4.append([tid,g,i,f"{r[1]} {r[2]}",r[4],r[5],"PANELIST" if is_panelist(r[3]) else "",d,r[3]])
     for i in range(len(mem)+1,CAP+1): ws4.append([tid,g,i,"","","","",""])
 style(ws4,[7,32,6,26,34,22,10,34,32])
+# Louis asked not to sit with the same people at lunch and dinner. Warn if a rebuild breaks that.
+_nr = PRIV.get('no_repeat_tablemates_email')
+if _nr:
+    def _mates(ws):
+        rs = [r for r in ws.iter_rows(min_row=2, values_only=True) if r[3]]
+        t = next((r[0] for r in rs if (r[8] or "").strip().lower() == _nr), None)
+        return {r[3] for r in rs if r[0] == t and (r[8] or "").strip().lower() != _nr}
+    _both = _mates(ws3) & _mates(ws4)
+    if _both: print("WARN: same tablemates at lunch and dinner:", sorted(_both), "-- add a lunch_swaps pair")
 # ---- 5. Meal 3
 ws5=wb.create_sheet("Meal 3 - Lunch 10-16")
 ws5.append(["Meal 3, lunch Friday 16 October"])
