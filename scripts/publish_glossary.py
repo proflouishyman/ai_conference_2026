@@ -25,6 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 GLOSSARY = os.path.join(HERE, "glossary.json")
 API = "https://discord.com/api/v10"
 LIMIT = 1900
+MARK = " *(AI-drafted)*"   # bot-added terms until a person approves them
 
 INTRO = """# Jargon for historians
 
@@ -92,7 +93,8 @@ def render(gloss):
         if first != letter:
             letter = first
             out.append(f"## {letter}")
-        line = f"**{e['term']}** — {e['definition']}"
+        drafted = e.get("source") == "bot" and not e.get("reviewed")
+        line = f"**{e['term']}**{MARK if drafted else ''} — {e['definition']}"
         if e.get("link"):
             line += f" [More]({e['link']})"
         if e.get("session"):

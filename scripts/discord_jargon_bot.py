@@ -199,24 +199,60 @@ def cmd_review(pending):
     print("Reject:   --reject <id> --reason \"...\"")
 
 
+def refresh_master_list(tok, gloss):
+    """Re-flow the A-Z run in #jargon-for-historians (edits in place)."""
+    import glossary_sync
+
+    def api(method, path, payload=None):
+        res = call(method, path, tok, payload)
+        if isinstance(res, dict) and "ERROR" in res:
+            raise RuntimeError(f"{method} {path.split('?')[0]}: {res}")
+        return res
+    chans = api("GET", f"/guilds/{GUILD}/channels")
+    ch = next((c for c in chans if c["name"] == CHANNEL_NAME and c["type"] == 0),
+              None)
+    if not ch:
+        print("  (master list: channel not found, skipped)")
+        return
+    try:
+        glossary_sync.refresh_master(api, ch["id"], api("GET", "/users/@me")["id"],
+                                     gloss)
+    except Exception as exc:
+        print(f"  ! master list refresh failed: {exc}")
+
+
 def cmd_approve(pid, pending, gloss, tok):
+    import glossary_sync
     p = pending.get(pid)
     if not p:
         raise SystemExit(f"No pending item {pid}")
     key = normalise(p["term"])
-    gloss[key] = {"term": p["term"].strip().title(),
-                  "definition": p["answer"].replace(FLAG, "")
-                  .replace(FOOTER_AI, "").strip(),
-                  "reviewed_by": "human", "source": "llm-approved"}
-    save(GLOSSARY, gloss)
+    clean = glossary_sync.clean_definition(p["answer"], p["term"])
+
+    def fn(g):                       # under the lock; the loop may have added it
+        e = g.get(key)
+        if e is None:
+            g[key] = {"term": p["term"].strip().title(), "definition": clean,
+                      "reviewed_by": "human", "source": "llm-approved"}
+            return True
+        if e.get("source") == "bot" and not e.get("reviewed"):
+            e["reviewed"] = True
+            e["reviewed_by"] = "human"
+            return True
+        return False                 # a human entry: leave untouched
+    glossary_sync.locked_update(GLOSSARY, fn)
+    gloss = load(GLOSSARY, {})
     clean = p["answer"].replace(FLAG, "").replace(FOOTER_AI, "")
     if p.get("message_id"):
         call("PATCH", f"/channels/{p['channel_id']}/messages/{p['message_id']}",
              tok, {"content": clean})
-    p["reviewed"] = True
-    p["outcome"] = "approved"
-    save(PENDING, pending)
+    def mark(pd):
+        pd[pid]["reviewed"] = True
+        pd[pid]["outcome"] = "approved"
+        return True
+    glossary_sync.locked_update(PENDING, mark, {})
     print(f"Approved '{p['term']}' into the glossary and removed the flag.")
+    refresh_master_list(tok, gloss)
 
 
 def cmd_reject(pid, reason, pending, tok):
@@ -228,11 +264,17 @@ def cmd_reject(pid, reason, pending, tok):
     if p.get("message_id"):
         call("PATCH", f"/channels/{p['channel_id']}/messages/{p['message_id']}",
              tok, {"content": note})
-    p["reviewed"] = True
-    p["outcome"] = "rejected"
-    p["correction"] = reason
-    save(PENDING, pending)
+    import glossary_sync
+
+    def mark(pd):
+        pd[pid].update(reviewed=True, outcome="rejected", correction=reason)
+        return True
+    glossary_sync.locked_update(PENDING, mark, {})
+    removed = glossary_sync.remove_bot_term(p["term"], GLOSSARY)
     print(f"Retracted the definition of '{p['term']}' and posted a correction.")
+    if removed:
+        print("Removed it from glossary.json.")
+        refresh_master_list(tok, load(GLOSSARY, {}))
 
 
 # ------------------------------------------------------------------ main

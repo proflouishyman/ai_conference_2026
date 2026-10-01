@@ -61,6 +61,7 @@ sys.path.insert(0, HERE)
 import discord_channel_bot as vote_bot                       # noqa: E402
 from discord_jargon_bot import (FOOTER_AI, GLOSSARY, PENDING,  # noqa: E402
                                 load, normalise, save)
+import glossary_sync                                         # noqa: E402
 
 # ----------------------------------------------------------------- config
 GUILD = os.environ.get("DISCORD_GUILD_ID", "")   # resolved from the API at startup if unset
@@ -950,11 +951,27 @@ class Ctx:
         self.readonly = False                   # simulate modes: never write state
         self.test_prefix = False
         self.gloss = load(GLOSSARY, {})
+        self.gloss_mtime = self._gloss_mtime()
+        self.master = glossary_sync.Refresher()
         self.attempts = {}
         self.chans = {}
         self.stats = dict(answered=0, dontknow=0, ignored=0, errors=0,
                           questions=0, deferred=0, speakerq=0, modalerts=0)
         self.report = []                        # lines for dry-run/backlog output
+
+    def _gloss_mtime(self):
+        try:
+            return os.stat(GLOSSARY).st_mtime_ns
+        except OSError:
+            return None
+
+    def reload_gloss(self):
+        """Pick up glossary.json changes made outside this process (--approve,
+        --reject, a hand edit) without a restart."""
+        mt = self._gloss_mtime()
+        if mt != self.gloss_mtime:
+            self.gloss, self.gloss_mtime = load(GLOSSARY, self.gloss), mt
+            log.info("glossary reloaded (%d terms)", len(self.gloss))
 
     def mark(self, mid):
         if mid not in self.handled:
@@ -964,6 +981,47 @@ class Ctx:
     def persist(self):
         if not self.dry and not self.readonly:
             save_state(self.st)
+
+
+def master_refresh(ctx: Ctx, force: bool = False) -> None:
+    """Re-flow the A-Z master list in #jargon-for-historians after bot-added
+    terms. Edits the existing bot messages in place; at most one refresh per
+    60 s, so several new terms are batched. Never raises."""
+    if force:
+        ctx.master.mark()
+    if not ctx.master.due():
+        return
+    jid = next((i for i, n in ctx.chans.items() if n == "jargon-for-historians"), None)
+    if not jid:
+        return
+    try:
+        ctx.reload_gloss()
+        glossary_sync.refresh_master(
+            lambda meth, path, payload=None: dcall(meth, path, ctx.tok, payload),
+            jid, ctx.me_id, ctx.gloss, apply=not ctx.dry,
+            out=lambda s: log.info("master list:%s", s))
+        ctx.master.done()
+    except Exception as exc:            # retried on the next cycle, 60 s later
+        ctx.master.last = ctx.master.clock()
+        log.error("master list refresh failed: %s", str(exc)[:160])
+
+
+def add_to_glossary(ctx: Ctx, r: dict, text: str, ch_id: str, msg_id: str) -> None:
+    """Record a bot-generated jargon definition in glossary.json (flagged
+    unreviewed), serve it from memory at once, and queue a master-list refresh."""
+    asked = ""
+    mt = _TERM.search(text.strip())
+    if mt:
+        asked = mt.group(1)
+    key, info = glossary_sync.add_bot_term(
+        r["term"], r["reply"], permalink(ch_id, msg_id), asked, path=GLOSSARY)
+    if not key:
+        log.info("glossary: %r not added (%s)", r["term"], info)
+        return
+    ctx.gloss[key] = info                # visible to gloss_lookup immediately
+    ctx.gloss_mtime = ctx._gloss_mtime()
+    ctx.master.mark()
+    log.info("glossary: added %r (bot, unreviewed)", key)
 
 
 def handle(ctx: Ctx, m: dict, ch_id: str, counters: dict, allow_llm: bool):
@@ -1015,6 +1073,13 @@ def handle(ctx: Ctx, m: dict, ch_id: str, counters: dict, allow_llm: bool):
         subject, ebody = build_email(r, m, ch_name)
         print(f"    WOULD EMAIL to {DIGEST_TO}: {subject}\n"
               + "\n".join("      > " + ln for ln in ebody.splitlines()))
+        if r["source"] == "llm" and r["kind"] == "jargon":
+            mt = _TERM.search(text.strip())
+            key = normalise(r["term"])
+            print(f"    WOULD ADD TO GLOSSARY: {key!r} (bot, unreviewed"
+                  + (f", alias {normalise(mt.group(1))!r}" if mt and
+                     normalise(mt.group(1)) != key else "")
+                  + ") and refresh the A-Z master list")
         ctx.mark(m["id"])
         ctx.stats["dontknow" if r["source"] == "dontknow" else "answered"] += 1
         ctx.report.append((ch_name, m["id"], r))
@@ -1044,13 +1109,18 @@ def handle(ctx: Ctx, m: dict, ch_id: str, counters: dict, allow_llm: bool):
     log.info("replied in #%s to %s (%s/%s)", ch_name, m["id"], r["source"],
              r["kind"])
     if r["source"] == "llm" and r["kind"] == "jargon" and "id" in res:
-        pend = load(PENDING, {})
+        pend = {}
         pend[res["id"]] = {
             "term": r["term"], "question": text[:300], "answer": r["reply"],
             "model": r["model"], "channel_id": ch_id, "message_id": res["id"],
             "permalink": permalink(ch_id, res["id"]),
             "at": time.strftime("%Y-%m-%dT%H:%M:%S"), "reviewed": False}
-        save(PENDING, pend)
+        glossary_sync.locked_update(PENDING, lambda p: p.update(pend) or True, {})
+        try:
+            add_to_glossary(ctx, r, text, ch_id, m["id"])
+            master_refresh(ctx)
+        except Exception as exc:        # glossary trouble must not block the reply flow
+            log.error("glossary add failed: %s", str(exc)[:160])
     subject, body = build_email(r, m, ch_name)
     send_email(subject, body, False)            # failure is logged, never raised
     time.sleep(0.8)
@@ -1336,6 +1406,7 @@ def cycle(ctx: Ctx, vote_due: bool) -> dict:
             out["jargon_rc"] = 1
             log.error("channel/thread refresh failed: %s", str(exc)[:160])
         flush_mod_pending(ctx)
+        ctx.reload_gloss()
         scan_watched(ctx, counters, out)
         if ctx.stats["deferred"]:
             out["activity"] = True
@@ -1354,6 +1425,8 @@ def cycle(ctx: Ctx, vote_due: bool) -> dict:
         untag_due(ctx)
     except Exception as exc:
         log.exception("untag failed: %s", exc)
+
+    master_refresh(ctx)                         # deferred (rate-limited) refreshes
 
     if vote_due:
         try:
