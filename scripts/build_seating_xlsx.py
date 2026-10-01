@@ -72,7 +72,7 @@ style(ws2,[18,15,34,52,10,10])
 
 # --- ASL: the interpreters sit with the person they interpret for -----------
 # Two agency interpreters attend Thursday for one attendee. They are seated
-# at that person's table in both Thursday meals, and a table that holds them needs three
+# at that person's table at lunch (they are booked 9:00-4:30, so not at dinner), and a table that holds them needs three
 # extra chairs rather than one. Seating them anywhere else would defeat the
 # booking, so this is enforced after the allocator runs rather than left to it.
 ASL_IDS = ('MANUAL-ASL-INTERPRETER-1', 'MANUAL-ASL-INTERPRETER-2')
@@ -86,10 +86,10 @@ def pull_asl(pool):
     return keep, asl
 
 # ---- 3. Meal 1 seating
-SESSION_TOOL={4:"GIS/mapping",16:"GIS/mapping",23:"GIS/mapping",20:"OCR",24:"OCR",3:"OCR",
- 13:"Networks",21:"Databases",9:"Databases",17:"Archives",11:"ML/CV",5:"Databases",19:"Databases",
- 22:"Pedagogy",12:"Pedagogy",6:"Pedagogy",18:"Pedagogy",7:"LLMs",10:"LLMs",14:"LLMs",
- 25:"Text mining/NLP",28:"Environment",2:"Plenary",8:"Plenary",15:"Plenary"}
+SESSION_TOOL={4:"GIS/mapping",18:"GIS/mapping",25:"GIS/mapping",26:"OCR",19:"OCR",3:"OCR",
+ 15:"Networks",23:"Databases",10:"Databases",7:"Archives",13:"ML/CV",5:"Databases",12:"Databases",
+ 24:"Pedagogy",14:"Pedagogy",6:"Pedagogy",20:"Pedagogy",8:"LLMs",11:"LLMs",16:"LLMs",
+ 21:"Text mining/NLP",22:"Environment",2:"Plenary",9:"Plenary",17:"Plenary"}
 plist=[]
 for em,nm,ss in db.execute("SELECT email, full_name, sessions FROM panelists"):
     l=nm.lower()
@@ -107,7 +107,7 @@ byt=collections.defaultdict(list)
 for p in SPEC: byt[p[1]].append(p)
 themes=sorted(byt,key=lambda t:-len(byt[t]))
 seat1=[]
-NT1=18  # The venue has 18 tables of 10 (180 seats); a ~9/table target overran that once meals passed 162
+NT1=16  # Only 16 tables fit in the main room (venue walk-through 2026-10-01); 16 x 11 = 176 seats
 while len(seat1)<NT1 and any(byt.values()):
     for t in themes:
         if byt[t] and len(seat1)<NT1: seat1.append(byt[t].pop(0))
@@ -133,9 +133,9 @@ for p in GEN+left:
 placed={p[2].lower() for t in tables for p in t["p"]}
 leftover=[p for p in plist if p[2].lower() not in placed]
 for p in leftover:
-    cand=[t for t in tables if len(t["p"])<2]
-    if not cand: break
-    max(cand, key=lambda t: -len(t["p"]))["p"].append(p)
+    # With 16 tables there are more panelists than 2-per-table slots, so the
+    # overflow goes to whichever table has the fewest panelists rather than being dropped.
+    min(tables, key=lambda t: len(t["p"]))["p"].append(p)
 
 ws3=wb.create_sheet("Meal 1 - Lunch 10-15")
 ws3.append(["Table","Theme","Seat","Name","Institution","Role","Panelist","Dietary","Email"])
@@ -143,7 +143,7 @@ pan_emails={p[2].lower() for t in tables for p in t["p"]}
 # attendees by best-matching theme -- BALANCED fill
 attend=[r for r in rows if r[9]==1 and (not is_panelist(r[3]) or "hyman" in r[3].lower())]
 attend, asl1 = pull_asl(attend)
-cap=10
+cap=11
 seats={t["id"]:cap-len(t["p"]) for t in tables}
 theme_of={t["id"]:t["theme"] for t in tables}
 assigned={t["id"]:[] for t in tables}
@@ -174,7 +174,7 @@ _et = next((t["id"] for t in tables
 if _et is None and tables: _et = tables[0]["id"]
 if _et is not None:
     assigned[_et].extend(asl1)
-    # Tables are 10 chairs. Make room for the interpreters by moving
+    # Tables are 11 chairs. Make room for the interpreters by moving
     # other attendees from the ASL host's table to the tables with the most space.
     occ=lambda tid: len(assigned[tid])+len(next(t for t in tables if t["id"]==tid)["p"])
     while occ(_et)>cap:
@@ -184,6 +184,14 @@ if _et is not None:
         if mv is None or dst is None or occ(dst)>=cap: break
         assigned[_et].remove(mv); assigned[dst].append(mv)
 
+# The wheelchair user sits at table 1, the table nearest the door: swap table numbers.
+DOOR = PRIV['door_seat_name_contains']
+_dt = next((t for t in tables if any(DOOR in f"{r[1]} {r[2]}".lower() for r in assigned[t["id"]])), None)
+if _dt is not None and _dt["id"] != 1:
+    one = next(t for t in tables if t["id"] == 1)
+    assigned[1], assigned[_dt["id"]] = assigned[_dt["id"]], assigned[1]
+    one["id"], _dt["id"] = _dt["id"], 1
+tables.sort(key=lambda t: t["id"])
 for t in tables:
     seat=0
     for nm,th,em in t["p"]:
@@ -218,7 +226,7 @@ LABEL={"political-diplomatic":"Political & diplomatic",
 diners=[r for r in rows if r[9]==1]
 diners, asl2 = pull_asl(diners)
 byid={r[0]:r for r in diners}
-NT=18; CAP=10; PCAP=2
+NT=16; CAP=11; PCAP=2
 # group people by subfield label
 groups=collections.defaultdict(list)
 for rid in byid:
@@ -277,13 +285,14 @@ for _ in range(200):
         if back is not None: dst[1].remove(back); src[1].append(back)
 
 # Seat the interpreters with the ASL host here too, over the cap.
-for r in asl2: byid[r[0]] = r
+# The interpreting booking ends at 4:30, so the interpreters are not at dinner.
+asl2 = []
 _host_tbl = next((t for t in tables
                    if any(ASL_HOST in f"{byid[x][1]} {byid[x][2]}".lower() for x in t[1])), None)
 if _host_tbl is None and tables: _host_tbl = tables[0]
 if _host_tbl is not None:
     _host_tbl[1].extend(r[0] for r in asl2)
-    # Same 10-chair limit as lunch: move non-panelists off the ASL host's table.
+    # Same chair limit as lunch: move non-panelists off the ASL host's table.
     while len(_host_tbl[1])>CAP:
         mv=next((x for x in reversed(_host_tbl[1]) if x not in ASL_IDS
                  and not is_panelist(byid[x][3])
@@ -304,6 +313,8 @@ for e1, e2 in DINNER_SWAPS:
     x1 = next(x for x in t1[1] if byid[x][3].strip().lower() == e1)
     x2 = next(x for x in t2[1] if byid[x][3].strip().lower() == e2)
     t1[1][t1[1].index(x1)] = x2; t2[1][t2[1].index(x2)] = x1
+_dd = next((t for t in tables if any(DOOR in f"{byid[x][1]} {byid[x][2]}".lower() for x in t[1])), None)
+if _dd is not None: tables.remove(_dd); tables.insert(0, _dd)
 for tid,(g,mem) in enumerate(tables,1):
     for i,rid in enumerate(mem,1):
         r=byid[rid]; d=r[6].strip(); d="" if d.lower() in DIETNULL else d
@@ -322,7 +333,7 @@ ws5['A1'].font=Font(bold=True,size=12)
 ws6=wb.create_sheet("Summary")
 for k,v in db.execute("SELECT metric, n FROM effective_attendance_summary"): ws6.append([k,v])
 ws6.append(["",""])
-ws6.append(["Tables","18"]); ws6.append(["Seats per table","10"]); ws6.append(["Total capacity","180"])
+ws6.append(["Tables",str(NT)]); ws6.append(["Seats per table",str(CAP)]); ws6.append(["Total capacity",str(NT*CAP)])
 ws6.append(["Panelists at meals",str(len(plist))])
 ws6.append(["Panelists not eating",PRIV["panelists_not_eating_label"]])
 ws6.append(["Not at meals (remote)",PRIV["remote_panelists"]])

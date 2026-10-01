@@ -180,10 +180,10 @@ TOOL_DESC = {"LLMs": "large language models", "Text mining/NLP": "text mining an
     "Environment": "environmental history", "Pedagogy": "teaching with AI", "Plenary": "the plenary sessions"}
 MATCHABLE = {"LLMs", "Text mining/NLP", "GIS/mapping", "Networks", "Databases", "ML/CV", "OCR"}
 # Same session -> theme map build_seating_xlsx.py uses to anchor lunch tables.
-SESSION_TOOL = {4:"GIS/mapping",16:"GIS/mapping",23:"GIS/mapping",20:"OCR",24:"OCR",3:"OCR",
- 13:"Networks",21:"Databases",9:"Databases",17:"Archives",11:"ML/CV",5:"Databases",19:"Databases",
- 22:"Pedagogy",12:"Pedagogy",6:"Pedagogy",18:"Pedagogy",7:"LLMs",10:"LLMs",14:"LLMs",
- 25:"Text mining/NLP",28:"Environment",2:"Plenary",8:"Plenary",15:"Plenary"}
+SESSION_TOOL = {4:"GIS/mapping",18:"GIS/mapping",25:"GIS/mapping",26:"OCR",19:"OCR",3:"OCR",
+ 15:"Networks",23:"Databases",10:"Databases",7:"Archives",13:"ML/CV",5:"Databases",12:"Databases",
+ 24:"Pedagogy",14:"Pedagogy",6:"Pedagogy",20:"Pedagogy",8:"LLMs",11:"LLMs",16:"LLMs",
+ 21:"Text mining/NLP",22:"Environment",2:"Plenary",9:"Plenary",17:"Plenary"}
 sess = {e.lower(): ss for e, ss in con.execute("SELECT email, sessions FROM panelists")}
 for a, c in con.execute("SELECT lower(alt_email), lower(canonical_email) FROM alternate_emails"):
     if c in sess: sess[a] = sess[c]
