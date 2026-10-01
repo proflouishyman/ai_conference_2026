@@ -44,6 +44,7 @@ log = logging.getLogger("botloop.gate")
 LOUIS = "lhyman6@jh.edu"
 STATE_PATH = os.path.join(HERE, "discord_gate_state.json")
 HASHES_PATH = os.path.join(HERE, "gate_hashes.json")
+FORM_HASHES_PATH = os.path.join(HERE, "gate_hashes_form.json")
 LOGS = os.path.join(HERE, "logs")
 
 REG_ROLE = "Registered"
@@ -110,6 +111,23 @@ def load_json(path, default):
             return json.load(fh)
     except (OSError, ValueError):
         return default
+
+
+def _mtime(path):
+    try:
+        return os.path.getmtime(path)
+    except OSError:
+        return None
+
+
+def load_hashes(laptop_path=None, form_path=None):
+    """Union of the laptop file (authoritative: alternates, speaker flags) and
+    the server-side form pull (fresh emails, never speakers)."""
+    out = dict(load_json(laptop_path or HASHES_PATH, {}))
+    form = load_json(form_path or FORM_HASHES_PATH, {})
+    for h in (form.get("hashes") or []) if isinstance(form, dict) else []:
+        out.setdefault(h, {"speaker": False})
+    return out
 
 
 def save_json(path, obj):
@@ -440,9 +458,14 @@ def gate_cycle(ctx) -> int:
             dbl.GUILD = gid
             g = ctx._gate = Gate(api, real_mail, gid, ctx.me_id,
                                  os.environ.get("GATE_PEPPER", ""), {}, dry=ctx.dry)
-        mt = os.path.getmtime(HASHES_PATH) if os.path.exists(HASHES_PATH) else None
+        try:
+            import gate_form_pull
+            gate_form_pull.pull(300)
+        except Exception as exc:
+            log.warning("form pull wrapper failed: %s", type(exc).__name__)
+        mt = (_mtime(HASHES_PATH), _mtime(FORM_HASHES_PATH))
         if mt != getattr(g, "_hash_mtime", 0):
-            g.hashes = load_json(HASHES_PATH, {})
+            g.hashes = load_hashes()
             g._hash_mtime = mt
         g.activity = 0
         return g.cycle()

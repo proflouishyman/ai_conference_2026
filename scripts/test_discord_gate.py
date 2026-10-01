@@ -220,5 +220,20 @@ class T(unittest.TestCase):
         self.assertEqual(e2.d.posts, [])
 
 
+class UnionLoadTest(unittest.TestCase):
+    def test_union_and_speaker_flags(self):
+        import json
+        d = tempfile.mkdtemp()
+        a, b = os.path.join(d, "a.json"), os.path.join(d, "b.json")
+        json.dump({"h1": {"speaker": True}, "h2": {"speaker": False}}, open(a, "w"))
+        json.dump({"count": 2, "hashes": ["h2", "h3", "h1"]}, open(b, "w"))
+        out = g.load_hashes(a, b)
+        self.assertEqual(set(out), {"h1", "h2", "h3"})
+        self.assertTrue(out["h1"]["speaker"])
+        self.assertFalse(out["h3"]["speaker"])
+        self.assertEqual(g.load_hashes(a, os.path.join(d, "none.json")),
+                         {"h1": {"speaker": True}, "h2": {"speaker": False}})
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
