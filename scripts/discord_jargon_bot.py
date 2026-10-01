@@ -53,6 +53,10 @@ FLAG = ("\n\n*Machine-generated and not yet checked by a person. "
         "It will be reviewed and corrected if wrong. If you know better, "
         "please say so.*")
 
+# Footer used by discord_bot_loop.py on generated answers.
+FOOTER_AI = ("\n\n*AI-generated answer, not yet checked by a person. "
+             "An organiser may follow up.*")
+
 SYSTEM = """You define technical terms for historians attending a conference \
 on AI and computational methods.
 
@@ -201,10 +205,11 @@ def cmd_approve(pid, pending, gloss, tok):
         raise SystemExit(f"No pending item {pid}")
     key = normalise(p["term"])
     gloss[key] = {"term": p["term"].strip().title(),
-                  "definition": p["answer"].replace(FLAG, "").strip(),
+                  "definition": p["answer"].replace(FLAG, "")
+                  .replace(FOOTER_AI, "").strip(),
                   "reviewed_by": "human", "source": "llm-approved"}
     save(GLOSSARY, gloss)
-    clean = p["answer"].replace(FLAG, "")
+    clean = p["answer"].replace(FLAG, "").replace(FOOTER_AI, "")
     if p.get("message_id"):
         call("PATCH", f"/channels/{p['channel_id']}/messages/{p['message_id']}",
              tok, {"content": clean})

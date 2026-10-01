@@ -110,32 +110,29 @@ def slugify(text):
     return slug[:90]
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--apply", action="store_true")
-    ap.add_argument("--threshold", type=int, default=DEFAULT_THRESHOLD)
-    args = ap.parse_args()
-
-    tok = token()
+def run_check(tok, apply, threshold, log=print):
+    """One pass of the vote check. Returns the number of channels created
+    (or that would be created). Raises RuntimeError instead of exiting, so a
+    long-running caller survives."""
     st = load_state()
     handled = set(st.get("handled", []))
 
     channels = call("GET", f"/guilds/{GUILD}/channels", tok)
     if isinstance(channels, dict) and "ERROR" in channels:
-        sys.exit("Cannot list channels.")
+        raise RuntimeError("Cannot list channels.")
 
     existing = {c["name"].lower() for c in channels}
     suggest = next((c for c in channels
                     if c["name"] == SUGGEST_CHANNEL and c["type"] == 0), None)
     if not suggest:
-        sys.exit(f"#{SUGGEST_CHANNEL} not found.")
+        raise RuntimeError(f"#{SUGGEST_CHANNEL} not found.")
 
     category = next((c["id"] for c in channels
                      if c["type"] == 4 and c["name"] == CATEGORY_NAME), None)
 
     msgs = call("GET", f"/channels/{suggest['id']}/messages?limit=100", tok)
     if isinstance(msgs, dict) and "ERROR" in msgs:
-        sys.exit("Cannot read suggestions.")
+        raise RuntimeError("Cannot read suggestions.")
 
     bot = call("GET", "/users/@me", tok)
     created = 0
@@ -152,28 +149,28 @@ def main():
             if r["emoji"]["name"] == VOTE_EMOJI:
                 votes = r["count"]
                 break
-        if votes < args.threshold:
+        if votes < threshold:
             continue
 
         slug = slugify(m["content"])
         preview = m["content"].strip().splitlines()[0][:60] if m["content"] else "(empty)"
 
         if not slug:
-            print(f"- skip (no usable name): {preview}")
+            log(f"- skip (no usable name): {preview}")
             continue
         if BLOCKED.search(slug):
-            print(f"- BLOCKED name '{slug}' — needs a human: {preview}")
+            log(f"- BLOCKED name '{slug}' — needs a human: {preview}")
             continue
         if slug in existing:
-            print(f"- exists already: #{slug}")
+            log(f"- exists already: #{slug}")
             handled.add(mid)
             continue
         if created >= MAX_NEW_PER_RUN:
-            print(f"- hit per-run cap ({MAX_NEW_PER_RUN}), leaving the rest")
+            log(f"- hit per-run cap ({MAX_NEW_PER_RUN}), leaving the rest")
             break
 
-        print(f"+ #{slug}  ({votes} votes)  from: {preview}")
-        if args.apply:
+        log(f"+ #{slug}  ({votes} votes)  from: {preview}")
+        if apply:
             body = {"name": slug, "type": 0,
                     "topic": f"Requested by members in #{SUGGEST_CHANNEL}."}
             if category:
@@ -185,19 +182,33 @@ def main():
             call("POST", f"/channels/{suggest['id']}/messages", tok,
                  {"content": f"Made it: <#{res['id']}>. "
                              f"{votes} people wanted this one.",
-                  "message_reference": {"message_id": mid}})
+                  "message_reference": {"message_id": mid},
+                  "allowed_mentions": {"parse": []}})
             time.sleep(0.5)
             existing.add(slug)
             handled.add(mid)
         created += 1
 
-    if args.apply:
+    if apply:
         st["handled"] = sorted(handled)
         st["last_run"] = time.strftime("%Y-%m-%dT%H:%M:%S")
         save_state(st)
+    return created, bot.get("username")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--threshold", type=int, default=DEFAULT_THRESHOLD)
+    args = ap.parse_args()
+
+    try:
+        created, botname = run_check(token(), args.apply, args.threshold)
+    except RuntimeError as exc:
+        sys.exit(str(exc))
 
     print(f"\n{'APPLIED' if args.apply else 'DRY RUN'}: {created} channel(s), "
-          f"threshold {args.threshold}, bot {bot.get('username')}")
+          f"threshold {args.threshold}, bot {botname}")
     if not args.apply and created:
         print("Re-run with --apply to create them.")
 

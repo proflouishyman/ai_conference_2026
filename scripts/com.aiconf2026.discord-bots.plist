@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- PROPOSED, NOT INSTALLED. Install to ~/Library/LaunchAgents on ces-server.
+     Secrets: discord_bot_loop.py loads ~/.conference_bots.env itself (guarded),
+     so no wrapper script is needed. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.aiconf2026.discord-bots</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/louishyman/coding/ai_conference_2026/scripts/discord_bot_loop.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/louishyman/coding/ai_conference_2026</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/louishyman</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>30</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/louishyman/coding/ai_conference_2026/scripts/logs/discord_bot_loop.launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/louishyman/coding/ai_conference_2026/scripts/logs/discord_bot_loop.launchd.log</string>
+</dict>
+</plist>

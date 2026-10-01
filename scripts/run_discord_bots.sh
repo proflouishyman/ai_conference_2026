@@ -20,6 +20,14 @@ MAXLOG=1048576          # rotate at 1 MB
 cd "$ROOT" || exit 1
 mkdir -p "$LOGS"
 
+# --- the adaptive loop owns the bots when it is running ---------------------
+# Two copies answering at once would double-post. If discord_bot_loop.py is up,
+# this hourly job does nothing. (Also remove the crontab line on deploy.)
+if /usr/bin/pgrep -f "discord_bot_loop.py" >/dev/null 2>&1; then
+  echo "$(date '+%F %T') SKIP (discord_bot_loop.py is running)" >> "$HEARTBEAT"
+  exit 0
+fi
+
 # --- lock: skip this tick if the previous run is still going ----------------
 if ! mkdir "$LOCK" 2>/dev/null; then
   if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +30 2>/dev/null)" ]; then

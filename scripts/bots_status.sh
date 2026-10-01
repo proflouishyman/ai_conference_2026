@@ -12,8 +12,13 @@ AGE=$(( (NOW - LASTEPOCH) / 60 ))
 
 echo "last run:  $LAST"
 echo "age:       ${AGE} min ago"
-if [ "$AGE" -gt 15 ]; then
-  echo "STATUS:    STALE -- expected every 5 min. Check: crontab -l"
+LIMIT=15; MODE="cron"
+if /usr/bin/pgrep -f discord_bot_loop.py >/dev/null 2>&1 || echo "$LAST" | grep -q " loop "; then
+  LIMIT=5; MODE="loop"          # loop writes a heartbeat at least every 2 min
+fi
+echo "mode:      $MODE ($(/usr/bin/pgrep -f discord_bot_loop.py >/dev/null 2>&1 && echo 'loop process UP' || echo 'loop process not running'))"
+if [ "$AGE" -gt "$LIMIT" ]; then
+  echo "STATUS:    STALE -- expected a heartbeat every ${LIMIT} min or less. Check: launchctl list | grep aiconf2026; crontab -l"
 elif echo "$LAST" | grep -q "key:MISSING"; then
   echo "STATUS:    RUNNING but OPENAI KEY MISSING -- glossary answers only, no generation"
 elif echo "$LAST" | grep -qv "jargon=0 channel=0"; then
