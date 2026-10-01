@@ -51,3 +51,7 @@ CLAUDE.md
 # Internal email-audit tool: quotes subject lines, mail-system internals.
 scripts/audit_sends.py
 .claude/settings.local.json
+
+# Discord gate: HMAC fingerprints of registrant emails + gate state
+scripts/gate_hashes.json
+scripts/discord_gate_state.json

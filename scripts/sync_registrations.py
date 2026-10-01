@@ -264,6 +264,12 @@ def main():
 
     print(f"Synced: {inserted} new, {updated} updated, {total} total rows in {DB_PATH}")
 
+    # Refresh the Discord gate's email fingerprints (best effort, never fails the sync).
+    try:
+        subprocess.run([sys.executable, str(Path(__file__).with_name("export_gate_hashes.py"))], timeout=60)
+    except Exception as exc:
+        print(f"gate hash export skipped: {exc}")
+
 
 if __name__ == "__main__":
     main()
