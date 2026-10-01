@@ -145,8 +145,50 @@ class Api:
                 sys.exit(f"HTTP {e.code} {method} {path}: {data[:300]!r}")
 
 
+def safety_check(api, threads):
+    """Return [(thread_id, name, author)] for messages by anyone but the bot."""
+    me = api.call("GET", "/users/@me")["id"]
+    bad = []
+    for i, n in threads.items():
+        before = ""
+        while True:
+            msgs = api.call("GET", f"/channels/{i}/messages?limit=100" + (f"&before={before}" if before else ""))
+            bad += [(i, n, m["author"].get("username")) for m in msgs if m["author"]["id"] != me]
+            if len(msgs) < 100: break
+            before = msgs[-1]["id"]
+        time.sleep(0.3)
+    return bad
+
+
+def rebuild(api, fid, rows, tid, threads, apply):
+    """Recreate every post so creation order matches program order.
+
+    Discord's creation-date sort (default_sort_order=1) lists NEWEST first, so
+    #28 is created first and #1 last, leaving #1 on top. Old threads are deleted
+    only after all new ones exist, and never if anyone but the bot has posted."""
+    bad = safety_check(api, threads)
+    print(f"safety check: {len(threads)} threads, {len(bad)} non-bot messages")
+    for b in bad: print("  NON-BOT:", b)
+    if bad:
+        sys.exit("stopping: non-bot messages found, nothing created or deleted")
+    if not apply:
+        print("dry run: would create", len(rows), "posts in reverse order, delete", len(threads), "old threads"); return
+    old = set(threads)
+    for r in reversed(rows):
+        api.call("POST", f"/channels/{fid}/threads", {
+            "name": r["_t"], "applied_tags": [tid[t] for t in r["_tags"]],
+            "message": {"content": r["_b"], "allowed_mentions": {"parse": []}}})
+        print("created", r["_t"]); time.sleep(2)
+    for i in old:
+        api.call("DELETE", f"/channels/{i}"); time.sleep(1.5)
+    api.call("PATCH", f"/channels/{fid}", {"default_sort_order": 1})
+    print("deleted", len(old), "old threads; default_sort_order=1")
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--rebuild", action="store_true",
+                    help="safety-check, recreate all posts in order, delete the old set, sort by creation date")
     ap.add_argument("--show", nargs="*", type=int, default=[5, 27])
     a = ap.parse_args()
     rows = parse()
@@ -167,7 +209,7 @@ def main():
     live = next(c for c in chans if c["name"] == "live-sessions" and c["type"] == 0)
     forum = next((c for c in chans if c["name"] == "sessions" and c["type"] == 15), None)
     print(f"\nguild {gid}, live-sessions {live['id']} parent {live['parent_id']}, forum exists: {bool(forum)}")
-    if not a.apply:
+    if not a.apply and not (a.rebuild and forum):
         return
     if not forum:
         forum = api.call("POST", f"/guilds/{gid}/channels", {
@@ -199,6 +241,8 @@ def main():
         threads.update({t["id"]: t["name"] for t in res["threads"]})
         if not res.get("has_more") or not res["threads"]: break
         before = res["threads"][-1]["thread_metadata"]["archive_timestamp"]
+    if a.rebuild:
+        return rebuild(api, fid, rows, tid, threads, a.apply)
     strip = lambda n: re.sub(r"^#\d+ · [^·]+ · ", "", n)
     by_title = {strip(n): (i, n) for i, n in threads.items()}
     made = 0
