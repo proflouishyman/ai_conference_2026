@@ -220,7 +220,9 @@ class Gate:
                     "attempts": 0, "sends": [], "nomatch": 0, "chatter": 0,
                     "joined": self.now()}
                 log.info("gate: new member %s", uid)
-        self.st["known"] = sorted(known)
+        # forget people who left: if they rejoin, Discord has stripped their
+        # roles, so they must be treated as new and verified again
+        self.st["known"] = sorted(known & set(by_id)) if by_id else sorted(known)
         for uid in list(self.st["pending"]):          # left, or got the role by hand
             m = by_id.get(uid)
             if m is None or reg in m.get("roles", []):
