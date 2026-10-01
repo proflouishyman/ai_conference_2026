@@ -56,3 +56,4 @@ scripts/audit_sends.py
 scripts/gate_hashes.json
 scripts/discord_gate_state.json
 scripts/gate_hashes_form.json
+scripts/gate_covered.json

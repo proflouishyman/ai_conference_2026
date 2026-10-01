@@ -25,6 +25,7 @@ from datetime import datetime, timezone
 log = logging.getLogger("gate_form_pull")
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "gate_hashes_form.json")
+COVERED = os.path.join(HERE, "gate_covered.json")   # from the laptop export
 _last_ok = [0.0]
 
 
@@ -61,7 +62,20 @@ def _get(url, tok):
         return json.load(r)
 
 
+def _covered():
+    try:
+        with open(COVERED) as fh:
+            return set(json.load(fh).get("responses", []))
+    except (OSError, ValueError):
+        return None
+
+
 def _hashes(pepper):
+    """Emails from form responses the local DB has not seen yet. The local DB
+    (with its corrections) is the base. The server only adds new registrants."""
+    covered = _covered()
+    if covered is None:
+        raise RuntimeError("gate_covered.json missing: refusing to add uncorrected emails")
     tok = _access_token()
     base = "https://forms.googleapis.com/v1/forms/%s/responses" % urllib.parse.quote(_form_id())
     out, page = set(), None
@@ -71,6 +85,8 @@ def _hashes(pepper):
             q["pageToken"] = page
         resp = _get(base + "?" + urllib.parse.urlencode(q), tok)
         for r in resp.get("responses", []):
+            if _fp(pepper, r.get("responseId", "")) in covered:
+                continue                        # the local DB already decided this one
             e = (r.get("respondentEmail") or "").strip().lower()
             if "@" in e:
                 out.add(_fp(pepper, e))

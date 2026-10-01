@@ -14,6 +14,11 @@ DB = HERE.parent / "registrations.db"
 OUT = HERE / "gate_hashes.json"
 ENV = Path.home() / ".conference_bots.env"
 REMOTE = "ces-server:coding/ai_conference_2026/scripts/gate_hashes.json"
+# Every form response the local DB has seen (including cancelled and excluded
+# ones). The server adds a form email only if its response is NOT in here, so
+# local corrections, cancellations and dedupes always win.
+COVERED = HERE / "gate_covered.json"
+REMOTE_COVERED = "ces-server:coding/ai_conference_2026/scripts/gate_covered.json"
 
 
 def fp(pepper, email):
@@ -73,16 +78,26 @@ def main():
     os.chmod(OUT, 0o600)
     print("gate_hashes.json: %d hashes, %d speakers" %
           (len(out), sum(1 for v in out.values() if v["speaker"])))
+    c = sqlite3.connect(str(DB))
+    covered = sorted(fp(pepper, rid) for (rid,) in c.execute("SELECT response_id FROM registrations"))
+    tmp = str(COVERED) + ".tmp"
+    with open(tmp, "w") as fh:
+        json.dump({"responses": covered}, fh)
+    os.replace(tmp, COVERED)
+    os.chmod(COVERED, 0o600)
+    print("gate_covered.json: %d form responses already in the local DB" % len(covered))
     if created:
         print("NEW PEPPER written to %s (GATE_PEPPER). Copy that line to the "
               "server's ~/.conference_bots.env BEFORE the gate runs there." % ENV)
     if "--no-scp" in sys.argv:
         return 0
     try:
-        r = subprocess.run(["scp", "-q", "-o", "ConnectTimeout=10", "-o",
-                            "BatchMode=yes", str(OUT), REMOTE],
-                           timeout=20, capture_output=True)
-        print("scp to ces-server:", "ok" if r.returncode == 0 else "failed (best effort)")
+        for src, dst in ((COVERED, REMOTE_COVERED), (OUT, REMOTE)):   # covered first
+            r = subprocess.run(["scp", "-q", "-o", "ConnectTimeout=10", "-o",
+                                "BatchMode=yes", str(src), dst],
+                               timeout=20, capture_output=True)
+            print("scp %s to ces-server:" % src.name,
+                  "ok" if r.returncode == 0 else "failed (best effort)")
     except Exception as exc:
         print("scp to ces-server skipped:", type(exc).__name__)
     return 0
