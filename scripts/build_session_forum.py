@@ -2,8 +2,9 @@
 """Create the #sessions forum channel (one post per conference session).
 
 Source of truth: index.html (rows id="session-N").
-Idempotent: skips the forum, tags, posts and the #live-sessions pointer if they
-already exist. Dry run by default; pass --apply to write.
+Idempotent: skips the forum, tags and the #live-sessions pointer if they
+already exist. Posts are matched to sessions by TITLE (not number), so a renumbering
+renames the thread and rewrites its starter message instead of creating a duplicate. Dry run by default; pass --apply to write.
 """
 import argparse, html, json, re, sys, time, urllib.request, urllib.error
 
@@ -14,8 +15,8 @@ SITE = "https://proflouishyman.github.io/ai_conference_2026"
 TOPIC = ("One post per session. Ask questions and talk about the talk here, "
          "during and after. All times Eastern.")
 TAGS = ["Thursday", "Friday", "Morning", "Afternoon", "Digital only", "Hands-on", "Plenary"]
-PLENARY_FORCE = {2, 15, 27}
-HANDS_ON_FORCE = {5, 9, 14, 16, 23}
+PLENARY_FORCE = {2, 17, 28}
+HANDS_ON_FORCE = {5, 10, 16, 18, 25}
 HANDS_ON_RE = re.compile(r"hands-on|working session|\blab\b|live demonstration|live walkthrough", re.I)
 MAXMSG = 1800
 
@@ -189,19 +190,29 @@ def main():
         tags = [{"id": t["id"]} for t in forum["available_tags"]] + [{"name": t} for t in TAGS if t not in have]
         forum = api.call("PATCH", f"/channels/{fid}", {"available_tags": tags})
     tid = {t["name"]: t["id"] for t in forum["available_tags"]}
-    names = {t["name"] for t in api.call("GET", f"/guilds/{gid}/threads/active")["threads"]
-             if t["parent_id"] == fid}
+    threads = {t["id"]: t["name"] for t in api.call("GET", f"/guilds/{gid}/threads/active")["threads"]
+               if t["parent_id"] == fid}
     before = ""
     while True:
         q = f"/channels/{fid}/threads/archived/public?limit=100" + (f"&before={before}" if before else "")
         res = api.call("GET", q)
-        names |= {t["name"] for t in res["threads"]}
+        threads.update({t["id"]: t["name"] for t in res["threads"]})
         if not res.get("has_more") or not res["threads"]: break
         before = res["threads"][-1]["thread_metadata"]["archive_timestamp"]
+    strip = lambda n: re.sub(r"^#\d+ · [^·]+ · ", "", n)
+    by_title = {strip(n): (i, n) for i, n in threads.items()}
     made = 0
     for r in rows:
-        if r["_t"] in names:
-            print("skip", r["_t"]); continue
+        hit = by_title.get(strip(r["_t"]))
+        if hit:
+            tid_, cur = hit
+            if cur != r["_t"]:
+                api.call("PATCH", f"/channels/{tid_}", {"name": r["_t"]}); time.sleep(1)
+                print("renamed", cur, "->", r["_t"])
+            # starter message id == thread id
+            api.call("PATCH", f"/channels/{tid_}/messages/{tid_}",
+                     {"content": r["_b"], "allowed_mentions": {"parse": []}}); time.sleep(1)
+            continue
         api.call("POST", f"/channels/{fid}/threads", {
             "name": r["_t"], "applied_tags": [tid[t] for t in r["_tags"]],
             "message": {"content": r["_b"], "allowed_mentions": {"parse": []}}})

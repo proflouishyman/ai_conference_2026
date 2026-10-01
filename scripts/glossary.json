@@ -23,13 +23,13 @@
  },
  "benchmark": {
   "definition": "A standard test used to compare tools on the same material.",
-  "session": "Session 24, the six-system OCR benchmark",
+  "session": "Session 19, the six-system OCR benchmark",
   "term": "Benchmark"
  },
  "bias": {
   "definition": "Two different meanings that often get confused. Ordinarily, a model reproducing prejudices in its training material. In statistics, a systematic skew in measurement. Both come up here, sometimes in the same session.",
   "link": "https://en.wikipedia.org/wiki/Algorithmic_bias",
-  "session": "Session 10, Trust and Error",
+  "session": "Session 11, Trust and Error",
   "term": "Bias"
  },
  "classification": {
@@ -208,7 +208,7 @@
   ],
   "definition": "When a model produces something fluent, confident and false. The central evidentiary problem for historians. The word is unfortunate: it implies malfunction, when the model is doing exactly what it was built to do, produce plausible text.",
   "link": "https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)",
-  "session": "Session 10",
+  "session": "Session 11",
   "term": "Hallucination"
  },
  "hpc": {
@@ -224,7 +224,7 @@
  },
  "htr": {
   "definition": "Handwritten Text Recognition. OCR for handwriting, and much harder than print.",
-  "session": "Session 20",
+  "session": "Session 26",
   "term": "HTR"
  },
  "ide": {
@@ -305,7 +305,7 @@
    "named entities"
   ],
   "definition": "Named Entity Recognition. Automatically finding the people, places, organisations and dates in a text. The step that turns a wall of prose into something queryable.",
-  "session": "Sessions 24 and 25",
+  "session": "Sessions 19 and 21",
   "term": "NER"
  },
  "network analysis": {
@@ -314,7 +314,7 @@
    "social network analysis"
   ],
   "definition": "Studying relationships as a structure: who corresponded with whom, what connected to what. Produces both a picture and measurements.",
-  "session": "Session 13",
+  "session": "Session 15",
   "term": "Network analysis"
  },
  "nlp": {
@@ -355,7 +355,7 @@
    "open source model"
   ],
   "definition": "A model whose internals are published, so you can run it on your own machine rather than sending material to a company. Usually less capable than frontier models, but free, private, and not subject to anyone's terms of service.",
-  "session": "Session 19",
+  "session": "Session 12",
   "term": "Open-weight model"
  },
  "pip": {
@@ -436,7 +436,7 @@
    "semantic"
   ],
   "definition": "Finding relevant documents by meaning rather than exact words. A semantic search for unrest can surface a document saying riot without ever using your word.",
-  "session": "Session 24",
+  "session": "Session 19",
   "term": "Retrieval"
  },
  "sql": {
@@ -461,7 +461,7 @@
    "text analysis"
   ],
   "definition": "Extracting patterns and information from large bodies of text: word frequencies, topics, changes over time.",
-  "session": "Session 7",
+  "session": "Session 8",
   "term": "Text mining"
  },
  "token": {
@@ -480,7 +480,7 @@
  "unicode": {
   "definition": "The standard letting computers represent every writing system, in principle. In practice its coverage of historical scripts is uneven, which is a historical and political question as much as a technical one.",
   "link": "https://en.wikipedia.org/wiki/Unicode",
-  "session": "Session 25",
+  "session": "Session 21",
   "term": "Unicode"
  },
  "vector database": {
