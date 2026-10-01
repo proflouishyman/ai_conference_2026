@@ -133,8 +133,8 @@ for fn, ln, email, inst, diet, d15, d16 in rows:
     counts[cat] += 1; c15[cat] += d15; c16[cat] += d16
     ws.append([first, last, email, inst, cat, note,
                "Yes" if d15 else "No", "Yes" if d16 else "No", lt, dt, (diet or "").strip()])
-    if VENDOR not in email:
-        badges.append([first, last, inst, lt, dt])
+    # Interpreters get badges too, labelled by role rather than agency.
+    badges.append([first, last, "ASL Interpreter" if VENDOR in email else inst, lt, dt])
 assert set(counts) <= set(ORDER), set(counts) - set(ORDER)
 for c in ws[1]: c.font = bold; c.fill = fill
 ws.freeze_panes = "A2"; ws.auto_filter.ref = ws.dimensions

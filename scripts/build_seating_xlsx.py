@@ -223,7 +223,9 @@ LABEL={"political-diplomatic":"Political & diplomatic",
  "economic-labor":"Economic & labor history","military-war":"Military & war",
  "social-cultural":"Social & cultural","gender-sexuality":"Social & cultural",
  "unknown":"Mixed"}
-diners=[r for r in rows if r[9]==1]
+# Some Thursday diners eat lunch but have said they will skip dinner.
+NO_DINNER=set(PRIV.get('no_dinner_emails',[]))
+diners=[r for r in rows if r[9]==1 and r[3].strip().lower() not in NO_DINNER]
 diners, asl2 = pull_asl(diners)
 byid={r[0]:r for r in diners}
 NT=16; CAP=11; PCAP=2
@@ -264,7 +266,8 @@ tables.sort(key=lambda t: len(t[1]))
 while True:
     tables.sort(key=lambda t: len(t[1]))
     lo,hi=tables[0],tables[-1]
-    if len(hi[1])-len(lo[1])<=1 or len(hi[1])<=CAP and len(lo[1])>=CAP-2: break
+    # Even the tables out fully, so spare chairs are spread across tables as slack.
+    if len(hi[1])-len(lo[1])<=1: break
     mv=next((x for x in hi[1] if not is_panelist(byid[x][3])), None)
     if mv is None: break
     hi[1].remove(mv); lo[1].append(mv)
@@ -283,6 +286,16 @@ for _ in range(200):
     if len(dst[1])>CAP:
         back=next((x for x in reversed(dst[1]) if not is_panelist(byid[x][3])), None)
         if back is not None: dst[1].remove(back); src[1].append(back)
+
+# Final even-out after the panelist moves, so the spare chairs are spread as
+# slack rather than bunched at a few half-empty tables.
+for _ in range(200):
+    tables.sort(key=lambda t: len(t[1]))
+    lo, hi = tables[0], tables[-1]
+    if len(hi[1]) - len(lo[1]) <= 1: break
+    mv = next((x for x in reversed(hi[1]) if not is_panelist(byid[x][3])), None)
+    if mv is None: break
+    hi[1].remove(mv); lo[1].append(mv)
 
 # Seat the interpreters with the ASL host here too, over the cap.
 # The interpreting booking ends at 4:30, so the interpreters are not at dinner.
