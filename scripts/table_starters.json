@@ -183,16 +183,6 @@
   "meal": "Thursday dinner",
   "table": 1,
   "questions": [
-   "How should archives, libraries and museums label machine-generated description so that later researchers can separate it from human cataloging?",
-   "What does it take for staff and historians to co-design a digitization priority list rather than let vendors set it?",
-   "Which parts of archival appraisal or description could a model plausibly share, and which are judgments that must stay accountable to a person?",
-   "How does machine processing of collections change what a citation to a finding aid promises about a source?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 2,
-  "questions": [
    "What evidence would convince you that a teaching method with AI improves historical thinking rather than only polished prose?",
    "Where do you draw the line between using a model for transcription and letting it make interpretive moves for a student?",
    "How should a history curriculum split time between learning to code and learning to evaluate someone else's model?",
@@ -201,67 +191,17 @@
  },
  {
   "meal": "Thursday dinner",
+  "table": 2,
+  "questions": [
+   "How should archives, libraries and museums label machine-generated description so that later researchers can separate it from human cataloging?",
+   "What does it take for staff and historians to co-design a digitization priority list rather than let vendors set it?",
+   "Which parts of archival appraisal or description could a model plausibly share, and which are judgments that must stay accountable to a person?",
+   "How does machine processing of collections change what a citation to a finding aid promises about a source?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
   "table": 3,
-  "questions": [
-   "How do you evaluate a student project built on a corpus that has been cleaned or annotated by machine?",
-   "What is the right ratio of hands-on tool building to critical reading of tools in a graduate computational history course?",
-   "How could historians and computer scientists share credit and vocabulary well enough that neither treats the other as staff?",
-   "If a tool makes archival research faster for everyone, what becomes the new scarce skill in the profession?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 4,
-  "questions": [
-   "What would a defensible historical language model trained on period texts show us that modern models cannot?",
-   "How do you handle the mismatch between the vague spatial reasoning historians use and the precise coordinates GIS demands?",
-   "What funding models actually sustain historical data infrastructure after a grant ends?",
-   "Which claims about digital methods in your research field would you now flag as overstated?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 5,
-  "questions": [
-   "How do you validate extraction from ledgers or shipping records when the original tables are inconsistent from page to page?",
-   "What questions in economic and labor history become answerable only when records are machine-processed at scale, and which stay out of reach?",
-   "Can an LLM read a balance sheet or payroll record as a historical document, or does it read it as a modern one?",
-   "How will cheap extraction change who can do quantitative economic history, and who gets left behind?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 6,
-  "questions": [
-   "What does it mean to read a text a model has already summarized, and how does that alter the history of reading itself?",
-   "How should intellectual historians treat model output as evidence of how ideas circulate versus as a fresh restatement of them?",
-   "Should authorship and intellectual property rules for scholars change if models are trained on their published arguments?",
-   "Is the history of the book a good guide to what happens now that texts are generated rather than printed?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 7,
-  "questions": [
-   "What do military records reveal about the biases of datasets built to describe war, and what do they hide?",
-   "How would you test a model's claim about a battle or campaign that appears in only one surviving source?",
-   "Which questions in war and society need the material object rather than the text, and can vision models help there?",
-   "How should military historians teach students to use AI without accepting its confident but shallow narratives of war?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 8,
-  "questions": [
-   "Which of the skills you rely on as a historian would you least want to see a model replace, and why?",
-   "What is the best argument that AI has changed nothing fundamental about historical method?",
-   "How do you decide whether a machine result belongs in the main argument, an appendix or nowhere?",
-   "What should the historical profession demand from AI vendors that it has not yet asked for?"
-  ]
- },
- {
-  "meal": "Thursday dinner",
-  "table": 9,
   "questions": [
    "Where do your sources resist the categories that databases and models impose on them?",
    "What would an honest methods note look like for a project that used AI at several stages?",
@@ -271,7 +211,17 @@
  },
  {
   "meal": "Thursday dinner",
-  "table": 10,
+  "table": 4,
+  "questions": [
+   "How do you evaluate a student project built on a corpus that has been cleaned or annotated by machine?",
+   "What is the right ratio of hands-on tool building to critical reading of tools in a graduate computational history course?",
+   "How could historians and computer scientists share credit and vocabulary well enough that neither treats the other as staff?",
+   "If a tool makes archival research faster for everyone, what becomes the new scarce skill in the profession?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
+  "table": 5,
   "questions": [
    "How do you judge whether an AI tool has helped a graduate student or only made an unfinished argument look finished?",
    "For early American political sources, which questions has full-text search already answered, and what remains that only reading can settle?",
@@ -281,7 +231,47 @@
  },
  {
   "meal": "Thursday dinner",
-  "table": 11,
+  "table": 6,
+  "questions": [
+   "How do you validate extraction from ledgers or shipping records when the original tables are inconsistent from page to page?",
+   "What questions in economic and labor history become answerable only when records are machine-processed at scale, and which stay out of reach?",
+   "Can an LLM read a balance sheet or payroll record as a historical document, or does it read it as a modern one?",
+   "How will cheap extraction change who can do quantitative economic history, and who gets left behind?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
+  "table": 7,
+  "questions": [
+   "What does it mean to read a text a model has already summarized, and how does that alter the history of reading itself?",
+   "How should intellectual historians treat model output as evidence of how ideas circulate versus as a fresh restatement of them?",
+   "Should authorship and intellectual property rules for scholars change if models are trained on their published arguments?",
+   "Is the history of the book a good guide to what happens now that texts are generated rather than printed?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
+  "table": 8,
+  "questions": [
+   "What do military records reveal about the biases of datasets built to describe war, and what do they hide?",
+   "How would you test a model's claim about a battle or campaign that appears in only one surviving source?",
+   "Which questions in war and society need the material object rather than the text, and can vision models help there?",
+   "How should military historians teach students to use AI without accepting its confident but shallow narratives of war?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
+  "table": 9,
+  "questions": [
+   "Which of the skills you rely on as a historian would you least want to see a model replace, and why?",
+   "What is the best argument that AI has changed nothing fundamental about historical method?",
+   "How do you decide whether a machine result belongs in the main argument, an appendix or nowhere?",
+   "What should the historical profession demand from AI vendors that it has not yet asked for?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
+  "table": 10,
   "questions": [
    "When a source comes from a colonial archive, what does it mean to search it with a model trained on the colonizer's language?",
    "How do you approach music, images or other non-textual sources of political history that OCR and LLMs handle poorly?",
@@ -291,7 +281,7 @@
  },
  {
   "meal": "Thursday dinner",
-  "table": 12,
+  "table": 11,
   "questions": [
    "Which questions of empire and Cold War politics do machine-read collections make easier to ask, and which do they push aside?",
    "How do you treat archival silences that scale-based methods tend to read as absence?",
@@ -301,12 +291,22 @@
  },
  {
   "meal": "Thursday dinner",
-  "table": 13,
+  "table": 12,
   "questions": [
    "What are the tradeoffs of retrieval systems over declassified diplomatic collections, and how would you audit what they miss?",
    "Who should control access to diplomatic and intelligence records as machine processing turns them into training data?",
    "What would a public history office need to publish so AI-based readers use its documents correctly?",
    "How should historians of foreign relations respond when models reproduce official narratives as neutral fact?"
+  ]
+ },
+ {
+  "meal": "Thursday dinner",
+  "table": 13,
+  "questions": [
+   "What would a defensible historical language model trained on period texts show us that modern models cannot?",
+   "How do you handle the mismatch between the vague spatial reasoning historians use and the precise coordinates GIS demands?",
+   "What funding models actually sustain historical data infrastructure after a grant ends?",
+   "Which claims about digital methods in your research field would you now flag as overstated?"
   ]
  },
  {

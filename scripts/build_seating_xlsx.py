@@ -107,7 +107,7 @@ byt=collections.defaultdict(list)
 for p in SPEC: byt[p[1]].append(p)
 themes=sorted(byt,key=lambda t:-len(byt[t]))
 seat1=[]
-NT1=16  # Only 16 tables fit in the main room (venue walk-through 2026-10-01); 16 x 11 = 176 seats
+NT1=18  # 16 tables in the main room plus 2 in a separate space (Louis, 2026-10-02); 10 seats each = 180
 while len(seat1)<NT1 and any(byt.values()):
     for t in themes:
         if byt[t] and len(seat1)<NT1: seat1.append(byt[t].pop(0))
@@ -133,7 +133,7 @@ for p in GEN+left:
 placed={p[2].lower() for t in tables for p in t["p"]}
 leftover=[p for p in plist if p[2].lower() not in placed]
 for p in leftover:
-    # With 16 tables there are more panelists than 2-per-table slots, so the
+    # With 18 tables there can be more panelists than 2-per-table slots, so the
     # overflow goes to whichever table has the fewest panelists rather than being dropped.
     min(tables, key=lambda t: len(t["p"]))["p"].append(p)
 
@@ -143,7 +143,7 @@ pan_emails={p[2].lower() for t in tables for p in t["p"]}
 # attendees by best-matching theme -- BALANCED fill
 attend=[r for r in rows if r[9]==1 and (not is_panelist(r[3]) or "hyman" in r[3].lower())]
 attend, asl1 = pull_asl(attend)
-cap=11
+cap=10  # tables seat 10 at most (Louis, 2026-10-02)
 seats={t["id"]:cap-len(t["p"]) for t in tables}
 theme_of={t["id"]:t["theme"] for t in tables}
 assigned={t["id"]:[] for t in tables}
@@ -237,7 +237,7 @@ NO_DINNER=set(PRIV.get('no_dinner_emails',[]))
 diners=[r for r in rows if r[9]==1 and r[3].strip().lower() not in NO_DINNER]
 diners, asl2 = pull_asl(diners)
 byid={r[0]:r for r in diners}
-NT=16; CAP=11; PCAP=2
+NT=18; CAP=10; PCAP=2  # 18 tables of 10 max, 2 of them in a separate space
 # group people by subfield label
 groups=collections.defaultdict(list)
 for rid in byid:
