@@ -2268,9 +2268,9 @@
           <li>Questions about registration or the waitlist: <a href="mailto:lhyman6@jh.edu" style="color:var(--navy);">lhyman6@jh.edu</a></li>
           <li>Graduate student fee: <strong>Free</strong></li>
           <li>Financial hardship: <strong>Free</strong> (self-described, no documentation needed)</li>
-          <li>Faculty / professional fee: <strong>$100</strong> — pay at <a href="https://cglink.me/2dh/r1989944" style="color:var(--navy);">cglink.me/2dh/r1989944</a></li>
-          <li>The payment page runs on the Hopkins events system and asks you to sign in first. If you are not at Hopkins, use <strong>SIGN UP</strong> under "First Time User" and choose <strong>Guest</strong> as the account type — the payment step follows.</li>
+          <li>Faculty / professional fee: <strong>$100</strong>, paid separately at <a href="https://cglink.me/2dh/r1989944" style="color:var(--navy);">cglink.me/2dh/r1989944</a></li>
         </ul>
+        <p style="margin-top:1rem;"><strong>Registering and paying are two separate steps.</strong> You register on our <a href="register.html" style="color:var(--navy);">registration form</a>. If you owe the $100 fee, you then pay it on Hopkins Groups, the university's events system. Paying is not what holds your seat. Your registration does that. See <a href="#faq-late-payment" style="color:var(--navy);">How do I pay if I registered late?</a> for step-by-step instructions.</p>
       </div>
 
       <div class="venue-card">
@@ -2324,10 +2324,27 @@
       </div>
     </details>
 
+    <details class="faq-item" id="faq-late-payment">
+      <summary>I registered late. How do I pay the $100 fee?</summary>
+      <div class="faq-answer">
+        <p>We emailed payment links in one batch in August, so if you registered after that, you probably never got one. That is our mistake, not yours. Your seat is confirmed whether or not you have paid yet.</p>
+        <p>To pay:</p>
+        <ol style="margin:0.5rem 0 0 1.25rem;line-height:1.7;">
+          <li>Go to <a href="https://cglink.me/2dh/r1989944">cglink.me/2dh/r1989944</a>. This is Hopkins Groups, the university's events system.</li>
+          <li>Ignore the sign-in box on the left. Under <strong>First Time User</strong> on the right, click <strong>SIGN UP</strong>.</li>
+          <li>Fill in your details and choose <strong>Guest</strong> as the account type. You need to create this account even though you already registered on our form.</li>
+          <li>Once you are signed in, the event page shows the $100 fee and the payment step.</li>
+        </ol>
+        <p>If you already have a Hopkins Groups account from an earlier event, sign in on the left instead.</p>
+        <p><strong>If the page says registration ended on September 16</strong>, that is an old setting on the payment system, not a conference deadline. Your registration is still valid. Email Louis Hyman at <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a> and we will make sure you can pay.</p>
+        <p>If you are a graduate student or selected financial hardship, there is nothing to pay.</p>
+      </div>
+    </details>
+
     <details class="faq-item">
       <summary>What if I can no longer attend? Can I get my registration fee back?</summary>
       <div class="faq-answer">
-        <p>Yes. If you paid the in-person fee and can no longer come, log in to Campus Groups, where you registered, and request a refund there. Approval takes about two to three weeks, so please allow for that before chasing it.</p>
+        <p>Yes. If you paid the in-person fee and can no longer come, log in to Hopkins Groups, where you paid, and request a refund there. Approval takes about two to three weeks, so please allow for that before chasing it.</p>
         <p>Please also let us know you are not coming, whether or not a fee is involved. In-person is at capacity with a waitlist behind it, so a seat you release goes to someone else.</p>
         <p>If you would rather not drop out altogether, you are welcome to switch to online attendance instead, which is free and covers every session. Email Louis Hyman at <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a> and we will move you across.</p>
       </div>
@@ -2353,7 +2370,7 @@
 
     <details class="faq-item">
       <summary>When does registration close?</summary>
-      <div class="faq-answer"><p>Online registration does not close. You can sign up at any point before the conference, and it stays free. The in-person waitlist also stays open, though we cannot promise a seat will come free.</p></div>
+      <div class="faq-answer"><p>Online registration does not close. You can sign up at any point before the conference, and it stays free. The in-person waitlist also stays open, though we cannot promise a seat will come free.</p><p>The Hopkins Groups payment page may show a September 16 date. That date does not apply to registration. See <a href="#faq-late-payment">How do I pay if I registered late?</a></p></div>
     </details>
 
     <details class="faq-item">
@@ -2486,6 +2503,17 @@
   }
   window.addEventListener('hashchange', openSessionFromHash);
   window.addEventListener('load', openSessionFromHash);
+
+  // Deep links to a FAQ answer (#faq-...): expand the collapsed <details>
+  // so the link lands on the answer, not just the question.
+  function openFaqFromHash() {
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!/^faq-/.test(id)) return;
+    var item = document.getElementById(id);
+    if (item && item.tagName === 'DETAILS') item.open = true;
+  }
+  window.addEventListener('hashchange', openFaqFromHash);
+  window.addEventListener('load', openFaqFromHash);
   document.addEventListener('click', function (e) {
     var a = e.target.closest('.session-link');
     if (!a) return;
