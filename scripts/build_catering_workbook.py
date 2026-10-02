@@ -262,7 +262,7 @@ bt.freeze_panes = bt.cell(row=hdr_row + 1, column=1)
 
 # ---- Late additions with a seat but no meal reservation
 la = wb.create_sheet("Late adds, no meals")
-la.append(["Added after catering closed. They have a seat and a badge but no meal reservation and no table."])
+la.append(["In-person attendees with a seat and a badge but no meal reservation and no table."])
 la["A1"].font = bold
 la.append([])
 la.append(["First name", "Last name", "Email", "Institution", "Note"])
