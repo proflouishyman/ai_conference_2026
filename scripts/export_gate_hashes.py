@@ -62,9 +62,13 @@ def build(db_path, pepper):
         add(e, False)
     for (e,) in c.execute("SELECT email FROM panelists"):
         add(e, True)
-    # alternates belong to a panelist, so they carry the speaker flag too
-    for (e,) in c.execute("SELECT alt_email FROM alternate_emails"):
-        add(e, True)
+    # an alternate carries the speaker flag only when its canonical address is a panelist's
+    # (registrants can have alternates too, e.g. a @jh.edu alias of a @jhu.edu registration)
+    for (e, is_pan) in c.execute(
+            "SELECT a.alt_email, EXISTS(SELECT 1 FROM panelists p "
+            "WHERE lower(trim(p.email)) = lower(trim(a.canonical_email))) "
+            "FROM alternate_emails a"):
+        add(e, bool(is_pan))
     return out
 
 
