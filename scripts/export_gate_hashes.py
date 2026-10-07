@@ -95,15 +95,27 @@ def main():
               "server's ~/.conference_bots.env BEFORE the gate runs there." % ENV)
     if "--no-scp" in sys.argv:
         return 0
-    try:
-        for src, dst in ((COVERED, REMOTE_COVERED), (OUT, REMOTE)):   # covered first
+    # A failed push leaves the Discord gate on stale data, so it fails loudly (exit 2).
+    failed = []
+    for src, dst in ((COVERED, REMOTE_COVERED), (OUT, REMOTE)):   # covered first
+        try:
             r = subprocess.run(["scp", "-q", "-o", "ConnectTimeout=10", "-o",
                                 "BatchMode=yes", str(src), dst],
-                               timeout=20, capture_output=True)
-            print("scp %s to ces-server:" % src.name,
-                  "ok" if r.returncode == 0 else "failed (best effort)")
-    except Exception as exc:
-        print("scp to ces-server skipped:", type(exc).__name__)
+                               timeout=20, capture_output=True, text=True)
+            err = r.stderr.strip() if r.returncode else ""
+        except Exception as exc:
+            err = "%s: %s" % (type(exc).__name__, exc)
+        print("scp %s to ces-server:" % src.name, "FAILED" if err else "ok")
+        if err:
+            failed.append((src.name, err))
+    if failed:
+        print("\n" + "=" * 70 + "\nFAILED: gate files NOT pushed to ces-server. The Discord gate is"
+              "\nusing stale data. ces-server resolves only on the JHU network or VPN."
+              "\nConnect, then rerun: python3 scripts/export_gate_hashes.py")
+        for name, err in failed:
+            print("  %s: %s" % (name, err))
+        print("=" * 70)
+        return 2
     return 0
 
 

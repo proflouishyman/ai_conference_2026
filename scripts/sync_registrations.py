@@ -264,11 +264,17 @@ def main():
 
     print(f"Synced: {inserted} new, {updated} updated, {total} total rows in {DB_PATH}")
 
-    # Refresh the Discord gate's email fingerprints (best effort, never fails the sync).
+    # Refresh the Discord gate's email fingerprints. The DB sync above is already
+    # committed, but a failed gate push is reported loudly and exits non-zero.
     try:
-        subprocess.run([sys.executable, str(Path(__file__).with_name("export_gate_hashes.py"))], timeout=60)
+        rc = subprocess.run([sys.executable, str(Path(__file__).with_name("export_gate_hashes.py"))],
+                            timeout=90).returncode
     except Exception as exc:
-        print(f"gate hash export skipped: {exc}")
+        print(f"gate hash export crashed: {exc}")
+        rc = 1
+    if rc:
+        print(f"FAILED: registrations synced to the local DB, but the gate export/push exited {rc} (see above).")
+        sys.exit(rc)
 
 
 if __name__ == "__main__":
