@@ -138,19 +138,24 @@ def main():
 
     # Quiet days still send: silence from the bot is indistinguishable from a
     # broken cron, and knowing the server was quiet is itself the report.
+    # Sent from the ces-agora Outlook account (no Gmail). Needs launchd, not cron.
+    sys.path.insert(0, os.path.expanduser("~/coding/email/scripts"))
     sys.path.insert(0, os.path.expanduser("~/coding/agora_media/scripts"))
-    from send_digest_email import send            # proven SMTP path
-    from meltwater_client import load_env
-
-    env = load_env()
-    addr, pw = env.get("GMAIL_ADDRESS"), env.get("GMAIL_APP_PASSWORD")
-    if not addr or not pw:
-        print("GMAIL_ADDRESS / GMAIL_APP_PASSWORD missing from agora_media/.env", file=sys.stderr)
-        return 1
+    import ces_send
+    from send_digest_email import to_html
     n = len(joins)
     subject = (f"Discord: {n} new member(s), {sum(a[1] for a in activity)} message(s)"
                if (joins or activity) else "Discord: quiet today")
-    send([a.strip() for a in TO.split(",")], subject, body, addr, pw)
+    try:
+        outcome = ces_send.send([a.strip() for a in TO.split(",")], subject, body,
+                                html=to_html(body), note="discord digest")
+    except RuntimeError as exc:
+        print("FAILED: Discord digest NOT sent: %s" % exc, file=sys.stderr)
+        return 1
+    if outcome == "UNCONFIRMED":
+        print("UNCONFIRMED: Discord digest %r may still be queued in the ces-agora Outbox. "
+              "NOT retried." % subject, file=sys.stderr)
+        return 4
     print(f"Sent to {TO}: {subject}")
     return 0
 
