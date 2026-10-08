@@ -9,7 +9,9 @@ run_discord_bots.sh cron job.
     makes two guild-level GETs (channels, active threads) and fetches messages
     only where last_message_id moved. New channels/threads get no backlog.
     Moderation alerts by email (OpenAI moderation + heuristics + AutoMod),
-    alert only, debounced per user. Session-forum questions addressed to the
+    alert only, debounced per user. When AutoMod blocks a member's message the
+    bot also DMs that member a short explanation (one per user per 10 min; the
+    email to Louis says whether the DM went through). Session-forum questions addressed to the
     speaker are logged, not answered. Idle interval 120 s. A new human post triggers
     the answer logic at once, then polls at 10 s and backs off 10, 20, 40, 80,
     120 s on each quiet poll. Any new human post resets to 10 s.
@@ -30,6 +32,7 @@ Usage
     python3 scripts/discord_bot_loop.py --once --dry-run   # show, post nothing
     python3 scripts/discord_bot_loop.py --classify "what is OCR?" "is there parking?"
     python3 scripts/discord_bot_loop.py --test-emails      # the two [TEST] emails
+    python3 scripts/discord_bot_loop.py --test-automod-dm  # print the AutoMod DM text, post nothing
 
 Python 3.9 compatible (ces-server runs /usr/bin/python3 3.9).
 """
@@ -107,6 +110,9 @@ MOD_MENTIONS = 5
 MOD_NEW_MEMBER_S = 24 * 3600
 MOD_NEW_MEMBER_LINKS = 2
 MOD_KEEP_S = 24 * 3600
+AUTOMOD_DM_GAP_S = 600          # at most one AutoMod-block DM per member per 10 minutes
+AUTOMOD_DM_KEEP = 500           # decision_ids remembered for DM dedup
+HELP_CHANNEL = "ask-anything"   # where members are pointed with questions
 INVITE_RE = re.compile(r"(?:discord\.gg|discord(?:app)?\.com/invite)/[\w-]+", re.I)
 URL_RE = re.compile(r"https?://[^\s<>)\]]+", re.I)
 INTERNAL_HOSTS = ("discord.com", "www.discord.com", "discordapp.com",
@@ -724,12 +730,15 @@ def load_state() -> dict:
     ms.setdefault("users", {})
     ms.setdefault("recent", {})
     ms.setdefault("done", [])
+    ms.setdefault("dmed", [])       # AutoMod decision_ids already DMed
+    ms.setdefault("dm_last", {})    # uid -> epoch of last AutoMod DM
     return st
 
 
 def save_state(st: dict) -> None:
     st["handled"] = st["handled"][-1500:]
     st["mod"]["done"] = st["mod"]["done"][-3000:]
+    st["mod"]["dmed"] = st["mod"]["dmed"][-AUTOMOD_DM_KEEP:]
     cutoff = time.time() - 7 * 86400            # forget users idle for a week
     for uid in [k for k, u in st["mod"]["users"].items()
                 if not u.get("pending") and u.get("last_email", 0) < cutoff
@@ -860,6 +869,7 @@ def build_mod_email(ctx: "Ctx", uid: str, hits: list, test: bool = False):
         lines += [f"[{i}] " + " / ".join(
             r["label"] + (f": {r['detail']}" if r.get("detail") else "")
             for r in h["reasons"]),
+            *([f"DM to member: {h['dm']}"] if h.get("dm") else []),
             f"Channel: #{h['chn']}", f"Posted: {fmt_ts(h['t'])}",
             f"Link: {h['link']}", "Message:", h["text"] or "(no text)"]
         if h.get("scores"):
@@ -874,6 +884,52 @@ def build_mod_email(ctx: "Ctx", uid: str, hits: list, test: bool = False):
     if not recent:
         lines.append("- (none recorded)")
     return subject, "\n".join(lines)
+
+
+def automod_dm_text(fields: dict, channel_name: str = "") -> str:
+    """Friendly, short explanation for a member whose message AutoMod blocked.
+    Pure function. Never quotes the blocked message, only the matched word."""
+    where = f" in #{channel_name}" if channel_name else ""
+    rule = fields.get("rule_name") or "unnamed rule"
+    word = fields.get("keyword_matched_content") or fields.get("keyword")
+    matched = f' matched the word "{word}"' if word else " matched"
+    return (
+        "Hi, this is the automated helper for the AI and History Conference 2026 "
+        f"Discord. Your message{where} was not posted: Discord's automatic filter "
+        f"(rule: {rule}){matched}.\n\n"
+        "These filters match words without context, so they sometimes catch innocent "
+        'things (one once blocked "summa cum laude"). If that is what happened, '
+        "sorry. Try rephrasing; the organisers have been notified and can adjust "
+        "the filter.\n\n"
+        "Nothing has been held against you, and no human has reviewed this yet. "
+        f"If you have questions, post in #{HELP_CHANNEL} or message an organiser.")
+
+
+def dm_automod_block(ctx: "Ctx", uid: str, fields: dict) -> str:
+    """DM a member whose message AutoMod blocked. Returns a status string; never
+    raises. Dedups on decision_id and allows one DM per member per AUTOMOD_DM_GAP_S."""
+    try:
+        ms, did, now = ctx.st["mod"], fields.get("decision_id", ""), time.time()
+        if did and did in ms["dmed"]:
+            return "skipped: duplicate"
+        if now - ms["dm_last"].get(uid, 0) < AUTOMOD_DM_GAP_S:
+            return "skipped: rate limit"
+        if did:
+            ms["dmed"].append(did)
+        ms["dm_last"][uid] = now
+        cid = str(fields.get("channel_id", ""))
+        text = automod_dm_text(fields, (ctx.watched.get(cid) or {}).get("name", ""))
+        if ctx.dry:
+            print(f"\n--- WOULD DM member {uid}:\n" + text)
+            return "dry-run"
+        ch = dcall("POST", "/users/@me/channels", ctx.tok, {"recipient_id": uid})
+        dcall("POST", f"/channels/{ch['id']}/messages", ctx.tok,
+              {"content": text, "allowed_mentions": {"parse": []}})
+        ctx.persist()
+        return "sent"
+    except Exception as exc:            # e.g. 403 code 50007: member has DMs closed
+        log.warning("AutoMod DM to %s failed: %s", uid, str(exc)[:160])
+        return f"failed: {str(exc)[:80]}"
 
 
 def flush_user(ctx: "Ctx", uid: str, force: bool = False) -> bool:
@@ -898,7 +954,7 @@ def flush_user(ctx: "Ctx", uid: str, force: bool = False) -> bool:
         u.pop("next_try", None)
         ctx.persist()
         return True
-    u["next_try"] = now + 120               # SMTP failed: keep the hits, retry soon
+    u["next_try"] = now + 120               # send failed (nothing sent): keep the hits, retry soon
     ctx.persist()
     return False
 
@@ -931,7 +987,7 @@ def _scan_message(ctx, m, ch_id, info):
         return
     text = (m.get("content") or "").strip()
     t = msg_epoch(m)
-    reasons, scores = [], None
+    reasons, scores, dm = [], None, ""
 
     if m.get("type") == 24:                                  # AutoMod alert
         bits = []
@@ -943,6 +999,11 @@ def _scan_message(ctx, m, ch_id, info):
         rule = next((f.get("value") for e in m.get("embeds") or []
                      for f in e.get("fields") or [] if f.get("name") == "rule_name"), "")
         reasons.append({"label": "AutoMod alert", "detail": rule or "see message"})
+        fields = {f.get("name"): f.get("value") for e in m.get("embeds") or []
+                  for f in e.get("fields") or []}
+        # Missing outcome -> DM anyway (the rules' first action is always block).
+        if "block" in str(fields.get("decision_outcome", "block")).lower():
+            dm = dm_automod_block(ctx, uid, fields)
     else:
         if not info.get("moderate") or not is_human(m, ctx.me_id):
             return
@@ -990,6 +1051,8 @@ def _scan_message(ctx, m, ch_id, info):
     hit = {"t": t, "reasons": reasons, "chn": info["name"], "mid": mid,
            "link": permalink(ch_id, mid), "text": text[:1500], "scores": scores,
            "dname": short_name(m), "uname": a.get("username", "?")}
+    if dm:
+        hit["dm"] = dm
     u.setdefault("pending", []).append(hit)
     ctx.stats["modalerts"] += 1
     log.warning("MOD ALERT #%s %s by %s (%s): %s", info["name"], mid, short_name(m),
@@ -1661,10 +1724,16 @@ def main() -> int:
                     help="dry-run the moderation path on synthetic messages")
     ap.add_argument("--test-mod-email", metavar="TEXT",
                     help="send ONE [TEST] moderation alert email for this text")
+    ap.add_argument("--test-automod-dm", action="store_true",
+                    help="print the AutoMod-block DM text for a sample and exit")
     ap.add_argument("--simulate", nargs="+", metavar="QUESTION",
                     help="dry-run synthetic posts in #ask-anything")
     args = ap.parse_args()
 
+    if args.test_automod_dm:
+        print(automod_dm_text({"rule_name": "Slurs and sexual content",
+                               "keyword": "cum"}, "general"))
+        return 0
     load_env()
     setup_logging(args.dry_run or bool(args.classify) or args.test_emails
                   or bool(args.simulate) or bool(args.mod_simulate)
