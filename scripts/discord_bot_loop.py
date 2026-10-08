@@ -625,31 +625,91 @@ def build_email(r: dict, m: dict, ch_name: str, test: bool = False):
     return subject, "\n".join(body)
 
 
+# Outgoing mail goes through the outlook-correspondence skill's send script, from the
+# account pinned by its lock file (ces-agora on ces-server). BOT_MAIL_FROM must name that
+# same account, or nothing is sent. Script result contract: last line SENT | UNCONFIRMED
+# (may be queued, never retry) | ABORTED (nothing sent).
+SEND_SCRIPT = os.path.expanduser(
+    "~/.claude/skills/outlook-correspondence/scripts/send_mail.applescript")
+LOCK_FILE = os.path.expanduser("~/.config/outlook-correspondence/only_account")
+SIGNATURE = os.path.expanduser("~/coding/email/signature_ces.txt")
+MAIL_INDEX = os.path.expanduser("~/coding/email/scripts/mail_index.py")
+SEND_TIMEOUT_S = 200          # the script itself polls the Outbox for up to 120 s
+
+
+def _outlook_send(rcpts: list, subject: str, body: str) -> str:
+    """Send one message. Returns 'SENT' or 'UNCONFIRMED'; raises RuntimeError when
+    nothing was sent (bad config, ABORTED, osascript would not start)."""
+    import subprocess
+    import tempfile
+    sender = os.environ.get("BOT_MAIL_FROM", "").strip().lower()
+    if not sender:
+        raise RuntimeError("BOT_MAIL_FROM is not set; nothing sent")
+    try:
+        lock = open(LOCK_FILE).read().strip().lower()
+        sig = open(SIGNATURE).read().strip()
+    except OSError as exc:
+        raise RuntimeError("cannot read %s; nothing sent" % exc.filename)
+    if lock != sender:
+        raise RuntimeError("lock file pins %r, BOT_MAIL_FROM is %r; nothing sent"
+                           % (lock, sender))
+    signed = body.rstrip() + "\n\nBest,\n\n" + sig + "\n"
+    fd, path = tempfile.mkstemp(prefix="botmail_", suffix=".txt")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(signed)
+        env = dict(os.environ, OUTLOOK_FROM=sender)
+        try:
+            r = subprocess.run(["osascript", SEND_SCRIPT, ",".join(rcpts), subject, path],
+                               capture_output=True, text=True, timeout=SEND_TIMEOUT_S,
+                               env=env)
+        except subprocess.TimeoutExpired:
+            outcome, detail = "UNCONFIRMED", "osascript timed out"
+        except OSError as exc:
+            raise RuntimeError("osascript would not start (%s); nothing sent" % exc)
+        else:
+            lines = (r.stdout or "").strip().splitlines()
+            last = lines[-1] if lines else ""
+            if last.startswith("SENT"):
+                outcome, detail = "SENT", ""
+            elif last.startswith("ABORTED"):
+                raise RuntimeError(last[:200])
+            else:
+                outcome = "UNCONFIRMED"
+                detail = (last or (r.stderr or "").strip() or "rc=%s" % r.returncode)[:200]
+        rec = subprocess.run([sys.executable, MAIL_INDEX, "record-send", "--outcome", outcome,
+                              "--to", ",".join(rcpts), "--subject", subject,
+                              "--body-file", path, "--script", "send_mail",
+                              "--note", "discord bots", "--no-sync"],
+                             capture_output=True, text=True, timeout=120)
+        if rec.returncode != 0 or '"logged"' not in rec.stdout:
+            log.error("RECORD-SEND FAILED after %s (%s): %s", outcome, subject[:80],
+                      (rec.stdout + rec.stderr).strip()[:200])
+        if outcome == "UNCONFIRMED":
+            log.error("EMAIL UNCONFIRMED (%s): %s. May still be queued in the ces-agora "
+                      "Outbox. Not retried.", subject[:80], detail)
+        return outcome
+    finally:
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
+
+
 def send_email(subject: str, body: str, dry: bool, to: str = None) -> bool:
+    """True when the message was handed off (SENT, or UNCONFIRMED, which is never
+    retried). False when nothing was sent; the failure is logged as EMAIL FAILED."""
     rcpt = to or DIGEST_TO
     shown = rcpt if rcpt == DIGEST_TO else "registrant"   # never log registrant addresses
     if dry:
         log.info("DRY-RUN would email %s | %s", shown, subject)
         return True
     try:
-        sys.path.insert(0, os.path.expanduser("~/coding/agora_media/scripts"))
-        from send_digest_email import send
-        from meltwater_client import load_env as agora_env
-        env = agora_env()
-        addr, pw = env.get("GMAIL_ADDRESS"), env.get("GMAIL_APP_PASSWORD")
-        if not addr or not pw:
-            raise RuntimeError("GMAIL_ADDRESS / GMAIL_APP_PASSWORD missing")
-        old = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(30)
-        try:
-            send([a.strip() for a in rcpt.split(",")], subject, body,
-                 addr, pw)
-        finally:
-            socket.setdefaulttimeout(old)
-        log.info("emailed %s | %s", shown, subject)
+        outcome = _outlook_send([a.strip() for a in rcpt.split(",")], subject, body)
+        log.info("emailed %s | %s | %s", shown, subject, outcome)
         return True
     except Exception as exc:                    # never crash on mail
-        log.error("EMAIL FAILED (%s): %s", subject[:80], str(exc)[:160])
+        log.error("EMAIL FAILED (%s): %s", subject[:80], str(exc)[:200])
         return False
 
 
