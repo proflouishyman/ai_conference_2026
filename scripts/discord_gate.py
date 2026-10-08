@@ -72,7 +72,9 @@ CODE_RE = re.compile(r"^\s*(\d{3})\s?(\d{3})\s*$")
 WELCOME_DM = ("Welcome to the AI and History Conference 2026 server. To unlock "
               "the channels I need to confirm that you registered. Reply here "
               "with the email address you registered with.")
-CODE_SENT_DM = "I've emailed a code to that address. Reply with it here."
+CODE_SENT_DM = ("I've emailed a code to that address. Reply with it here. "
+                "No code after 10 minutes? Check your spam folder, then email "
+                "the organiser at %s, who will let you in." % LOUIS)
 NOMATCH_DM = ("I couldn't find that address. Try the email you used to "
               "register, or reply HELP.")
 OK_DM = "You're in. Welcome."
