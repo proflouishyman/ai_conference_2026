@@ -16,7 +16,7 @@ TOPIC = ("One post per session. Ask questions and talk about the talk here, "
          "during and after. All times Eastern.")
 TAGS = ["Thursday", "Friday", "Morning", "Afternoon", "Digital only", "Hands-on", "Plenary"]
 PLENARY_FORCE = {2, 17, 28}
-HANDS_ON_FORCE = {5, 10, 16, 18, 25}
+HANDS_ON_FORCE = {5, 10, 16, 25}   # 18 became a talk 2026-10-08
 HANDS_ON_RE = re.compile(r"hands-on|working session|\blab\b|live demonstration|live walkthrough", re.I)
 MAXMSG = 1800
 
