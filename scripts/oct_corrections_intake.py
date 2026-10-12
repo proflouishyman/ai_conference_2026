@@ -48,7 +48,7 @@ Rules
     submissions.email_fp (NULL when that is unknown, e.g. backfilled rows).
   - A tagged message with an unknown id, or an empty reply, is NOT filed. It is recorded in
     intake_skipped and Louis is alerted once (not every run).
-  - If any correction is unalerted, ONE email goes to Louis through the same _outlook_send path
+  - If any correction is unalerted, ONE email goes to Louis through the same oct_mail.send path
     (real_mailer): count, correction id, submission id, submitter name, current transcript, reply
     text, and the exact apply command. A failed alert is retried next run (alerted_at stays NULL).
     An UNCONFIRMED send is marked alerted (never resent) and fails the run loudly.
@@ -88,6 +88,7 @@ import oct_db  # noqa: E402
 log = logging.getLogger("onecoolthing")
 LOUIS = "lhyman6@jh.edu"
 LOOKBACK_DAYS = 30
+MAX_SCAN = 200                    # newest tagged Inbox messages read per run (v7)
 MAX_BODY = oct_db.MAX_CORRECTION   # 5000
 OSA_TIMEOUT_S = 120
 LLM_TIMEOUT_S = 180
@@ -103,32 +104,60 @@ TAG_RE = re.compile(r"\[OCT (\d{8}-\d{6}-[0-9a-f]{6})\]")
 AUTO_SUBJECT_RE = re.compile(r"^\s*(?:(?:re|fw|fwd)\s*:\s*)*(automatic reply|out of office|undeliverable|delivery status)", re.I)
 AUTO_SENDER_RE = re.compile(r"^(?:mailer-daemon|postmaster)(?:@|$)", re.I)
 
-READ_SCRIPT = '''on run argv
+# v7: two static AppleScripts. LIST reads only id + received time of the tagged messages (two
+# cheap property reads per message), Python keeps the newest MAX_SCAN, READ then fetches full records for exactly those ids and
+# appends each to the output file as it goes (no ever-growing string). Message data never enters the script
+# source; everything arrives as argv.
+LIST_SCRIPT = '''on run argv
 	set daysBack to (item 1 of argv) as integer
 	set outPath to item 2 of argv
-	set cutoff to (current date) - (daysBack * days)
 	set fs to item 3 of argv
-	set outText to ""
+	set cutoff to (current date) - (daysBack * days)
 	tell application "Microsoft Outlook"
 		set acct to default account
 		set msgList to (messages of inbox of acct whose time received > cutoff and subject contains "[OCT ")
+		set idList to {}
+		set timeList to {}
 		repeat with m in msgList
-			set mId to (id of m) as string
-			set mSubject to subject of m
-			if mSubject is missing value then set mSubject to ""
-			set mSender to sender of m
-			set mAddr to ""
-			if mSender is not missing value then set mAddr to address of mSender
-			set mBody to plain text content of m
-			if mBody is missing value then set mBody to ""
-			set d to time received of m
-			set mDate to (year of d as string) & "-" & text -2 thru -1 of ("0" & ((month of d) as integer)) & "-" & text -2 thru -1 of ("0" & (day of d)) & "T" & text -2 thru -1 of ("0" & (hours of d)) & ":" & text -2 thru -1 of ("0" & (minutes of d)) & ":" & text -2 thru -1 of ("0" & (seconds of d))
-			set outText to outText & mId & fs & mSubject & fs & mAddr & fs & mDate & fs & mBody & fs
+			set end of idList to ((id of m) as string)
+			set end of timeList to (time received of m)
 		end repeat
 	end tell
 	set f to open for access (POSIX file outPath) with write permission
 	set eof f to 0
-	write outText to f as «class utf8»
+	repeat with i from 1 to count of idList
+		set d to item i of timeList
+		set mDate to (year of d as string) & "-" & text -2 thru -1 of ("0" & ((month of d) as integer)) & "-" & text -2 thru -1 of ("0" & (day of d)) & "T" & text -2 thru -1 of ("0" & (hours of d)) & ":" & text -2 thru -1 of ("0" & (minutes of d)) & ":" & text -2 thru -1 of ("0" & (seconds of d))
+		write ((item i of idList) as string) & fs & mDate & fs as «class utf8» to f starting at eof
+	end repeat
+	close access f
+	return "OK"
+end run
+'''
+
+READ_SCRIPT = '''on run argv
+	set outPath to item 1 of argv
+	set fs to item 2 of argv
+	set f to open for access (POSIX file outPath) with write permission
+	set eof f to 0
+	repeat with k from 3 to count of argv
+		set wantId to (item k of argv) as integer
+		try
+			tell application "Microsoft Outlook"
+				set m to message id wantId
+				set mSubject to subject of m
+				if mSubject is missing value then set mSubject to ""
+				set mSender to sender of m
+				set mAddr to ""
+				if mSender is not missing value then set mAddr to address of mSender
+				set mBody to plain text content of m
+				if mBody is missing value then set mBody to ""
+				set d to time received of m
+			end tell
+			set mDate to (year of d as string) & "-" & text -2 thru -1 of ("0" & ((month of d) as integer)) & "-" & text -2 thru -1 of ("0" & (day of d)) & "T" & text -2 thru -1 of ("0" & (hours of d)) & ":" & text -2 thru -1 of ("0" & (minutes of d)) & ":" & text -2 thru -1 of ("0" & (seconds of d))
+			write (wantId as string) & fs & mSubject & fs & mAddr & fs & mDate & fs & mBody & fs as «class utf8» to f starting at eof
+		end try
+	end repeat
 	close access f
 	return "OK"
 end run
@@ -193,21 +222,45 @@ def parse_osa_output(raw, sep):
     return msgs
 
 
-def fetch_inbox(days=LOOKBACK_DAYS, runner=None):
-    """Read tagged Inbox messages with Outlook. One retry, then IntakeError (loud)."""
-    run = runner or subprocess.run
+class Scan(list):
+    """The messages read this run, plus how many tagged messages were in the lookback window."""
+    total = 0
+    capped = False
+
+
+def parse_list_output(raw, sep):
+    """(id, utc-iso) pairs from the LIST script: 2 fields per record, each followed by `sep`."""
+    if not raw.strip("\n"):
+        return []
+    parts = raw.lstrip("\n").split(sep)
+    if parts[-1].strip("\n") != "":
+        raise IntakeError("Outlook list output does not end with the record separator")
+    parts = parts[:-1]
+    if len(parts) % 2:
+        raise IntakeError("unparseable Outlook list output (%d fields, expected a multiple of 2)" % len(parts))
+    out = []
+    for i in range(0, len(parts), 2):
+        mid = parts[i].strip("\n")
+        if not re.fullmatch(r"\d{1,12}", mid):
+            raise IntakeError("unexpected Outlook message id %r" % oct_db.oneline(mid, 40))
+        out.append((mid, local_to_utc_iso(parts[i + 1])))
+    return out
+
+
+def _osa(run, script, args):
+    """Run one static AppleScript with argv; the None item in `args` is replaced by a fresh output file
+    path whose contents are returned. One retry, then IntakeError (loud)."""
     last = None
     for attempt in (1, 2):
-        sep = "@@" + secrets.token_hex(12) + "@@"
         fd, out = tempfile.mkstemp(prefix="oct_inbox_", suffix=".txt")
         os.close(fd)
         fd2, scr = tempfile.mkstemp(prefix="oct_read_", suffix=".applescript")
         try:
             with os.fdopen(fd2, "w", encoding="utf-8") as fh:
-                fh.write(READ_SCRIPT)
+                fh.write(script)
+            full = [out if a is None else a for a in args]
             try:
-                r = run(["osascript", scr, str(int(days)), out, sep], capture_output=True, text=True,
-                        timeout=OSA_TIMEOUT_S)
+                r = run(["osascript", scr] + full, capture_output=True, text=True, timeout=OSA_TIMEOUT_S)
             except subprocess.TimeoutExpired:
                 last = "osascript timed out"
             except OSError as exc:
@@ -215,18 +268,40 @@ def fetch_inbox(days=LOOKBACK_DAYS, runner=None):
             else:
                 if r.returncode == 0 and (r.stdout or "").strip().endswith("OK"):
                     with open(out, encoding="utf-8") as fh:
-                        return parse_osa_output(fh.read(), sep)
+                        return fh.read()
                 last = ((r.stderr or "") + (r.stdout or "")).strip()[:300] or "rc=%s" % r.returncode
         finally:
-            for p in (out, scr):
+            for pth in (out, scr):
                 try:
-                    os.unlink(p)
+                    os.unlink(pth)
                 except OSError:
                     pass
         log.warning("Outlook read attempt %d failed: %s", attempt, last)
         if attempt == 1:
             time.sleep(5)
     raise IntakeError("Outlook inbox read failed twice: %s" % last)
+
+
+def fetch_inbox(days=LOOKBACK_DAYS, runner=None, cap=MAX_SCAN):
+    """Read tagged Inbox messages with Outlook: at most the newest `cap` within `days`. Returns a Scan
+    (a list of message dicts) whose .total is how many tagged messages were in the window and .capped
+    says whether some were left unread. One retry per Outlook call, then IntakeError (loud)."""
+    run = runner or subprocess.run
+    sep = "@@" + secrets.token_hex(12) + "@@"
+    listed = parse_list_output(_osa(run, LIST_SCRIPT, [str(int(days)), None, sep]), sep)
+    listed.sort(key=lambda t: t[1], reverse=True)
+    keep = listed[:cap]
+    scan = Scan()
+    scan.total, scan.capped = len(listed), len(listed) > cap
+    if not keep:
+        return scan
+    sep = "@@" + secrets.token_hex(12) + "@@"
+    msgs = parse_osa_output(_osa(run, READ_SCRIPT, [None, sep] + [mid for mid, _ in keep]), sep)
+    scan.extend(msgs)
+    if len(msgs) < len(keep):
+        log.warning("Outlook returned %d of %d listed message(s); the rest vanished between the two reads",
+                    len(msgs), len(keep))
+    return scan
 
 
 # ------------------------------------------------------------------ filing
@@ -615,6 +690,38 @@ def alert_skipped(conn, mailer, to):
     return []
 
 
+def alert_scan_cap(db, mailer, to, scan, today=None):
+    """The Inbox scan hit MAX_SCAN: log a NOTICE every run, email Louis at most once per local day.
+    Returns a list of problems (only when the alert itself fails to send; the run still processed
+    what it read)."""
+    log.warning("NOTICE intake scan capped: read the newest %d of %d tagged Inbox message(s) in the last %d days",
+                len(scan), scan.total, LOOKBACK_DAYS)
+    today = today or time.strftime("%Y-%m-%d")
+    path = os.path.join(os.path.dirname(os.path.abspath(db)), "intake_cap_alert.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            last = json.load(fh).get("date")
+    except FileNotFoundError:
+        last = None
+    except (OSError, ValueError, AttributeError) as exc:
+        return ["scan-cap alert state %s unreadable (%s); alert not sent" % (path, type(exc).__name__)]
+    if last == today:
+        return []
+    body = ("The One Cool Thing corrections intake found %d tagged Inbox messages in the last %d days and read only "
+            "the newest %d this run. Older ones are not filed until the volume drops or MAX_SCAN is raised.\n"
+            "This notice is sent at most once a day.\n" % (scan.total, LOOKBACK_DAYS, len(scan)))
+    try:
+        outcome = mailer(to, "One Cool Thing: intake read only the newest %d messages" % len(scan), body)
+    except Exception as exc:
+        log.error("EMAIL FAILED scan-cap alert: %s", oct_db.oneline(exc, 200))
+        return ["scan-cap alert email failed, will retry next run: %s" % oct_db.oneline(exc, 200)]
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path), prefix=".tmp_cap_")
+    with os.fdopen(fd, "w", encoding="utf-8") as fh:
+        json.dump({"date": today}, fh)
+    os.replace(tmp, path)
+    return [] if outcome == "SENT" else ["scan-cap alert outcome %s" % outcome]
+
+
 def run_intake(db, fetch, mailer, fp, to=LOUIS, llm=None):
     """Returns (rc, summary, problems). Failures are collected and make rc 1. With `llm`, new
     corrections are applied automatically (v6); without it they stay pending (v4/v5 behaviour)."""
@@ -629,6 +736,8 @@ def run_intake(db, fetch, mailer, fp, to=LOUIS, llm=None):
         except IntakeError as exc:
             msgs = []
             problems.append(str(exc))
+        if getattr(msgs, "capped", False):
+            problems += alert_scan_cap(db, mailer, to, msgs)
         filed, skipped, auto = file_messages(conn, msgs, fp)
         if llm is not None:
             senders = {oct_db.oneline(m["msg_id"], 100): m["sender"].strip() for m in msgs}   # memory only
@@ -658,7 +767,7 @@ def run_live(cfg):
         p.banner("%d problem(s) in One Cool Thing corrections intake\n%s" % (
             len(problems), "\n".join("  " + x for x in problems)))
         log.error("INTAKE PROBLEMS: %s", problems)
-        if not all("alert email failed" in x or "UNCONFIRMED" in x or "Louis alerted" in x or "will retry once" in x
+        if not all("alert email failed" in x or "alert outcome" in x or "UNCONFIRMED" in x or "Louis alerted" in x or "will retry once" in x
                    for x in problems):
             p.send_alert("One Cool Thing corrections intake FAILED", "\n".join(problems) + "\n")
     return rc
@@ -669,6 +778,7 @@ def main():
         sys.exit(self_test())
     import pull_one_cool_thing as p
     p.setup_logging()
+    os.umask(0o077)
     sys.exit(run_live(p.load_cfg()))
 
 
@@ -820,8 +930,9 @@ def self_test():
         conn.close()
         print("intake self-test: static AppleScript (no message data in script source)")
         src = open(os.path.abspath(__file__), encoding="utf-8").read().split("# ----- self-test marker -----")[0]
-        check("READ_SCRIPT is a constant and the only osascript call passes argv with shell=False",
-              "shell=True" not in src and src.count('["osascript", scr,') == 1 and "os.system" not in src)
+        check("both AppleScripts are constants and the only osascript call passes argv with shell=False",
+              "shell=True" not in src and src.count('["osascript", scr]') == 1 and "os.system" not in src
+              and "(%" not in LIST_SCRIPT + READ_SCRIPT and "%s" not in LIST_SCRIPT + READ_SCRIPT)
         print("intake self-test: Outlook read")
         SEP = "@@testsep@@"
         raw = SEP.join(["55", "Re: x [OCT %s]" % SID, "a@b.test", "2026-01-01T10:00:00", "line1\nline2 é\x1e\x1f stray separators"]) + SEP
@@ -843,17 +954,51 @@ def self_test():
             def __init__(self, rc, out="", err=""):
                 self.returncode, self.stdout, self.stderr = rc, out, err
 
-        def flaky(cmd, **kw):
-            calls.append(cmd)
-            if len(calls) == 1:
-                return R(1, "", "execution error: Outlook timed out (-1712)")
-            open(cmd[3], "w", encoding="utf-8").write(raw.replace(SEP, cmd[4]))
-            return R(0, "OK\n")
+        # Fake Outlook: 5 tagged messages, ids 101..105, received 1 minute apart (105 newest).
+        def fake_outlook(n_total, fail_first=False, vanish=()):
+            def runner(cmd, **kw):
+                calls.append(cmd)
+                if fail_first and len(calls) == 1:
+                    return R(1, "", "execution error: Outlook timed out (-1712)")
+                script = open(cmd[1], encoding="utf-8").read()
+                if script == LIST_SCRIPT:
+                    out, sep = cmd[3], cmd[4]
+                    recs = "".join("%d%s2026-01-01T10:%02d:00%s" % (100 + i, sep, i, sep) for i in range(1, n_total + 1))
+                    open(out, "w", encoding="utf-8").write(recs)
+                else:
+                    out, sep, ids = cmd[2], cmd[3], cmd[4:]
+                    recs = "".join(
+                        "%s%s%s%s%s%s%s%s%s%s" % (i, sep, "Re: x [OCT %s]" % SID, sep, "a@b.test", sep,
+                                                  "2026-01-01T10:%02d:00" % (int(i) - 100), sep, "body " + i, sep)
+                        for i in ids if i not in vanish)
+                    open(out, "w", encoding="utf-8").write(recs)
+                return R(0, "OK\n")
+            return runner
         import unittest.mock as um
         with um.patch("time.sleep"):
-            got = fetch_inbox(runner=flaky)
-        check("one retry after -1712 then succeeds, random separator passed as argv",
-              len(calls) == 2 and got[0]["msg_id"] == "55" and calls[1][4].startswith("@@") and calls[0][4] != calls[1][4])
+            got = fetch_inbox(runner=fake_outlook(5, fail_first=True))
+        check("one retry after -1712 then succeeds; separator passed as argv, fresh per call",
+              len(got) == 5 and got.total == 5 and not got.capped and calls[1][4] != calls[2][3]
+              and calls[1][4].startswith("@@"))
+        calls.clear()
+        got = fetch_inbox(runner=fake_outlook(5), cap=3)
+        read_call = calls[1]
+        check("cap: only the NEWEST 3 are asked for and read, total and capped reported",
+              len(got) == 3 and got.total == 5 and got.capped and read_call[4:] == ["105", "104", "103"]
+              and [m["msg_id"] for m in got] == ["105", "104", "103"])
+        calls.clear()
+        got = fetch_inbox(runner=fake_outlook(0))
+        check("nothing tagged: one list call, no read call, empty scan", len(got) == 0 and len(calls) == 1 and not got.capped)
+        calls.clear()
+        with um.patch("time.sleep"):
+            got = fetch_inbox(runner=fake_outlook(5, vanish=("103",)))
+        check("a message that vanishes between the two reads is skipped and logged, others kept",
+              [m["msg_id"] for m in got] == ["105", "104", "102", "101"])
+        try:
+            parse_list_output("12; do shell" + SEP + "2026-01-01T10:00:00" + SEP, SEP)
+            check("hostile message id in list output raises", False)
+        except IntakeError:
+            check("hostile message id in list output raises", True)
         calls.clear()
         with um.patch("time.sleep"):
             try:
@@ -861,6 +1006,40 @@ def self_test():
                 check("two failures raise IntakeError", False)
             except IntakeError:
                 check("two failures raise IntakeError", True)
+        print("intake self-test v7: scan cap notice and once-a-day alert")
+        capdb = os.path.join(tmp, "cap.db")
+        capsent = []
+
+        def capmailer(to, subject, body):
+            capsent.append((to, subject, body))
+            return "SENT"
+
+        def capfetch():
+            sc = Scan([msg("C%d" % i, SID, "x") for i in range(3)])
+            sc.total, sc.capped = 250, True
+            return sc
+        def capmails():
+            return [x for x in capsent if "intake read only" in x[1]]
+        rc, summary, problems = run_intake(capdb, capfetch, capmailer, fp)
+        check("cap hit: the messages that were read are still processed, one cap alert to Louis",
+              "scanned 3" in summary and len(capmails()) == 1 and capmails()[0][0] == LOUIS
+              and "250" in capmails()[0][2] and "—" not in capmails()[0][2] and ";" not in capmails()[0][2])
+        rc, _, problems = run_intake(capdb, capfetch, capmailer, fp)
+        check("second run the same day: no second cap alert", len(capmails()) == 1)
+        problems = alert_scan_cap(capdb, capmailer, LOUIS, capfetch(), today="2099-01-01")
+        check("next day: alerted again", len(capmails()) == 2 and not problems)
+
+        def failing(to, subject, body):
+            raise RuntimeError("mail down")
+        os.makedirs(os.path.join(tmp, "c2"))
+        cap2 = os.path.join(tmp, "c2", "cap2.db")
+        problems = alert_scan_cap(cap2, failing, LOUIS, capfetch(), today="2099-01-01")
+        check("failed cap alert is reported and retried next run (state not written)",
+              len(problems) == 1 and "will retry" in problems[0]
+              and not os.path.exists(os.path.join(tmp, "c2", "intake_cap_alert.json")))
+        problems = alert_scan_cap(cap2, capmailer, LOUIS, capfetch(), today="2099-01-01")
+        check("retry then succeeds and records the day", not problems and json.load(
+            open(os.path.join(tmp, "c2", "intake_cap_alert.json")))["date"] == "2099-01-01")
         rc, _, problems = run_intake(db, lambda: (_ for _ in ()).throw(IntakeError("outlook down")),
                                      mailer, fp)
         check("Outlook failure makes the run fail loudly (rc 1)", rc == 1 and "outlook down" in problems[0])

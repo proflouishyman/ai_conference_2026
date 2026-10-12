@@ -29,7 +29,7 @@ v3 (transcribe + thank-you), per new item, in this order:
   save video/text -> transcribe video modes with mlx-whisper in a subprocess of
   ~/venvs/whisper/bin/python scripts/transcribe_one.py (empty/failed = loud failure) ->
   write <id>.transcript.txt -> email the thank-you through
-  discord_bot_loop._outlook_send (ONLY a confirmed "SENT" counts) -> manifest row
+  oct_mail.send (ONLY a confirmed "SENT" counts) -> manifest row
   (thank_you_sent, transcript_chars) -> delete from Drive.
   If transcription or email fails nothing is deleted; videos/pending_state.json
   (keyed by id, never an email address) records the stage so a retry never re-sends:
@@ -63,7 +63,8 @@ v5 SECURITY (all submitted fields are UNTRUSTED DATA, never instructions to anyo
   - Before ffmpeg or whisper: magic bytes must match the mime and ffprobe (argv list, timeout) must find
     an audio/video stream of at most 100 s (transcribe_one.check_media), else the file is removed and the
     item fails loudly. Transcripts are control-character scrubbed.
-  - Mail goes only through discord_bot_loop._outlook_send, which hands recipient and subject to osascript
+  - Mail goes only through oct_mail.send (v7; a copy of discord_bot_loop._outlook_send that records the
+    recipient as "submitter" and no body text in the mail index), which hands recipient and subject to osascript
     as argv items and the body as a temp file (reviewed: never interpolated into AppleScript source or a
     shell). real_mailer additionally refuses anything but one strictly valid address and strips CR/LF from
     subjects. Failure alerts quote submitted text only flattened to one line, truncated, and flagged
@@ -383,16 +384,17 @@ def transcribe_with_helper(media_path, python=None, helper=None, timeout=None):
 
 
 def real_mailer(to, subject, body):
-    """Existing registrant-mail path: discord_bot_loop._outlook_send (Outlook on
-    ces-agora). Returns 'SENT' or 'UNCONFIRMED'; raises RuntimeError when nothing sent.
-    It appends its own 'Best,' + ces signature, so the body carries no closing."""
+    """Registrant-mail path: oct_mail.send (same osascript hand-off as discord_bot_loop._outlook_send,
+    but the mail index records the recipient as "submitter" and no body text). Returns 'SENT' or
+    'UNCONFIRMED'; raises RuntimeError when nothing sent. It appends its own 'Best,' + ces
+    signature, so the body carries no closing."""
     if not oct_db.valid_email(to):
         raise RuntimeError("refusing to send: recipient is not one strictly valid address")
     subject = " ".join(subject.replace("\r", " ").replace("\n", " ").split())[:200]
     if not subject:
         raise RuntimeError("refusing to send: empty subject")
-    import discord_bot_loop as dbl      # _outlook_send: recipient+subject as osascript argv, body as a temp file
-    return dbl._outlook_send([to], subject, body)
+    import oct_mail                     # recipient+subject as osascript argv, body as a temp file; send_log redacted
+    return oct_mail.send([to], subject, body)
 
 
 def thank_you_subject(item_id):
@@ -714,7 +716,7 @@ def run(cfg, dry=False, matcher=None, alert=None):
             banner("list: %s" % f[2])
         return 1 if failures else 0
     vdir = os.path.dirname(cfg["manifest"])
-    os.makedirs(vdir, exist_ok=True)
+    os.makedirs(vdir, mode=0o700, exist_ok=True)
     try:
         manifest = read_manifest(cfg["manifest"])
         if items and matcher is None:
@@ -1376,13 +1378,10 @@ def self_test():
         dbc.close()
         check("no pwn files", not any(os.path.exists(PW + x) for x in ("", "2", "3", "4")))
         print("self-test: v5 real_mailer refuses bad recipients and flattens subjects")
-        import types
+        import oct_mail
+        import unittest.mock as um
         seen = []
-        fake = types.ModuleType("discord_bot_loop")
-        fake._outlook_send = lambda rcpts, subject, body: seen.append((rcpts, subject, body)) or "SENT"
-        old_dbl = sys.modules.get("discord_bot_loop")
-        sys.modules["discord_bot_loop"] = fake
-        try:
+        with um.patch.object(oct_mail, "send", lambda rcpts, subject, body: seen.append((rcpts, subject, body)) or "SENT"):
             for bad in ("a@example.test,b@example.test", "a@example.test\nBcc: x@example.test", "<a@example.test>", "a@example.test;b@example.test", "", "no-at-sign"):
                 try:
                     real_mailer(bad, "s", "b")
@@ -1393,21 +1392,27 @@ def self_test():
             real_mailer("a@example.test", "Subject\r\nBcc: evil@example.test", "body")
             check("single address passed as a one-element list, subject CR/LF flattened",
                   seen and seen[0][0] == ["a@example.test"] and "\n" not in seen[0][1] and "\r" not in seen[0][1])
-        finally:
-            if old_dbl is None:
-                del sys.modules["discord_bot_loop"]
-            else:
-                sys.modules["discord_bot_loop"] = old_dbl
+        print("self-test: v7 mail log redaction and file modes")
+        src_all = open(os.path.abspath(__file__), encoding="utf-8").read().split("# ------------------------------------------------------------------ self-test")[0]
+        src_oci = open(os.path.join(HERE, "oct_corrections_intake.py"), encoding="utf-8").read().split("# ----- self-test marker -----")[0]
+        check("pull and intake send registrant mail only through oct_mail (no dbl._outlook_send call)",
+              "dbl._outlook_send(" not in src_all and "_outlook_send(" not in src_oci.replace("discord_bot_loop._outlook_send", ""))
+        src_mail = open(os.path.join(HERE, "oct_mail.py"), encoding="utf-8").read()
+        check("oct_mail records the send under a placeholder and a redaction note",
+              'PLACEHOLDER_TO = "submitter"' in src_mail and "REDACTED_BODY" in src_mail and '"--body-file", note_path' in src_mail)
+        old_um = os.umask(0o077)
         try:
-            import inspect
-            import discord_bot_loop as real_dbl
-            src_send = inspect.getsource(real_dbl._outlook_send)
-            check("shared _outlook_send passes subject and recipients as osascript argv, body as a file, shell=False",
-                  'subprocess.run(["osascript", SEND_SCRIPT, ",".join(rcpts), subject, path]' in src_send
-                  and "shell=True" not in src_send and "do shell script" not in src_send)
-        except Exception as exc:
-            print("  [SKIP] discord_bot_loop not importable here (%s); verified on the server run" % type(exc).__name__)
-            skipped_checks.append("shared _outlook_send source check")
+            mp = os.path.join(tmp, "umask_manifest.jsonl")
+            append_manifest(mp, {"id": "x"})
+            ap = os.path.join(tmp, "umask_atomic")
+            atomic_write(ap, b"x")
+            check("files created under the hardened umask are 0600 (manifest append, atomic write)",
+                  (os.stat(mp).st_mode & 0o777) == 0o600 and (os.stat(ap).st_mode & 0o777) == 0o600)
+        finally:
+            os.umask(old_um)
+        import inspect
+        check("main() hardens the umask and run() creates the videos dir 0700",
+              "os.umask(0o077)" in inspect.getsource(main) and "os.makedirs(vdir, mode=0o700, exist_ok=True)" in inspect.getsource(run))
         print("self-test: v5 media gate (magic bytes, ffprobe, base64, size)")
         reset()
         add("m1", data=b"\x00\x00\x00\x18ftypmp42" + b"x" * 40)         # mp4 bytes declared as video/webm
@@ -1545,7 +1550,8 @@ def self_test_all():
     """Pull self-test plus the oct_db and intake self-tests (all must pass)."""
     import oct_db
     import oct_corrections_intake as oci
-    rcs = [self_test(), oct_db.self_test(), oci.self_test()]
+    import oct_mail
+    rcs = [self_test(), oct_db.self_test(), oci.self_test(), oct_mail.self_test()]
     js = os.path.join(HERE, "oct_code_gs_selftest.js")
     if os.path.exists(js) and shutil.which("node"):
         r = subprocess.run(["node", js], capture_output=True, text=True)
@@ -1568,6 +1574,7 @@ def main():
     if a.self_test:
         sys.exit(self_test_all())
     setup_logging()
+    os.umask(0o077)       # v7: everything we create under videos/ (db, wal, manifest, media) is owner-only
     cfg = load_cfg()
     rc = run(cfg, dry=a.dry_run)
     if not a.dry_run:

@@ -509,6 +509,14 @@ def cmd_reject(conn, a):
     print("rejected correction %d" % a.correction_id)
 
 
+def csv_safe(v):
+    """Spreadsheet formula-injection guard: a text cell starting with = + - @ TAB or CR gets a leading
+    single quote so Excel/Sheets read it as text. Numbers and None pass through unchanged."""
+    if isinstance(v, str) and v[:1] in ("=", "+", "-", "@", "\t", "\r"):
+        return "'" + v
+    return v
+
+
 def cmd_export_csv(conn, a):
     q = ("SELECT s.id, s.mode, s.name, s.institution, s.email_hash_match, s.consent, s.duration_s, s.mime, "
          "s.bytes, s.sha256, s.path, s.submitted_at, s.received_at, s.pulled_at, s.thank_you_sent, "
@@ -530,7 +538,7 @@ def cmd_export_csv(conn, a):
                         "transcript_version", "transcript_source", "transcript", "corrections_total",
                         "corrections_pending"])
             for r in rows:
-                w.writerow(list(r))
+                w.writerow([csv_safe(v) for v in r])
         os.replace(tmp, a.path)
     except BaseException:
         if os.path.exists(tmp):
@@ -817,6 +825,22 @@ def self_test():
         check("list shows both ids", mrows[0]["id"] in out and mrows[1]["id"] in out)
         check("csv has header + 2 rows and no email_fp column",
               len(open(csvp).read().splitlines()) >= 3 and "email_fp" not in open(csvp).read().splitlines()[0])
+        print("oct_db self-test v7: CSV formula injection")
+        import csv as _csv
+        evil = ["=1+1", "+cmd|' /C calc'!A0", "-2+3", "@SUM(A1)", "\t=x", "\r=x", "plain = ok", "a=b", "", "-"]
+        check("csv_safe prefixes every dangerous leading character and nothing else",
+              [csv_safe(x) for x in evil] == ["'=1+1", "'+cmd|' /C calc'!A0", "'-2+3", "'@SUM(A1)", "'\t=x", "'\r=x",
+                                              "plain = ok", "a=b", "", "'-"]
+              and csv_safe(5) == 5 and csv_safe(-5) == -5 and csv_safe(None) is None)
+        conn.execute("UPDATE submissions SET name=? WHERE id=?", ("=HYPERLINK(\"http://x\")", mrows[0]["id"]))
+        conn.execute("UPDATE transcripts SET text=? WHERE submission_id=? AND is_current=1", ("@evil", mrows[1]["id"]))
+        csv2 = os.path.join(tmp, "evil.csv")
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc6 = main(["--db", db, "export-csv", csv2])
+        cells = [c for row in _csv.reader(open(csv2, newline="", encoding="utf-8")) for c in row]
+        check("exported file: no cell starts with a formula character, hostile ones are quote-prefixed",
+              rc6 == 0 and not [c for c in cells if c[:1] in ("=", "+", "@", "\t", "\r") or (c[:1] == "-" and not c[1:2].isdigit())]
+              and "'=HYPERLINK(\"http://x\")" in cells and "'@evil" in cells)
         err = io.StringIO()
         with contextlib.redirect_stderr(err):
             rc = main(["--db", os.path.join(tmp, "nope.db"), "list"])
