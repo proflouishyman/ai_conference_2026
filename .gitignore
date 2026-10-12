@@ -64,3 +64,7 @@ scripts/stats/
 
 # One Cool Thing videos pulled from Drive (registrant media + manifest)
 videos/
+
+# env files never tracked
+*.env
+.env*

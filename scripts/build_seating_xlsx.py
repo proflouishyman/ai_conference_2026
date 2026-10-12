@@ -193,7 +193,7 @@ for e1, e2 in PRIV.get('lunch_swaps', []):
     r2 = next(r for r in assigned[t2] if r[3].strip().lower() == e2)
     assigned[t1][assigned[t1].index(r1)] = r2; assigned[t2][assigned[t2].index(r2)] = r1
 
-# The wheelchair user sits at table 1, the table nearest the door: swap table numbers.
+# Accessibility: the door-adjacent table gets table number 1, so swap table numbers.
 DOOR = PRIV['door_seat_name_contains']
 _dt = next((t for t in tables if any(DOOR in f"{r[1]} {r[2]}".lower() for r in assigned[t["id"]])), None)
 if _dt is not None and _dt["id"] != 1:
