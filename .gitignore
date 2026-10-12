@@ -61,3 +61,6 @@ scripts/glossary.json.lock
 
 # Registration stats inputs (registrant-level maps, private)
 scripts/stats/
+
+# One Cool Thing videos pulled from Drive (registrant media + manifest)
+videos/

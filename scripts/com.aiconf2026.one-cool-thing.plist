@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- NOT LOADED. Install to ~/Library/LaunchAgents on ces-server, then load.
+     Secrets (OCT_APPS_SCRIPT_URL, OCT_SERVER_SECRET) come from ~/.conference_bots.env,
+     which pull_one_cool_thing.py loads itself. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.aiconf2026.one-cool-thing</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/louishyman/coding/ai_conference_2026/scripts/pull_one_cool_thing.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/louishyman/coding/ai_conference_2026</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/louishyman</string>
+    <key>PATH</key>
+    <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StartInterval</key>
+  <integer>600</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/louishyman/coding/ai_conference_2026/scripts/logs/one_cool_thing.launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/louishyman/coding/ai_conference_2026/scripts/logs/one_cool_thing.launchd.log</string>
+</dict>
+</plist>

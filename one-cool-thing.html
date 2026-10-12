@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One Cool Thing — AI and History Conference 2026</title>
+  <meta name="description" content="Record a short video of one cool thing you learned at the AI and History Conference 2026." />
+  <link rel="canonical" href="https://proflouishyman.github.io/ai_conference_2026/one-cool-thing.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a2e;
+    }
+
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+
+    :root {
+      --navy: #002D72;
+      --gold: #FFD100;
+      --light-gray: #F7F8FA;
+    }
+
+    /* ── Nav ── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      position: relative;
+      transition: background 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0.75rem; right: 0.75rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a:hover { background: #f9f7ee; }
+
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        padding: 0.75rem 1.5rem 1rem;
+        gap: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.65rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+      }
+
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a::after { display: none; }
+    }
+
+    /* ── Page header ── */
+    #page-header {
+      background-color: var(--navy);
+      background-image: radial-gradient(rgba(255,209,0,0.13) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      padding: 7rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    #page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .gold-rule {
+      width: 70px; height: 3px;
+      background: var(--gold);
+      margin: 0 auto 1.25rem;
+      border: none;
+    }
+
+    #page-header p {
+      color: rgba(255,255,255,0.85);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+
+    
+    /* ── One Cool Thing ── */
+    #content { max-width: 680px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .step[hidden] { display: none !important; }
+    .tips { margin: 1rem 0 1.5rem 1.2rem; line-height: 1.7; font-size: 0.97rem; color: #333; }
+    .tips li { margin-bottom: 0.25rem; }
+    .lead { font-size: 1.05rem; line-height: 1.65; color: #222; }
+    .btn { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; border: 2px solid var(--navy); border-radius: 8px; padding: 0.8rem 1.4rem; min-height: 48px; cursor: pointer; background: var(--navy); color: #fff; touch-action: manipulation; }
+    .btn:hover { background: #0a3f93; }
+    .btn.gold { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .btn.gold:hover { background: #ffdc33; }
+    .btn.ghost { background: #fff; color: var(--navy); }
+    .btn.ghost:hover { background: #f3f6fb; }
+    .btn.rec { background: #c62828; border-color: #c62828; color: #fff; }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    [hidden] { display: none !important; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+    .btn-row .btn { flex: 1 1 140px; }
+    .stage { position: relative; background: #000; border-radius: 10px; overflow: hidden; aspect-ratio: 3 / 4; width: 100%; max-height: 68vh; margin: 0 auto; }
+    @media (min-width: 700px) { .stage { aspect-ratio: 16 / 9; max-height: none; } }
+    .stage video { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
+    .stage video.mirror { transform: scaleX(-1); }
+    .badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.65); color: #fff; font-family: 'DM Mono', monospace; font-size: 1rem; padding: 0.3rem 0.7rem; border-radius: 6px; display: none; align-items: center; gap: 0.5rem; }
+    .badge.on { display: inline-flex; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff3b30; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.25; } }
+    .flip { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.65); color: #fff; border: 0; border-radius: 6px; padding: 0.5rem 0.75rem; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; min-height: 40px; cursor: pointer; display: none; }
+    .flip.on { display: block; }
+    #countdown { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.45); color: #fff; font-family: 'Cormorant Garamond', serif; font-size: 8rem; font-weight: 700; }
+    #countdown.on { display: flex; }
+    .meter { height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: 0.75rem; overflow: hidden; }
+    .meter > div { height: 100%; width: 0; background: var(--gold); transition: width 0.25s linear; }
+    .progress { height: 14px; background: #e5e7eb; border-radius: 7px; overflow: hidden; margin: 1rem 0 0.5rem; }
+    .progress > div { height: 100%; width: 0; background: var(--navy); transition: width 0.15s linear; }
+    .progress > div.indet { width: 40% !important; animation: slide 1.2s ease-in-out infinite alternate; position: relative; }
+    @keyframes slide { from { margin-left: 0; } to { margin-left: 60%; } }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-weight: 600; font-size: 0.92rem; color: var(--navy); margin-bottom: 0.3rem; }
+    .field input[type=text], .field input[type=email] { width: 100%; font-family: 'DM Sans', sans-serif; font-size: 16px; padding: 0.7rem 0.8rem; border: 1px solid #c9ced6; border-radius: 8px; min-height: 48px; background: #fff; color: #1a1a2e; }
+    .field input:focus { outline: 2px solid var(--gold); border-color: var(--navy); }
+    .hint { font-size: 0.82rem; color: #666; margin-top: 0.25rem; }
+    .check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.92rem; line-height: 1.55; margin: 1.1rem 0; }
+    .check input { width: 22px; height: 22px; margin-top: 2px; flex: 0 0 auto; accent-color: var(--navy); }
+    .error-box { background: #FDECEA; border: 1px solid #c62828; border-radius: 8px; padding: 0.9rem 1.1rem; color: #5b1a16; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+    .error-box strong { color: #8e1b14; }
+    .error-box[hidden] { display: none; }
+    .ok-mark { font-size: 3rem; color: var(--navy); }
+    h2.step-title { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .small { font-size: 0.85rem; color: #555; margin-top: 0.75rem; line-height: 1.55; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">AI and History Conference 2026</a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#program">Program</a>
+      <a href="index.html#agora">Venue</a>
+      <a href="hotels.html">Hotels</a>
+      <a href="getting-here.html">Getting Here</a>
+      <a href="one-cool-thing.html" class="active">One Cool Thing</a>
+      <a href="register.html">Register</a>
+    </div>
+  </div>
+</nav>
+
+<section id="page-header">
+  <h1>One Cool Thing</h1>
+  <hr class="gold-rule" />
+  <p>Tell us one cool thing you learned at this conference. Up to 90 seconds, recorded right here on your phone or laptop.</p>
+</section>
+
+<section id="content">
+  <div class="card">
+
+    <div id="error" class="error-box" role="alert" hidden></div>
+
+    <!-- STEP: intro -->
+    <div class="step" id="s-intro">
+      <p class="lead">Record a short video answering one question: what is one cool thing you learned at this conference? We may share the best ones.</p>
+      <ul class="tips">
+        <li>Hold your phone upright and at arm's length, or prop it up.</li>
+        <li>Find a quiet spot. Background noise makes it hard to hear you.</li>
+        <li>Say your name and where you are from, then your one cool thing.</li>
+        <li>You can watch it back and re-record as many times as you like before sending.</li>
+      </ul>
+      <button class="btn gold" id="b-start" type="button">Allow camera and microphone</button>
+      <p class="small">Your browser will ask for permission. Nothing is recorded or sent until you press Record and then Submit.</p>
+    </div>
+
+    <!-- STEP: stage (preview / countdown / recording / review) -->
+    <div class="step" id="s-stage" hidden>
+      <div class="stage">
+        <video id="v" playsinline muted autoplay></video>
+        <div class="badge" id="badge"><span class="dot"></span><span id="timer">0:00 / 1:30</span></div>
+        <button class="flip" id="b-flip" type="button" aria-label="Switch camera">Flip camera</button>
+        <div id="countdown" aria-live="assertive"></div>
+      </div>
+      <div class="meter" id="meter" hidden><div id="meter-fill"></div></div>
+      <div class="btn-row" id="r-preview">
+        <button class="btn rec" id="b-rec" type="button">Record</button>
+      </div>
+      <div class="btn-row" id="r-recording" hidden>
+        <button class="btn rec" id="b-stop" type="button">Stop</button>
+      </div>
+      <div class="btn-row" id="r-review" hidden>
+        <button class="btn ghost" id="b-redo" type="button">Re-record</button>
+        <button class="btn gold" id="b-continue" type="button">Continue</button>
+      </div>
+      <p class="small" id="stage-note"></p>
+    </div>
+
+    <!-- STEP: form -->
+    <form class="step" id="s-form" hidden novalidate>
+      <h2 class="step-title">Almost done</h2>
+      <p class="small" style="margin-top:0;margin-bottom:1rem;">Your video is ready (<span id="f-len"></span>).</p>
+      <div class="field">
+        <label for="f-name">Your name</label>
+        <input type="text" id="f-name" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" autocomplete="email" inputmode="email" required />
+        <div class="hint">The one you registered with, so we can match your video to your registration.</div>
+      </div>
+      <div class="field">
+        <label for="f-inst">Institution (optional)</label>
+        <input type="text" id="f-inst" autocomplete="organization" />
+      </div>
+      <label class="check"><input type="checkbox" id="f-consent" required /><span>I agree that the AI and History Conference, Johns Hopkins University and the American Historical Association may use this video publicly, including on websites and social media.</span></label>
+      <div id="up-wrap" hidden>
+        <div class="progress"><div id="up-bar"></div></div>
+        <div class="small" id="up-text" style="margin-top:0;"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn ghost" id="b-back" type="button">Back to video</button>
+        <button class="btn gold" id="b-submit" type="submit">Submit</button>
+      </div>
+    </form>
+
+    <!-- STEP: success -->
+    <div class="step" id="s-done" hidden style="text-align:center;">
+      <div class="ok-mark">&#10003;</div>
+      <h2 class="step-title">Thank you</h2>
+      <p class="lead">Your video was received. We appreciate you sharing one cool thing.</p>
+      <div class="btn-row" style="justify-content:center;"><button class="btn gold" id="b-again" type="button" style="flex:0 1 240px;">Record another</button></div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>AI and History Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; <a href="mailto:lhyman6@jh.edu">lhyman6@jh.edu</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15–16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  // ===== CONFIG: Apps Script web app URL (the /exec URL). =====
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwy1O4wOOcXX_QDzAS1P2-DxyXTUfq0E9IJnSMQ2_FevkEn-v6kuE28PSCqj1Ahj8ftqw/exec';
+  // ============================================================
+
+  const MAX_SECONDS = 90;
+  const VIDEO_BPS = 1500000;
+  const AUDIO_BPS = 96000;
+  const MIME_ORDER = ['video/mp4;codecs=avc1', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'];
+  const CONTACT = 'lhyman6@jh.edu';
+
+  const $ = (id) => document.getElementById(id);
+  const steps = ['s-intro', 's-stage', 's-form', 's-done'];
+  const v = $('v');
+
+  let stream = null, facing = 'user', recorder = null, chunks = [], chosenMime = '';
+  let upTick = null, blob = null, blobUrl = null, durationS = 0, t0 = 0, tick = null, stopTimer = null, busy = false;
+
+  function show(id) { steps.forEach((s) => { $(s).hidden = (s !== id); }); }
+  function showError(title, detail) {
+    const e = $('error');
+    e.innerHTML = '';
+    const s = document.createElement('strong'); s.textContent = title;
+    e.appendChild(s);
+    e.appendChild(document.createElement('br'));
+    e.appendChild(document.createTextNode(detail));
+    e.hidden = false;
+    e.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function clearError() { $('error').hidden = true; }
+  function fmt(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function pickMime() {
+    if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return '';
+    for (const m of MIME_ORDER) { if (MediaRecorder.isTypeSupported(m)) return m; }
+    return '';
+  }
+  function stopStream() { if (stream) { stream.getTracks().forEach((t) => t.stop()); stream = null; } }
+  function revokeBlob() { if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; } }
+
+  function preflight() {
+    if (!window.isSecureContext) return 'This page is not on a secure (HTTPS) connection, so the browser blocks the camera. Open the https:// address of the conference site.';
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return 'This browser cannot access a camera. Try Safari on iPhone, Chrome on Android, or the current Chrome, Firefox or Safari on a laptop.';
+    if (!window.MediaRecorder) return 'This browser cannot record video (MediaRecorder is missing). Try the current Safari (iOS 14.3 or later), Chrome or Firefox.';
+    if (!pickMime()) return 'This browser does not support any video recording format we can use. Try Safari, Chrome or Firefox.';
+    if (APPS_SCRIPT_URL === 'APPS_SCRIPT_URL_HERE') return 'This page is not connected to the upload server yet, so a video could not be sent. Please email ' + CONTACT + '.';
+    return null;
+  }
+
+  async function openCamera() {
+    stopStream();
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: true },
+      video: { facingMode: { ideal: facing }, width: { ideal: 1280, max: 1920 }, height: { ideal: 720, max: 1080 }, frameRate: { ideal: 30, max: 30 } }
+    });
+    v.srcObject = stream; v.muted = true;
+    v.classList.toggle('mirror', facing === 'user');
+    try { await v.play(); } catch (e) { /* autoplay is allowed for muted inline video; if not, the Record button still works */ }
+    try {
+      const devs = await navigator.mediaDevices.enumerateDevices();
+      $('b-flip').classList.toggle('on', devs.filter((d) => d.kind === 'videoinput').length > 1);
+    } catch (e) { $('b-flip').classList.remove('on'); }
+  }
+
+  function camError(e) {
+    const n = e && e.name;
+    if (n === 'NotAllowedError' || n === 'SecurityError') return ['Camera or microphone permission was denied.', 'Allow both in your browser or phone settings for this site, then reload and try again. If it still fails, try another browser or email ' + CONTACT + '.'];
+    if (n === 'NotFoundError' || n === 'OverconstrainedError') return ['No camera or microphone was found.', 'Check that one is connected and not blocked, or try another device or browser. You can also email ' + CONTACT + '.'];
+    if (n === 'NotReadableError' || n === 'AbortError') return ['The camera or microphone could not be started.', 'Another app may be using it. Close other apps or tabs that use the camera and try again.'];
+    return ['The camera could not be opened (' + (n || 'unknown error') + (e && e.message ? ': ' + e.message : '') + ').', 'Try another browser, or email ' + CONTACT + '.'];
+  }
+
+  function setStageUi(mode) {
+    $('r-preview').hidden = mode !== 'preview';
+    $('r-recording').hidden = mode !== 'recording';
+    $('r-review').hidden = mode !== 'review';
+    $('meter').hidden = mode !== 'recording';
+    $('badge').classList.toggle('on', mode === 'recording');
+    if (mode !== 'preview' && mode !== 'countdown') $('b-flip').classList.remove('on');
+    $('stage-note').textContent = mode === 'preview' ? 'Check that you can see yourself, then press Record. A 3-2-1 countdown will start.' :
+      mode === 'recording' ? 'Recording stops by itself at 1:30.' :
+      mode === 'review' ? 'Watch your video. Happy with it? Continue. Otherwise re-record.' : '';
+  }
+
+  async function begin() {
+    clearError();
+    const p = preflight();
+    if (p) { showError('This browser cannot record here.', p); return; }
+    try {
+      await openCamera();
+    } catch (e) {
+      const m = camError(e); showError(m[0], m[1]); return;
+    }
+    show('s-stage'); setStageUi('preview');
+  }
+
+  async function flip() {
+    if (busy) return;
+    facing = facing === 'user' ? 'environment' : 'user';
+    try { await openCamera(); } catch (e) { const m = camError(e); showError(m[0], m[1]); }
+  }
+
+  function countdown() {
+    return new Promise((resolve) => {
+      const c = $('countdown'); let n = 3;
+      c.textContent = n; c.classList.add('on');
+      const iv = setInterval(() => {
+        n--;
+        if (n <= 0) { clearInterval(iv); c.classList.remove('on'); resolve(); }
+        else c.textContent = n;
+      }, 1000);
+    });
+  }
+
+  async function record() {
+    clearError();
+    if (busy) return; busy = true;
+    $('r-preview').hidden = true; $('b-flip').classList.remove('on');
+    await countdown();
+    chunks = []; chosenMime = pickMime();
+    try {
+      recorder = new MediaRecorder(stream, { mimeType: chosenMime, videoBitsPerSecond: VIDEO_BPS, audioBitsPerSecond: AUDIO_BPS });
+    } catch (e) {
+      busy = false; setStageUi('preview');
+      showError('Recording could not start.', 'The browser refused to start the recorder (' + e.name + ': ' + e.message + '). Try another browser, or email ' + CONTACT + '.');
+      return;
+    }
+    recorder.ondataavailable = (ev) => { if (ev.data && ev.data.size) chunks.push(ev.data); };
+    recorder.onerror = (ev) => {
+      clearInterval(tick); clearTimeout(stopTimer); busy = false;
+      try { if (recorder.state !== 'inactive') recorder.stop(); } catch (e) {}
+      setStageUi('preview');
+      showError('Recording failed.', ((ev.error && ev.error.message) || 'Unknown recorder error') + '. Try again, or use another browser.');
+    };
+    recorder.onstop = onStopped;
+    recorder.start(1000);
+    t0 = performance.now();
+    setStageUi('recording');
+    $('timer').textContent = '0:00 / ' + fmt(MAX_SECONDS);
+    tick = setInterval(() => {
+      const el = (performance.now() - t0) / 1000;
+      $('timer').textContent = fmt(el) + ' / ' + fmt(MAX_SECONDS);
+      $('meter-fill').style.width = Math.min(100, el / MAX_SECONDS * 100) + '%';
+    }, 250);
+    stopTimer = setTimeout(stopRecording, MAX_SECONDS * 1000);
+  }
+
+  function stopRecording() {
+    clearInterval(tick); clearTimeout(stopTimer);
+    if (recorder && recorder.state !== 'inactive') {
+      durationS = Math.min(MAX_SECONDS, Math.round((performance.now() - t0)) / 1000);
+      recorder.stop();
+    }
+  }
+
+  function onStopped() {
+    busy = false;
+    const type = (recorder.mimeType || chosenMime || '').split(';')[0];
+    blob = new Blob(chunks, { type: type });
+    chunks = [];
+    if (!blob.size) { setStageUi('preview'); showError('The recording came out empty.', 'Please try again, or use another browser.'); return; }
+    if (durationS < 1) { setStageUi('preview'); showError('That recording was too short.', 'Record at least a few seconds, then press Stop.'); return; }
+    stopStream(); v.srcObject = null; v.classList.remove('mirror');
+    revokeBlob(); blobUrl = URL.createObjectURL(blob);
+    v.muted = false; v.controls = true; v.src = blobUrl; v.autoplay = false;
+    setStageUi('review');
+  }
+
+  async function redo() {
+    clearError();
+    revokeBlob(); blob = null; v.pause(); v.removeAttribute('src'); v.controls = false; v.load(); v.autoplay = true; v.muted = true;
+    $('meter-fill').style.width = '0%';
+    try { await openCamera(); } catch (e) { const m = camError(e); showError(m[0], m[1]); show('s-intro'); return; }
+    setStageUi('preview');
+  }
+
+  function toForm() {
+    clearError(); v.pause();
+    $('f-len').textContent = fmt(durationS) + ', ' + (blob.size / 1048576).toFixed(1) + ' MB';
+    show('s-form');
+  }
+
+  function toDataUrlB64(b) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onerror = () => reject(new Error('could not read the recording from memory'));
+      r.onload = () => {
+        const s = String(r.result), i = s.indexOf(',');
+        if (i < 0) reject(new Error('unexpected encoding result')); else resolve(s.slice(i + 1));
+      };
+      r.readAsDataURL(b);
+    });
+  }
+
+  function setUp(pct, text) { if (pct !== null) { $('up-bar').classList.remove('indet'); $('up-bar').style.width = pct + '%'; } $('up-text').textContent = text; }
+
+  async function submit(ev) {
+    ev.preventDefault(); clearError();
+    if (busy) return;
+    const name = $('f-name').value.trim(), email = $('f-email').value.trim(), inst = $('f-inst').value.trim();
+    if (!name) { showError('Please enter your name.', ''); $('f-name').focus(); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { showError('Please enter a valid email address.', 'Use the one you registered with.'); $('f-email').focus(); return; }
+    if (!$('f-consent').checked) { showError('Consent is required.', 'Please tick the box to agree to public use of the video.'); return; }
+    if (!blob) { showError('No video to send.', 'Go back and record one.'); return; }
+    busy = true; $('b-submit').disabled = true; $('b-back').disabled = true;
+    $('up-wrap').hidden = false; setUp(0, 'Preparing video...'); $('up-bar').classList.add('indet');
+    let b64;
+    try { b64 = await toDataUrlB64(blob); }
+    catch (e) { return failUpload('Could not prepare the video.', e.message + '. Try again or use another browser.'); }
+    const payload = JSON.stringify({
+      v: 1, name: name, email: email, institution: inst, consent: true,
+      duration_s: durationS, mime: blob.type, user_agent: navigator.userAgent,
+      submitted_at: new Date().toISOString(), video_b64: b64
+    });
+    b64 = null;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', APPS_SCRIPT_URL);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    xhr.timeout = 5 * 60 * 1000;
+    // NOTE: no xhr.upload listeners on purpose. Registering one forces a CORS preflight (OPTIONS),
+    // which Apps Script web apps do not answer, so the upload would fail. The bar below is therefore
+    // indeterminate (animated) with an elapsed-time counter rather than a byte-accurate percentage.
+    const sentAt = performance.now();
+    $('up-bar').classList.add('indet');
+    upTick = setInterval(() => { setUp(null, 'Uploading ' + (blob.size / 1048576).toFixed(1) + ' MB... ' + Math.round((performance.now() - sentAt) / 1000) + ' s. Keep this page open.'); }, 500);
+    xhr.onerror = () => failUpload('The upload failed (network error).', 'Check your connection and press Submit again. Your recording is still here. If it keeps failing, try another browser or email ' + CONTACT + '.');
+    xhr.ontimeout = () => failUpload('The upload timed out.', 'Your connection may be slow. Press Submit again, or try on Wi-Fi. Your recording is still here.');
+    xhr.onabort = () => failUpload('The upload was interrupted.', 'Press Submit again. Your recording is still here.');
+    xhr.onload = () => {
+      let r = null;
+      try { r = JSON.parse(xhr.responseText); } catch (e) {}
+      if (xhr.status === 200 && r && r.ok === true) {
+        clearInterval(upTick); setUp(100, 'Done.'); busy = false; show('s-done'); return;
+      }
+      if (r && r.ok === false) return failUpload('The server rejected the video: ' + (r.error || 'no reason given') + '.', 'Your recording is still here. Press Submit again, or email ' + CONTACT + ' if this repeats.');
+      failUpload('The server sent an unexpected reply (HTTP ' + xhr.status + ').', 'Your video was NOT confirmed as received. Press Submit again, try another browser, or email ' + CONTACT + '.');
+    };
+    xhr.send(payload);
+  }
+
+  function failUpload(title, detail) {
+    clearInterval(upTick); busy = false; $('b-submit').disabled = false; $('b-back').disabled = false;
+    $('b-submit').textContent = 'Retry upload';
+    setUp(0, 'Not sent.');
+    showError(title, detail);
+  }
+
+  function again() {
+    clearError(); revokeBlob(); blob = null; busy = false;
+    $('s-form').reset(); $('up-wrap').hidden = true; $('b-submit').textContent = 'Submit';
+    $('b-submit').disabled = false; $('b-back').disabled = false;
+    $('meter-fill').style.width = '0%';
+    v.pause(); v.removeAttribute('src'); v.controls = false; v.autoplay = true; v.muted = true;
+    begin();
+  }
+
+  $('b-start').addEventListener('click', begin);
+  $('b-flip').addEventListener('click', flip);
+  $('b-rec').addEventListener('click', record);
+  $('b-stop').addEventListener('click', stopRecording);
+  $('b-redo').addEventListener('click', redo);
+  $('b-continue').addEventListener('click', toForm);
+  $('b-back').addEventListener('click', () => { if (!busy) { clearError(); show('s-stage'); } });
+  $('s-form').addEventListener('submit', submit);
+  $('b-again').addEventListener('click', again);
+  window.addEventListener('pagehide', stopStream);
+
+  const p0 = preflight();
+  if (p0) showError('Heads up.', p0);
+})();
+</script>
+
+</body>
+</html>
