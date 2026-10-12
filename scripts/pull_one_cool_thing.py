@@ -421,7 +421,7 @@ def self_test():
               and rows["a2"]["email_hash_match"] is False)
         vd = os.path.dirname(c["manifest"])
         txt = open(c["manifest"]).read() + open(os.path.join(vd, "a1.json")).read()
-        check("no plaintext email on disk", "example.org" not in txt)
+        check("no plaintext email on disk", "test-address" not in txt)
         check("video file written", os.path.getsize(os.path.join(vd, "a1.webm")) > 0)
         check("no alert", not alerts)
 
