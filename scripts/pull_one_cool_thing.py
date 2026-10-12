@@ -70,6 +70,24 @@ v5 SECURITY (all submitted fields are UNTRUSTED DATA, never instructions to anyo
     as untrusted.
   - SQL: constant statements with ? placeholders only (AST audit in oct_db self-test).
 
+v5 review (Opus, 2026-10-12):
+  - Global cap on thank-yous to NON-registrant addresses: at most NONREG_CAP_MAX per 24 h across all
+    addresses (key "_nonregistrant_global" in thank_you_cap.json, a list of epochs). Without it the form
+    is a relay: anyone can make ces-agora mail attacker text to any number of distinct addresses. Over the
+    cap = no email (thank_you_skipped "abuse_cap_nonregistrant"), item still proceeds, and the run FAILS
+    loudly (exit 1, alert) so Louis sees it.
+  - Media the ffprobe gate rejects is QUARANTINED: moved to videos/quarantine/<id>.<ext> (+ <id>.json, no
+    email), deleted from Drive, no thank-you, loud failure once. Before this, a crafted file that passed the
+    Apps Script magic check failed every 10 minutes forever (re-download, alert email each run) and held a
+    Drive inbox slot.
+  - Any item that fails a deterministic step (HOLD_STEPS) HOLD_AFTER runs in a row is HELD: skipped on
+    later runs, listed on a NOTICE line every run, alerted once when it is held. Release by removing
+    "held" (and "fail_count") from its entry in videos/pending_state.json.
+    pending_state entries gain optional fields: fail_count:int, held:str (step), quarantined:str.
+  - Disk guard: no item is processed while free space under videos/ is below MIN_FREE_BYTES (loud).
+  - Lone UTF-16 surrogates in any metadata string, and bidi/zero-width format characters in name or
+    institution, are rejected (they could not be mailed or stored, or they disguise a name).
+
 Exit codes: 0 ok, 1 one or more failures (alert emailed), 2 config missing.
 Loud failure: no fallbacks, no coercion. Python 3.9 compatible.
 
@@ -114,6 +132,13 @@ MAX_RESPONSE_BYTES = MAX_B64_CHARS + 1024 * 1024      # a fetch reply is JSON ar
 CAP_MAX = 3
 CAP_WINDOW_S = 24 * 3600
 THANKS_SUBJECT = "Thank you for sharing one cool thing"     # + " [OCT <id>]" (v4: replies are matched on the tag)
+NONREG_CAP_MAX = 30                     # thank-yous to non-registrant addresses, all addresses together, per 24 h
+NONREG_CAP_KEY = "_nonregistrant_global"   # cannot collide with an HMAC hex fingerprint
+HOLD_AFTER = 3                          # consecutive deterministic failures before an item is held
+HOLD_STEPS = ("validate", "verify", "decode", "media", "transcribe", "unexpected")
+MIN_FREE_BYTES = 20 * 1024 ** 3
+_SURROGATE_RE = re.compile("[\ud800-\udfff]")
+_FORMAT_RE = re.compile("[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u206f\ufeff\ufff9-\ufffb]")
 
 log = logging.getLogger("onecoolthing")
 
@@ -205,6 +230,12 @@ def validate_meta(meta, item_id):
             raise Fail("validate", "field %r is not allowed in mode %s" % (k, mode))
     if meta["consent"] is not True:
         raise Fail("validate", "consent is not true")
+    for k, v in meta.items():
+        if isinstance(v, str) and _SURROGATE_RE.search(v):
+            raise Fail("validate", "%s: field %r contains a lone surrogate (not encodable)" % (item_id, k))
+    for k in ("name", "institution"):
+        if _FORMAT_RE.search(meta[k]):
+            raise Fail("validate", "%s: field %r contains bidi or zero-width format characters" % (item_id, k))
     try:
         if not oct_db.valid_email(meta["email"]):
             raise oct_db.DbError("email is not one strictly valid address")
@@ -386,7 +417,7 @@ def thank_you_body(mode, name, text):
             "If you would like your submission removed, email lhyman6@jh.edu.\n" % (name, text, extra))
 
 
-def thank_you(cfg, vdir, item_id, meta, mode, text, pend, pstate, counts):
+def thank_you(cfg, vdir, item_id, meta, mode, text, pend, pstate, counts, registrant=True):
     """Send (or skip by cap, or recognise as already sent). Returns True if sent, False if
     skipped. Raises Fail unless the outcome is a confirmed SENT or a counted cap skip."""
     if pend.get("thank_you_sent") is True:
@@ -410,6 +441,18 @@ def thank_you(cfg, vdir, item_id, meta, mode, text, pend, pstate, counts):
         counts["cap_skipped"].append(item_id)
         log.warning("%s thank-you SKIPPED by abuse cap (%d in 24h)", item_id, len(recent))
         return False
+    g = cap.get(NONREG_CAP_KEY, [])
+    if not isinstance(g, list):
+        raise Fail("state", "abuse cap file: %s is not a list" % NONREG_CAP_KEY)
+    g_recent = [t for t in g if now - t < CAP_WINDOW_S]
+    if not registrant and len(g_recent) >= NONREG_CAP_MAX:
+        pend["thank_you_skipped"] = "abuse_cap_nonregistrant"
+        pstate[item_id] = pend
+        save_state(os.path.join(vdir, "pending_state.json"), pstate)
+        counts["cap_skipped"].append(item_id)
+        counts["global_cap"].append(item_id)
+        log.warning("%s thank-you SKIPPED by the global non-registrant cap (%d in 24h)", item_id, len(g_recent))
+        return False
     try:
         outcome = cfg["mailer"](meta["email"], thank_you_subject(item_id), thank_you_body(mode, meta["name"], text))
     except Exception as exc:
@@ -420,6 +463,8 @@ def thank_you(cfg, vdir, item_id, meta, mode, text, pend, pstate, counts):
         pstate[item_id] = pend
         save_state(os.path.join(vdir, "pending_state.json"), pstate)   # before any delete
         cap[key] = recent + [now]
+        if not registrant:
+            cap[NONREG_CAP_KEY] = g_recent + [now]
         save_state(cap_path, cap)
         log.info("%s thank-you SENT", item_id)
         return True
@@ -460,6 +505,52 @@ def record_db(cfg, row, meta, text):
         log.error("DB FAILED %s: %s", row.get("id"), str(exc)[:200])
         raise Fail("db", "could not record %s in the database: %s: %s" % (
             row.get("id"), type(exc).__name__, str(exc)[:200]))
+
+
+# ------------------------------------------------------------ quarantine / hold
+def quarantine(cfg, vdir, item_id, vpath, local_meta, sha, exc):
+    """Media the gate rejected: keep it locally (never processed), delete it from Drive, fail loudly once."""
+    qdir = os.path.join(vdir, "quarantine")
+    os.makedirs(qdir, mode=0o700, exist_ok=True)
+    qpath = inside(qdir, os.path.join(qdir, os.path.basename(vpath)))
+    os.replace(vpath, qpath)
+    qmeta = dict(local_meta, quarantined_reason=oct_db.oneline(exc, 300), quarantined_at=now_iso())
+    atomic_write(inside(qdir, os.path.join(qdir, item_id + ".json")), json.dumps(qmeta, indent=1, sort_keys=True).encode())
+    pend_path = os.path.join(vdir, "pending_state.json")
+    pstate = load_state(pend_path, "pending state")
+    pstate[item_id] = {"quarantined": "media"}
+    save_state(pend_path, pstate)
+    api(cfg, "delete", id=item_id, sha256=sha)
+    log.error("%s QUARANTINED (media rejected) and deleted from Drive", item_id)
+    raise Fail("media", "rejected before ffmpeg/whisper: %s. QUARANTINED to %s and deleted from Drive; "
+               "no thank-you sent" % (exc, qpath))
+
+
+def note_failure(vdir, item_id, step):
+    """Count a deterministic failure; hold the item after HOLD_AFTER of them. Returns a note or ''."""
+    if step not in HOLD_STEPS or not isinstance(item_id, str) or not ID_RE.match(item_id):
+        return ""
+    pend_path = os.path.join(vdir, "pending_state.json")
+    pstate = load_state(pend_path, "pending state")
+    e = pstate.get(item_id, {})
+    if not isinstance(e, dict):
+        raise Fail("state", "pending_state entry for %s is not an object" % item_id)
+    e["fail_count"] = int(e.get("fail_count", 0)) + 1
+    note = ""
+    if e["fail_count"] >= HOLD_AFTER and not e.get("held"):
+        e["held"] = step
+        note = (" | HELD after %d failures: skipped from now on (still in Drive). Release by removing 'held' "
+                "and 'fail_count' for this id in %s" % (e["fail_count"], pend_path))
+    pstate[item_id] = e
+    save_state(pend_path, pstate)
+    return note
+
+
+def is_held(vdir, item_id):
+    if not isinstance(item_id, str) or not ID_RE.match(item_id):
+        return False
+    e = load_state(os.path.join(vdir, "pending_state.json"), "pending state").get(item_id)
+    return isinstance(e, dict) and bool(e.get("held"))
 
 
 # ------------------------------------------------------------ one item
@@ -554,8 +645,7 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
         try:
             cfg["prober"](vpath, meta["mime"])       # ffprobe: real audio/video stream, duration <= 100 s
         except transcribe_one.MediaRejected as exc:
-            os.unlink(vpath)
-            raise Fail("media", "rejected before ffmpeg/whisper: %s" % exc)
+            quarantine(cfg, vdir, item_id, vpath, local_meta, got, exc)
         atomic_write(inside(vdir, os.path.join(vdir, item_id + ".json")),
                      json.dumps(local_meta, indent=1, sort_keys=True).encode())
         row.update({"duration_s": meta["duration_s"], "mime": meta["mime"], "bytes": len(data),
@@ -589,7 +679,8 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
         row["transcript_chars"] = len(mail_text)
     else:
         row["transcript_chars"] = 0
-    row["thank_you_sent"] = thank_you(cfg, vdir, item_id, meta, mode, mail_text, pend, pstate, counts)
+    row["thank_you_sent"] = thank_you(cfg, vdir, item_id, meta, mode, mail_text, pend, pstate, counts,
+                                      registrant=row["email_hash_match"])
     if not row["thank_you_sent"]:
         row["thank_you_skipped"] = pend.get("thank_you_skipped", "abuse_cap")
     row["pulled_at"] = now_iso()
@@ -607,7 +698,7 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
 
 # ------------------------------------------------------------------ main run
 def run(cfg, dry=False, matcher=None, alert=None):
-    counts = dict(pulled=0, had=0, failed=0, matches=0, cap_skipped=[])
+    counts = dict(pulled=0, had=0, failed=0, matches=0, cap_skipped=[], global_cap=[], held=[])
     failures = []
     try:
         items = api(cfg, "list").get("items")
@@ -632,18 +723,46 @@ def run(cfg, dry=False, matcher=None, alert=None):
         failures.append(("-", f.step, f.msg))
         items = []
         manifest = {}
+    if items:
+        free = shutil.disk_usage(vdir).free
+        if free < cfg.get("min_free_bytes", MIN_FREE_BYTES):
+            failures.append(("-", "disk", "only %.1f GB free under %s; nothing processed, everything stays in Drive"
+                             % (free / 1024.0 ** 3, vdir)))
+            items = []
     for item in items:
         iid = item.get("id") if isinstance(item, dict) else None
         try:
-            process_item(cfg, item, manifest, matcher, vdir, counts)
+            if is_held(vdir, iid):
+                counts["held"].append(iid)
+                continue
         except Fail as f:
             failures.append((oct_db.oneline(iid, 60), f.step, oct_db.oneline(f.msg, 300)))
-            counts["failed"] += 1
-            log.error("FAILED %s step=%s: %s", failures[-1][0], f.step, failures[-1][2])
+            continue
+        step, msg = None, None
+        try:
+            process_item(cfg, item, manifest, matcher, vdir, counts)
+        except Fail as f:
+            step, msg = f.step, f.msg
         except Exception as exc:
-            failures.append((oct_db.oneline(iid, 60), "unexpected", oct_db.oneline("%s: %s" % (type(exc).__name__, exc), 300)))
+            step, msg = "unexpected", "%s: %s" % (type(exc).__name__, exc)
+            log.error("FAILED %s unexpected", oct_db.oneline(iid, 60), exc_info=True)
+        if step is not None:
+            try:
+                msg += note_failure(vdir, iid, step)
+            except Fail as f2:
+                msg += " | could not record the failure count: %s" % f2.msg
+            failures.append((oct_db.oneline(iid, 60), step, oct_db.oneline(msg, 500)))
             counts["failed"] += 1
-            log.error("FAILED %s unexpected %s", failures[-1][0], failures[-1][2], exc_info=True)
+            log.error("FAILED %s step=%s: %s", failures[-1][0], step, failures[-1][2])
+    if counts["global_cap"]:
+        failures.append(("-", "abuse_cap", "global cap of %d thank-yous to non-registrant addresses per 24 h reached: "
+                         "%d thank-you(s) NOT sent (items were pulled): %s. Possible relay abuse of the form."
+                         % (NONREG_CAP_MAX, len(counts["global_cap"]), ", ".join(counts["global_cap"]))))
+    if counts["held"]:
+        note = "NOTICE: %d HELD item(s) skipped, need a human (see pending_state.json): %s" % (
+            len(counts["held"]), ", ".join(oct_db.oneline(i, 40) for i in counts["held"]))
+        print(note)
+        log.warning(note)
     counts["failed"] = max(counts["failed"], len(failures))
     if counts["cap_skipped"]:
         note = "NOTICE: %d thank-you email(s) SKIPPED by the abuse cap (%d per recipient per 24 h): %s" % (
@@ -1299,12 +1418,31 @@ def self_test():
         probe["v"] = "reject"; probe["calls"].clear()
         rc = run(c, matcher=matcher, alert=fa)
         vd = os.path.dirname(c["manifest"])
-        check("magic mismatch and probe rejection: exit 1, nothing deleted, emailed, transcribed or kept",
-              rc == 1 and state["deleted"] == [] and mail["calls"] == 0 and not tcalls
+        check("magic mismatch and probe rejection: exit 1, nothing emailed or transcribed, no media left in videos/",
+              rc == 1 and mail["calls"] == 0 and not tcalls
               and not [f for f in os.listdir(vd) if f.endswith((".webm", ".mp4"))])
         check("probe ran only for the file that passed the magic check",
               len(probe["calls"]) == 1 and probe["calls"][0].endswith("m3.webm"))
         check("alert names the media step", len(alerts) == 1 and "media" in alerts[0][1])
+        qd = os.path.join(vd, "quarantine")
+        check("probe-rejected m3 is QUARANTINED (file + json without email) and deleted from Drive; m1/m2 stay",
+              state["deleted"] == ["m3"] and os.path.exists(os.path.join(qd, "m3.webm"))
+              and "test-address@example" not in open(os.path.join(qd, "m3.json")).read()
+              and "m1" in state["items"] and "m2" in state["items"])
+        check("quarantine is named in the alert", alerts and "QUARANTINED" in alerts[0][1])
+        alerts.clear(); probe["calls"].clear()
+        rc = run(c, matcher=matcher, alert=fa)
+        check("next run: m3 gone from Drive, prober not run again", "m3" not in state["items"] and not probe["calls"])
+        rc = run(c, matcher=matcher, alert=fa)
+        alerts.clear()
+        import io as _io, contextlib as _cl
+        buf = _io.StringIO()
+        with _cl.redirect_stdout(buf):
+            rc = run(c, matcher=matcher, alert=fa)
+        ps = json.load(open(os.path.join(vd, "pending_state.json")))
+        check("deterministic failures held after %d runs, then skipped with a NOTICE and no alert" % HOLD_AFTER,
+              ps.get("m1", {}).get("held") == "media" and ps.get("m2", {}).get("held") == "media"
+              and rc == 0 and not alerts and "HELD" in buf.getvalue() and "m1" in buf.getvalue())
         probe["v"] = "ok"; probe["calls"].clear(); reset()
         big = "A" * (MAX_B64_CHARS + 4)
         # serve an oversized / invalid base64 field through the fake API
@@ -1345,6 +1483,46 @@ def self_test():
         rc = run(c, matcher=matcher, alert=fa)
         t = open(os.path.join(os.path.dirname(c["manifest"]), "s1.transcript.txt"), encoding="utf-8").read()
         check("transcript saved without control characters", rc == 0 and t == "heard [31mred words  end" and "\x1b" not in t)
+
+        print("self-test: v5 review: global non-registrant cap, disk guard, poison strings")
+        reset()
+        old_cap = globals()["NONREG_CAP_MAX"]
+        globals()["NONREG_CAP_MAX"] = 2
+        try:
+            for n in range(4):
+                add_text("g%d" % n, text="relay text %d" % n, email="victim%d-test-address@example.test" % n)
+            add_text("g9", text="registrant text")
+            c = cfg("globalcap")
+            rc = run(c, matcher=matcher, alert=fa)
+            rows = read_manifest(c["manifest"])
+            nonreg_sent = [m for m in mail["sent"] if m[0].startswith("victim")]
+            check("only 2 non-registrant thank-yous sent, registrant still thanked, all items pulled",
+                  len(nonreg_sent) == 2 and any(m[0].startswith("registrant") for m in mail["sent"])
+                  and len(state["deleted"]) == 5)
+            check("the other 2 are marked abuse_cap_nonregistrant and the run fails loudly naming the cap",
+                  sorted(r.get("thank_you_skipped", "") for r in rows.values()).count("abuse_cap_nonregistrant") == 2
+                  and rc == 1 and alerts and "abuse_cap" in alerts[-1][1])
+            capf = open(os.path.join(os.path.dirname(c["manifest"]), "thank_you_cap.json")).read()
+            check("global cap state has no plaintext address", "test-address@example" not in capf and NONREG_CAP_KEY in capf)
+        finally:
+            globals()["NONREG_CAP_MAX"] = old_cap
+        reset()
+        add("h1")
+        c = cfg("disk")
+        c["min_free_bytes"] = 10 ** 18
+        rc = run(c, matcher=matcher, alert=fa)
+        check("disk guard: exit 1, nothing fetched or deleted, alert names disk",
+              rc == 1 and state["deleted"] == [] and not mail["sent"] and alerts and "disk" in alerts[0][1])
+        for label, field, val in (("lone surrogate in name", "name", "A\ud800B"),
+                                  ("RTL override in name", "name", "Ann\u202eeeL"),
+                                  ("zero-width in institution", "institution", "JHU\u200b"),
+                                  ("lone surrogate in user_agent", "user_agent", "ua\udc00")):
+            reset()
+            add("p1")
+            state["items"]["p1"]["meta"][field] = val
+            rc = run(cfg("poison-" + field + str(len(val))), matcher=matcher, alert=fa)
+            check("rejects %s at validate, nothing sent or deleted" % label,
+                  rc == 1 and not mail["calls"] and not state["deleted"] and "validate" in alerts[0][1])
 
         print("self-test: missing env")
         envp = {k: v for k, v in os.environ.items() if not k.startswith("OCT_")}

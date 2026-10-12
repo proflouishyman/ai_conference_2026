@@ -1,15 +1,16 @@
 // Hostile-input self-test for apps_script/one_cool_thing/Code.gs (stubs the Apps Script services). Run: node scripts/oct_code_gs_selftest.js [path/to/Code.gs]
 const fs=require('fs'), vm=require('vm');
 const code=fs.readFileSync((process.argv[2]||require('path').join(__dirname,'..','apps_script','one_cool_thing','Code.gs')),'utf8');
-const cacheStore={};
+const cacheStore={}; const propStore={}; const created=[];
 const ctx={console, Date, Math, JSON, parseInt, isNaN, isFinite, String, Array, Object, RegExp,
  ContentService:{createTextOutput:(t)=>({t, setMimeType(){return this}}), MimeType:{JSON:1}},
  CacheService:{getScriptCache:()=>({get:k=>cacheStore[k]||null,put:(k,v)=>{cacheStore[k]=v}})},
  Utilities:{base64Decode:(s)=>{const b=Buffer.from(s,'base64');return Array.from(b).map(x=>x>127?x-256:x)}, DigestAlgorithm:{SHA_256:1}, Charset:{UTF_8:1},
-   computeDigest:()=>[1,2], formatDate:()=>'20261012-000000', newBlob:(b)=>({b})},
+   computeDigest:()=>[1,2], formatDate:(d,z,f)=>f==='yyyyMMdd'?'20261012':'20261012-000000', newBlob:(b)=>({b}),
+   getUuid:()=>require('crypto').randomUUID()},
  LockService:{getScriptLock:()=>({tryLock:()=>true,releaseLock(){}})},
- PropertiesService:{getScriptProperties:()=>({getProperty:(k)=>k==='FOLDER_ID'?'F':null,setProperty(){}})},
- DriveApp:{getFolderById:()=>({getFiles:()=>({hasNext:()=>false}), createFile:(n,c)=>({getSize:()=>(n&&n.b)?n.b.length:1})})}};
+ PropertiesService:{getScriptProperties:()=>({getProperty:(k)=>k==='FOLDER_ID'?'F':(propStore[k]||null),setProperty:(k,v)=>{propStore[k]=v}})},
+ DriveApp:{getFolderById:()=>({getFiles:()=>({hasNext:()=>false}), getFilesByName:()=>({hasNext:()=>false}), createFile:(n,c)=>{if(typeof n==='string')created.push(n);return {getSize:()=>(n&&n.b)?n.b.length:1}}})}};
 vm.createContext(ctx); vm.runInContext(code,ctx);
 const mp4=Buffer.concat([Buffer.from([0,0,0,24]),Buffer.from('ftypmp42'),Buffer.alloc(40)]).toString('base64');
 const webm=Buffer.concat([Buffer.from([0x1a,0x45,0xdf,0xa3]),Buffer.alloc(40)]).toString('base64');
@@ -19,7 +20,7 @@ const goodv=()=>({v:2,mode:'video',name:'A B',email:'a@example.test',institution
 function call(o){ const r=ctx.doPost({postData:{contents:typeof o==='string'?o:JSON.stringify(o)}}); return JSON.parse(r.t); }
 let fails=0; const t=(n,c)=>{console.log((c?'PASS':'FAIL')+' '+n); if(!c)fails++;};
 // reset rate per test by clearing cache
-const clr=()=>{for(const k in cacheStore)delete cacheStore[k]};
+const clr=()=>{for(const k in cacheStore)delete cacheStore[k]; delete propStore.DAILY_COUNT};
 const rej=(n,o,sub)=>{clr();const r=call(o);t('rejects '+n+' -> '+r.error,r.ok===false&&(!sub||r.error.includes(sub)));};
 clr(); let r=call(good()); t('good text accepted',r.ok===true);
 clr(); r=call(goodv()); t('good mp4 accepted',r.ok===true);
@@ -52,10 +53,27 @@ x=goodv(); x.mime='text/html'; rej('mime html',x);
 rej('not json','{{{'); rej('array','[]'); rej('oversized body','x'.repeat(60*1024*1024),'too large');
 x=good(); x.name={toString(){}}; rej('name object',x);
 x=good(); x.name='A'; x.v=3; rej('bad version',x);
+// v5 review additions: poison items, display spoofing, id entropy, daily cap
+x=good(); x.name='A\ud800B'; rej('name lone high surrogate',x);
+x=good(); x.name='A\udc00'; rej('name lone low surrogate',x);
+x=good(); x.name='Ann \ud83d\ude00 Lee'; clr(); r=call(x); t('name with a real emoji pair accepted',r.ok===true);
+x=good(); x.name='Ann\u202eeeL'; rej('name RTL override',x);
+x=good(); x.institution='JHU\u200b'; rej('institution zero-width space',x);
+x=good(); x.text='bad \udfff end'; rej('text lone surrogate',x);
+x=good(); x.text='a\u202eb\u2066c'; clr(); created.length=0; r=call(x); t('text bidi controls stripped, accepted',r.ok===true);
+x=good(); x.submitted_at='Oct 12 2026 (\nBcc: x)'; rej('submitted_at lenient Date.parse with newline',x);
+x=good(); x.submitted_at='Oct 12 2026 (click http://evil)'; rej('submitted_at with comment text',x);
+x=good(); x.user_agent='UA\u202e'+'\ud83d'.repeat(1)+'x'; clr(); created.length=0; r=call(x); t('user_agent lone surrogate/bidi accepted but cleaned',r.ok===true);
+{ const ua=vm.runInContext('cleanUa_',ctx)('U\u202eA\ud83d'); t('cleanUa_ strips bidi and lone surrogate: '+JSON.stringify(ua), ua==='UA'); }
+{ const ua=vm.runInContext('cleanUa_',ctx)('a'.repeat(299)+'\ud83d\ude00'); t('cleanUa_ never leaves half a pair after slicing', ua==='a'.repeat(299)); }
+clr(); created.length=0; r=call(good()); t('id is date + 6 hex from getUuid: '+r.id, r.ok===true && /^20261012-000000-[0-9a-f]{6}$/.test(r.id));
+{ const ids=new Set(); for(let i=0;i<50;i++){ clr(); const q=call(good()); ids.add(q.id); } t('ids vary ('+ids.size+'/50 distinct)', ids.size>=49); }
+clr(); { let okd=0, capd=0; for(let i=0;i<410;i++){ for(const k in cacheStore)delete cacheStore[k]; const q=call(good()); if(q.ok)okd++; else if(/today/.test(q.error))capd++; } t('daily cap: 400 ok then refused ('+okd+'/'+capd+')', okd===400 && capd===10); }
+clr();
 // generic error on internal failure
 clr(); ctx.DriveApp.getFolderById=()=>{throw new Error('Drive secret detail XYZ')}; r=call(good()); t('internal failure is generic: '+r.error, r.ok===false && !r.error.includes('XYZ'));
 // rate limit
-clr(); let okc=0,lim=0; for(let i=0;i<70;i++){ ctx.DriveApp.getFolderById=()=>({getFiles:()=>({hasNext:()=>false}), createFile:()=>({getSize:()=>1})}); const q=call(good()); if(q.ok)okc++; else if(/Too many/.test(q.error))lim++; }
+clr(); let okc=0,lim=0; for(let i=0;i<70;i++){ ctx.DriveApp.getFolderById=()=>({getFiles:()=>({hasNext:()=>false}), getFilesByName:()=>({hasNext:()=>false}), createFile:()=>({getSize:()=>1})}); const q=call(good()); if(q.ok)okc++; else if(/Too many/.test(q.error))lim++; }
 t('rate limit: 60 ok then rejected ('+okc+'/'+lim+')', okc===60&&lim===10);
 // server api unauth
 clr(); r=call({action:'list',secret:'nope'}); t('server api unauthorized generic: '+r.error, r.ok===false&&r.error==='unauthorized');

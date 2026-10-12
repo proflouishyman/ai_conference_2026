@@ -38,6 +38,14 @@ var CTRL_ALL_RE = /[\u0000-\u001f\u007f\u0085\u2028\u2029]/;
 var CTRL_NO_NL_RE = /[\u0000-\u0009\u000b-\u001f\u007f\u0085\u2028\u2029]/g;
 var EMAIL_RE = /^[A-Za-z0-9][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/;
 var B64_RE = /^[A-Za-z0-9+\/]+={0,2}$/;
+// v5 review: lone UTF-16 surrogates cannot be encoded as UTF-8 on the server (poison item that fails every
+// run); bidi overrides and zero-width/format characters let a name or institution display as something else.
+var LONE_SURROGATE_RE = /[\ud800-\udbff](?![\udc00-\udfff])|(?:^|[^\ud800-\udbff])[\udc00-\udfff]/;
+var LONE_SURROGATE_G = /[\ud800-\udbff](?![\udc00-\udfff])|([^\ud800-\udbff]|^)[\udc00-\udfff]/g;
+var FORMAT_RE = /[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u206f\ufeff\ufff9-\ufffb]/;
+var FORMAT_G = /[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u206f\ufeff\ufff9-\ufffb]/g;
+var ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;   // what Date.toISOString() emits
+var DAILY_LIMIT = 400;   // accepted uploads per New York calendar day (bounds server disk and mail volume)
 
 /** An error whose message is safe and intended for the caller (fixed text, never echoes input). */
 function bad_(msg) { var e = new Error(msg); e.pub = true; return e; }
@@ -85,7 +93,9 @@ var MODES = ['video', 'transcript_only', 'text'];
 var MAX_TEXT_CHARS = 2000;
 var MAX_CONSENT_TEXT = 1000;
 
-function cleanLineOk_(v, max) { return isStr_(v) && v.length <= max && !CTRL_ALL_RE.test(v); }
+function cleanLineOk_(v, max) {
+  return isStr_(v) && v.length <= max && !CTRL_ALL_RE.test(v) && !LONE_SURROGATE_RE.test(v) && !FORMAT_RE.test(v);
+}
 
 function validate_(b) {
   // v1 clients send no mode and mean "video". v2 clients must send mode.
@@ -111,10 +121,11 @@ function validate_(b) {
     throw bad_('consent_text does not match the consent wording for this mode');
   }
   if (b.user_agent !== undefined && !isStr_(b.user_agent)) throw bad_('user_agent must be a string');
-  if (b.submitted_at !== undefined && (!isStr_(b.submitted_at) || b.submitted_at.length > MAX_ISO || isNaN(Date.parse(b.submitted_at)))) throw bad_('submitted_at must be an ISO date string');
+  if (b.submitted_at !== undefined && (!isStr_(b.submitted_at) || b.submitted_at.length > MAX_ISO || !ISO_RE.test(b.submitted_at) || isNaN(Date.parse(b.submitted_at)))) throw bad_('submitted_at must be an ISO date string');
   if (mode === 'text') {
     if (b.video_b64 !== undefined || b.mime !== undefined || b.duration_s !== undefined) throw bad_('text mode must not include video_b64, mime or duration_s');
     if (!isStr_(b.text)) throw bad_('text is required');
+    if (LONE_SURROGATE_RE.test(b.text)) throw bad_('text contains an invalid character');
     var t = cleanText_(b.text);
     if (t.length < 1) throw bad_('text is required');
     if (t.length > MAX_TEXT_CHARS) throw bad_('text too long: at most ' + MAX_TEXT_CHARS + ' characters');
@@ -130,9 +141,35 @@ function validate_(b) {
   if (b.video_b64.length % 4 !== 0 || !B64_RE.test(b.video_b64)) throw bad_('video is not valid base64');
 }
 
-/** Typed text: CRLF to LF, tabs to spaces, every other control character removed, then trimmed. */
+/** Typed text: CRLF to LF, tabs to spaces, every other control and bidi/format character removed, then trimmed. */
 function cleanText_(t) {
-  return t.replace(/\r\n?/g, '\n').replace(/\t/g, ' ').replace(CTRL_NO_NL_RE, '').trim();
+  return t.replace(/\r\n?/g, '\n').replace(/\t/g, ' ').replace(CTRL_NO_NL_RE, '').replace(FORMAT_G, '').trim();
+}
+
+/** Free-text header we keep but never trust (user agent): one line, no format characters, no lone surrogates. */
+function cleanUa_(v) {
+  return (v || '').replace(CTRL_NO_NL_RE, ' ').replace(/\n/g, ' ').replace(FORMAT_G, '').slice(0, MAX_UA)
+    .replace(LONE_SURROGATE_G, '$1');
+}
+
+/** Counts accepted uploads per New York day in Script Properties. Caller holds the script lock. */
+function dailyCap_(now) {
+  var props = PropertiesService.getScriptProperties();
+  var day = Utilities.formatDate(now, 'America/New_York', 'yyyyMMdd');
+  var cur = (props.getProperty('DAILY_COUNT') || '').split(':');
+  var n = (cur[0] === day ? parseInt(cur[1], 10) || 0 : 0) + 1;
+  if (n > DAILY_LIMIT) {
+    console.error('daily upload limit reached: ' + DAILY_LIMIT);
+    throw bad_('We have reached today\'s limit for submissions. Please try again tomorrow, or email lhyman6@jh.edu.');
+  }
+  props.setProperty('DAILY_COUNT', day + ':' + n);
+}
+
+/** 6 hex characters from a cryptographically random UUID (Math.random is predictable). */
+function randHex6_() {
+  var u = Utilities.getUuid().replace(/-/g, '').toLowerCase();
+  if (!/^[0-9a-f]{32}$/.test(u)) throw new Error('getUuid returned an unexpected value');
+  return u.slice(0, 6);
 }
 
 /** mp4 has "ftyp" at offset 4; webm starts with the EBML magic 1A 45 DF A3 (bytes are signed here). */
@@ -166,14 +203,15 @@ function upload_(b) {
       throw bad_('The inbox is full right now. Please email lhyman6@jh.edu.');
     }
     var now = new Date();
-    var rand = '';
-    for (var i = 0; i < 6; i++) rand += '0123456789abcdef'.charAt(Math.floor(Math.random() * 16));
-    var id = Utilities.formatDate(now, 'America/New_York', 'yyyyMMdd-HHmmss') + '-' + rand;
+    var id = Utilities.formatDate(now, 'America/New_York', 'yyyyMMdd-HHmmss') + '-' + randHex6_();
+    if (findFile_(folder, id + '.json')) id = Utilities.formatDate(now, 'America/New_York', 'yyyyMMdd-HHmmss') + '-' + randHex6_();
+    if (findFile_(folder, id + '.json')) throw new Error('id collision twice for ' + id);
+    dailyCap_(now);
     var meta = {
       id: id, v: b.v, mode: mode,
       name: b.name.trim(), email: b.email.trim(), institution: (b.institution || '').trim(),
       consent: true, consent_text: b.consent_text || '',
-      user_agent: (b.user_agent || '').replace(CTRL_NO_NL_RE, ' ').replace(/\n/g, ' ').slice(0, MAX_UA), submitted_at: b.submitted_at || '',
+      user_agent: cleanUa_(b.user_agent), submitted_at: b.submitted_at || '',
       received_at: now.toISOString()
     };
     if (mode === 'text') {

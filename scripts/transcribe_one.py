@@ -5,6 +5,11 @@ Usage: transcribe_one.py <media-path>
 Prints one JSON line {"ok": true, "text": "..."} and exits 0, or
 {"ok": false, "error": "..."} and exits 1. Empty text is a failure.
 Needs ffmpeg on PATH (/opt/homebrew/bin). Everything stays on this machine.
+
+v5 review: the container's duration header is attacker-controlled (a 40 MB Opus file can hold many hours
+of audio while claiming 30 s), so ffprobe's duration alone does not bound the work. decode_audio() runs
+ffmpeg itself (argv list, absolute path, timeout) and stops after MAX_DURATION_S seconds of output, and
+whisper only ever sees those samples. Paths are made absolute so a name can never be read as an option.
 """
 import json
 import os
@@ -14,6 +19,8 @@ import sys
 MODEL = "mlx-community/whisper-large-v3-turbo"
 MAX_DURATION_S = 100            # the site caps recordings at 90 s (Apps Script allows 95)
 PROBE_TIMEOUT_S = 30
+DECODE_TIMEOUT_S = 120
+SAMPLE_RATE = 16000
 TOOL_PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 EXT_MIME = {".mp4": "video/mp4", ".webm": "video/webm"}
 
@@ -60,6 +67,7 @@ def check_media(path, mime=None, probe=True):
     """Gate before ffmpeg/whisper: regular file, extension from the fixed map, magic bytes match
     mime, then ffprobe (argv list, timeout) must find an audio or video stream and a duration
     of at most MAX_DURATION_S. Returns the duration in seconds. Raises MediaRejected."""
+    path = os.path.abspath(path)
     ext = os.path.splitext(path)[1].lower()
     if ext not in EXT_MIME:
         raise MediaRejected("extension %r not allowed" % ext)
@@ -103,18 +111,42 @@ def check_media(path, mime=None, probe=True):
     return dur
 
 
+def decode_audio(path):
+    """Mono 16 kHz float32 samples of at most the first MAX_DURATION_S seconds. Raises MediaRejected."""
+    import numpy as np
+    path = os.path.abspath(path)
+    cmd = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-threads", "2", "-i", path,
+           "-t", str(MAX_DURATION_S), "-vn", "-sn", "-dn", "-ac", "1", "-ar", str(SAMPLE_RATE),
+           "-f", "s16le", "-acodec", "pcm_s16le", "-"]
+    try:
+        r = subprocess.run(cmd, capture_output=True, timeout=DECODE_TIMEOUT_S, env=dict(os.environ, PATH=TOOL_PATH))
+    except subprocess.TimeoutExpired:
+        raise MediaRejected("ffmpeg decode timed out after %ds" % DECODE_TIMEOUT_S)
+    except OSError as exc:
+        raise MediaRejected("ffmpeg could not run: %s" % exc)
+    if r.returncode != 0:
+        raise MediaRejected("ffmpeg could not decode the audio: %s" % (r.stderr or b"").decode("utf-8", "replace").strip()[:200])
+    limit = (MAX_DURATION_S + 1) * SAMPLE_RATE * 2
+    if len(r.stdout) > limit:
+        raise MediaRejected("decoded audio longer than %ds" % MAX_DURATION_S)
+    if len(r.stdout) < SAMPLE_RATE // 10 * 2:
+        raise MediaRejected("no decodable audio")
+    return np.frombuffer(r.stdout[:len(r.stdout) // 2 * 2], np.int16).astype(np.float32) / 32768.0
+
+
 def main():
     if len(sys.argv) != 2:
         print(json.dumps({"ok": False, "error": "usage: transcribe_one.py <media-path>"}))
         return 1
     try:
         check_media(sys.argv[1])
+        audio = decode_audio(sys.argv[1])
     except MediaRejected as exc:
         print(json.dumps({"ok": False, "error": "media rejected: %s" % exc}))
         return 1
     try:
         import mlx_whisper
-        res = mlx_whisper.transcribe(sys.argv[1], path_or_hf_repo=MODEL, language="en")
+        res = mlx_whisper.transcribe(audio, path_or_hf_repo=MODEL, language="en")
         text = (res.get("text") or "").strip()
         if not text:
             print(json.dumps({"ok": False, "error": "empty transcript"}))

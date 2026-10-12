@@ -3,7 +3,7 @@
 
 DB: videos/one_cool_thing.db (videos/ is gitignored). manifest.jsonl stays an append-only log.
 
-Data contract (schema_version 1)
+Data contract (schema_version 2; v2 adds the corrections.reply_* columns, migrated in place)
   submissions(id PK, mode 'video'|'transcript_only'|'text', name, institution,
               email_fp  -- HMAC fp of the submitter address, NEVER plaintext; NULL = unknown
                            (rows backfilled from the manifest, which never held the address),
@@ -18,7 +18,12 @@ Data contract (schema_version 1)
               0/1 or NULL when the submitter fp is unknown, subject, body (reply text only,
               quoted original stripped), status 'pending'|'applied'|'rejected',
               applied_transcript_id NULL, note NULL, outlook_msg_id UNIQUE NOT NULL,
-              alerted_at NULL until Louis was emailed about it)
+              alerted_at NULL until Louis was emailed about it,
+              v2: reply_sent 0/1 (the 'we've updated your transcript' email went out, confirmed SENT),
+                  reply_state 'none'|'inflight'|'sent'|'failed'|'unconfirmed'|'invalid_address'|
+                  'skipped_nonmatching' (v6 review: applied, but the replier is not the submitter, no email),
+                  reply_attempts 0..2 (a clean send failure is retried exactly once),
+                  reply_alerted_at NULL until Louis was told about a reply problem)
   intake_skipped(outlook_msg_id PK, subject, reason, seen_at, alerted_at)
               messages tagged [OCT ...] that were NOT filed (unknown id, empty body) so they are
               alerted once rather than every run.
@@ -49,8 +54,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DEFAULT_VDIR = os.path.join(ROOT, "videos")
 DEFAULT_DB = os.path.join(DEFAULT_VDIR, "one_cool_thing.db")
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 WHISPER_SOURCE = "whisper:mlx-community/whisper-large-v3-turbo"
+LLM_SOURCE_RE = re.compile(r"^correction:\d+:llm:[A-Za-z0-9._/-]{1,100}\Z")
 MODES = ("video", "transcript_only", "text")
 ID_RE = re.compile(r"^\d{8}-\d{6}-[0-9a-f]{6}\Z")
 SUBMISSION_COLS = ("id", "mode", "name", "institution", "email_fp", "email_hash_match", "consent",
@@ -167,7 +173,11 @@ CREATE TABLE IF NOT EXISTS corrections(
   applied_transcript_id INTEGER REFERENCES transcripts(id),
   note TEXT,
   outlook_msg_id TEXT NOT NULL UNIQUE,
-  alerted_at TEXT);
+  alerted_at TEXT,
+  reply_sent INTEGER NOT NULL DEFAULT 0 CHECK(reply_sent IN (0,1)),
+  reply_state TEXT NOT NULL DEFAULT 'none',
+  reply_attempts INTEGER NOT NULL DEFAULT 0,
+  reply_alerted_at TEXT);
 CREATE TABLE IF NOT EXISTS intake_skipped(
   outlook_msg_id TEXT PRIMARY KEY, subject TEXT NOT NULL, reason TEXT NOT NULL,
   seen_at TEXT NOT NULL, alerted_at TEXT);
@@ -216,8 +226,29 @@ def check_version(conn):
     except sqlite3.Error as exc:
         raise DbError("not an One Cool Thing database: %s" % exc)
     v = rows["v"]
+    if v == 1:
+        migrate_v1_to_v2(conn)
+        return
     if v != SCHEMA_VERSION:
         raise DbError("schema_version is %r, this code expects %d" % (v, SCHEMA_VERSION))
+
+
+def migrate_v1_to_v2(conn):
+    """Idempotent in-place migration: add the corrections.reply_* columns (defaults make old rows
+    valid), then record schema_version 2. Safe to run twice and safe if another process won the race."""
+    with tx(conn):
+        cols = {r["name"] for r in conn.execute("PRAGMA table_info(corrections)")}
+        if "reply_sent" not in cols:
+            conn.execute("ALTER TABLE corrections ADD COLUMN reply_sent INTEGER NOT NULL DEFAULT 0")
+        if "reply_state" not in cols:
+            conn.execute("ALTER TABLE corrections ADD COLUMN reply_state TEXT NOT NULL DEFAULT 'none'")
+        if "reply_attempts" not in cols:
+            conn.execute("ALTER TABLE corrections ADD COLUMN reply_attempts INTEGER NOT NULL DEFAULT 0")
+        if "reply_alerted_at" not in cols:
+            conn.execute("ALTER TABLE corrections ADD COLUMN reply_alerted_at TEXT")
+        v = conn.execute("SELECT MAX(version) AS v FROM schema_version").fetchone()["v"]
+        if v == 1:
+            conn.execute("INSERT INTO schema_version VALUES(?,?)", (2, now_iso()))
 
 
 def init_schema(conn):
@@ -228,8 +259,10 @@ def init_schema(conn):
         v = conn.execute("SELECT MAX(version) AS v FROM schema_version").fetchone()["v"]
         if v is None:
             conn.execute("INSERT INTO schema_version VALUES(?,?)", (SCHEMA_VERSION, now_iso()))
-        elif v != SCHEMA_VERSION:
+        elif v != SCHEMA_VERSION and v != 1:
             raise DbError("existing schema_version %r != %d; migrate explicitly" % (v, SCHEMA_VERSION))
+    if v == 1:
+        migrate_v1_to_v2(conn)
 
 
 # ------------------------------------------------------------------ validation
@@ -284,7 +317,7 @@ def _check_transcript(text, source):
     check_multiline(text, 20000, "transcript text")
     if not isinstance(source, str) or not (
             source.startswith("whisper:") or source in ("typed", "manual")
-            or re.match(r"^correction:\d+$", source)):
+            or re.match(r"^correction:\d+$", source) or LLM_SOURCE_RE.match(source)):
         raise DbError("transcript source %r not allowed" % (source,))
 
 
@@ -312,7 +345,12 @@ def current_transcript(conn, submission_id):
     return r
 
 
-def apply_correction(conn, correction_id, new_text, note=None):
+def apply_correction(conn, correction_id, new_text, note=None, source=None):
+    """source None = 'correction:<id>' (manual CLI). The automatic path passes
+    'correction:<id>:llm:<model>' (must match LLM_SOURCE_RE and the same correction id)."""
+    if source is not None and not (LLM_SOURCE_RE.match(source or "")
+                                   and source.startswith("correction:%d:llm:" % correction_id)):
+        raise DbError("transcript source %r not allowed for correction %r" % (source, correction_id))
     if not isinstance(new_text, str) or not new_text.strip():
         raise DbError("corrected transcript text is empty")
     new_text = check_multiline(new_text.strip(), 20000, "corrected transcript text")
@@ -332,7 +370,8 @@ def apply_correction(conn, correction_id, new_text, note=None):
         conn.execute("UPDATE transcripts SET is_current=0 WHERE id=?", (cur["id"],))
         cur2 = conn.execute("INSERT INTO transcripts(submission_id,version,text,source,created_at,is_current) "
                             "VALUES(?,?,?,?,?,1)",
-                            (c["submission_id"], ver, new_text, "correction:%d" % correction_id, now_iso()))
+                            (c["submission_id"], ver, new_text, source or "correction:%d" % correction_id,
+                             now_iso()))
         conn.execute("UPDATE corrections SET status='applied', applied_transcript_id=?, note=? WHERE id=?",
                      (cur2.lastrowid, note, correction_id))
     return ver
@@ -680,6 +719,43 @@ def self_test():
             check("two current transcripts impossible", False)
         except sqlite3.IntegrityError:
             check("two current transcripts impossible", True)
+        print("oct_db self-test: v2 migration and llm source")
+        check("fresh db is schema_version 2 with reply columns",
+              conn.execute("SELECT MAX(version) AS v FROM schema_version").fetchone()["v"] == 2
+              and {"reply_sent", "reply_state", "reply_attempts", "reply_alerted_at"} <= {
+                  r["name"] for r in conn.execute("PRAGMA table_info(corrections)")})
+        conn.execute("INSERT INTO corrections(submission_id,received_at,from_fp,from_matches_submitter,"
+                     "subject,body,status,outlook_msg_id) VALUES(?,?,?,?,?,?,?,?)",
+                     (sid, "t", "fp", 1, "s", "reply 9", "pending", "m9"))
+        cid9 = conn.execute("SELECT id FROM corrections WHERE outlook_msg_id='m9'").fetchone()["id"]
+        check("llm source for another correction id refused",
+              raises(lambda: apply_correction(conn, cid9, "hello video corrected again", source="correction:999:llm:m/x")))
+        check("llm source with shell characters refused",
+              raises(lambda: apply_correction(conn, cid9, "hello video corrected again", source="correction:%d:llm:m;rm" % cid9)))
+        apply_correction(conn, cid9, "hello video corrected again", source="correction:%d:llm:mlx-community/gemma-3-12b-it-4bit" % cid9)
+        check("llm source stored", current_transcript(conn, sid)["source"].endswith(":llm:mlx-community/gemma-3-12b-it-4bit"))
+        old = os.path.join(vd, "old_v1.db")
+        oc = sqlite3.connect(old, isolation_level=None)
+        oc.execute("CREATE TABLE schema_version(version INTEGER NOT NULL, applied_at TEXT NOT NULL)")
+        oc.execute("INSERT INTO schema_version VALUES(1,'t')")
+        oc.execute("CREATE TABLE corrections(id INTEGER PRIMARY KEY AUTOINCREMENT, submission_id TEXT NOT NULL, "
+                   "received_at TEXT NOT NULL, from_fp TEXT NOT NULL, from_matches_submitter INTEGER, subject TEXT NOT NULL, "
+                   "body TEXT NOT NULL, status TEXT NOT NULL, applied_transcript_id INTEGER, note TEXT, "
+                   "outlook_msg_id TEXT NOT NULL UNIQUE, alerted_at TEXT)")
+        oc.execute("INSERT INTO corrections(submission_id,received_at,from_fp,subject,body,status,outlook_msg_id) "
+                   "VALUES('x','t','fp','s','b','applied','old1')")
+        oc.close()
+        for _ in range(2):
+            mc = connect(old)
+            mc.close()
+        mc = connect(old, create=True)
+        orow = mc.execute("SELECT * FROM corrections").fetchone()
+        check("v1 database migrates in place, twice is harmless, create=True also fine, one v2 row, old row defaults",
+              mc.execute("SELECT COUNT(*) AS n FROM schema_version WHERE version=2").fetchone()["n"] == 1
+              and mc.execute("SELECT MAX(version) AS v FROM schema_version").fetchone()["v"] == 2
+              and orow["reply_sent"] == 0 and orow["reply_state"] == "none" and orow["reply_attempts"] == 0
+              and orow["reply_alerted_at"] is None)
+        mc.close()
         print("oct_db self-test: SQL is never built from data (AST audit of every execute call)")
         audited = [os.path.join(HERE, f) for f in ("oct_db.py", "oct_corrections_intake.py", "pull_one_cool_thing.py")
                    if os.path.exists(os.path.join(HERE, f))]
