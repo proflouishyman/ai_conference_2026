@@ -328,16 +328,16 @@
       </div>
       <div class="field">
         <label for="f-name">Your name</label>
-        <input type="text" id="f-name" autocomplete="name" required />
+        <input type="text" id="f-name" autocomplete="name" maxlength="120" required />
       </div>
       <div class="field">
         <label for="f-email">Email</label>
-        <input type="email" id="f-email" autocomplete="email" inputmode="email" required />
+        <input type="email" id="f-email" autocomplete="email" inputmode="email" maxlength="254" required />
         <div class="hint">The one you registered with, so we can match this to your registration.</div>
       </div>
       <div class="field">
         <label for="f-inst">Institution (optional)</label>
-        <input type="text" id="f-inst" autocomplete="organization" />
+        <input type="text" id="f-inst" autocomplete="organization" maxlength="200" />
       </div>
       <label class="check"><input type="checkbox" id="f-consent" required /><span id="f-consent-text"></span></label>
       <div id="up-wrap" hidden>
@@ -410,7 +410,7 @@
   function show(id) { steps.forEach((s) => { $(s).hidden = (s !== id); }); }
   function showError(title, detail) {
     const e = $('error');
-    e.innerHTML = '';
+    while (e.firstChild) e.removeChild(e.firstChild);   // never innerHTML: all text goes in as text nodes
     const s = document.createElement('strong'); s.textContent = title;
     e.appendChild(s);
     e.appendChild(document.createElement('br'));
@@ -628,7 +628,7 @@
     if (busy) return;
     const name = $('f-name').value.trim(), email = $('f-email').value.trim(), inst = $('f-inst').value.trim();
     if (!name) { showError('Please enter your name.', ''); $('f-name').focus(); return; }
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { showError('Please enter a valid email address.', 'Use the one you registered with.'); $('f-email').focus(); return; }
+    if (email.length > 254 || email.indexOf('..') >= 0 || !/^[A-Za-z0-9][A-Za-z0-9._%+-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$/.test(email)) { showError('Please enter a valid email address.', 'One address only, using letters, digits and . _ % + - . Use the one you registered with.'); $('f-email').focus(); return; }
     if (!$('f-consent').checked) { showError('Consent is required.', 'Please tick the box to agree to the use described.'); return; }
     let text = '';
     if (mode === 'text') {
@@ -675,7 +675,7 @@
       if (xhr.status === 200 && r && r.ok === true) {
         clearInterval(upTick); setUp(100, 'Done.'); busy = false; showDone(); return;
       }
-      if (r && r.ok === false) return failUpload('The server rejected the ' + what + ': ' + (r.error || 'no reason given') + '.', 'Your ' + (mode === 'text' ? 'text is' : 'recording is') + ' still here. Press Submit again, or email ' + CONTACT + ' if this repeats.');
+      if (r && r.ok === false) return failUpload('The server rejected the ' + what + ': ' + String(r.error || 'no reason given').slice(0, 200) + '.', 'Your ' + (mode === 'text' ? 'text is' : 'recording is') + ' still here. Press Submit again, or email ' + CONTACT + ' if this repeats.');
       failUpload('The server sent an unexpected reply (HTTP ' + xhr.status + ').', 'Your ' + what + ' was NOT confirmed as received. Press Submit again, try another browser, or email ' + CONTACT + '.');
     };
     xhr.send(payload);
