@@ -10,11 +10,16 @@ gets its delete retried (crash recovery).
 
 Server API (POST JSON, Content-Type text/plain, all with "secret"):
   {action:"list"}                -> {ok:true, items:[{id, json:{metadata}}]}
-  {action:"fetch", id}           -> {ok:true, id, sha256, video_b64}
+  {action:"fetch", id}           -> video modes: {ok:true, id, mode, mime, sha256, video_b64}
+                                    text mode:   {ok:true, id, mode:"text", sha256, text}
   {action:"delete", id, sha256}  -> {ok:true}
   any failure                    -> {ok:false, error}
-Metadata json (contract): name, email, institution, consent, duration_s, mime,
-user_agent, submitted_at, received_at, bytes, sha256 (+ v).
+Metadata json (contract v1 and v2): name, email, institution, consent, submitted_at,
+received_at, bytes, sha256, optional v, user_agent, consent_text (default ""), and
+mode ("video" default | "transcript_only" | "text"). Video modes also need mime and
+duration_s (and must not carry text). Text mode needs text (1..2000 chars) and must
+not carry mime or duration_s; bytes must be 0 and sha256 is of the UTF-8 text.
+Text items are saved as videos/<id>.txt, manifest path null, has_video false.
 
 Env (from ~/.conference_bots.env): OCT_APPS_SCRIPT_URL, OCT_SERVER_SECRET.
 Registrant cross-check reuses discord_gate.fp (HMAC-SHA256, GATE_PEPPER) and
@@ -51,14 +56,17 @@ EXT = {"video/webm": "webm", "video/mp4": "mp4"}
 
 log = logging.getLogger("onecoolthing")
 
-# field -> (types, required)
-META_FIELDS = {
+MODES = ("video", "transcript_only", "text")
+MAX_TEXT_CHARS = 2000
+# field -> (types, required) for every mode
+META_COMMON = {
     "name": (str, True), "email": (str, True), "institution": (str, True),
-    "consent": (bool, True), "duration_s": ((int, float), True),
-    "mime": (str, True), "user_agent": (str, False), "submitted_at": (str, True),
+    "consent": (bool, True), "user_agent": (str, False), "submitted_at": (str, True),
     "received_at": (str, True), "bytes": (int, True), "sha256": (str, True),
-    "v": (int, False),
+    "v": (int, False), "consent_text": (str, False), "mode": (str, False),
 }
+META_VIDEO = {"mime": (str, True), "duration_s": ((int, float), True)}
+META_TEXT = {"text": (str, True)}
 
 
 class Fail(Exception):
@@ -106,10 +114,19 @@ def api(cfg, action, **kw):
 
 
 # ------------------------------------------------------------- validation
+def meta_mode(meta):
+    return meta.get("mode", "video")
+
+
 def validate_meta(meta, item_id):
     if not isinstance(meta, dict):
         raise Fail("validate", "metadata for %s is not an object" % item_id)
-    for k, (typ, req) in META_FIELDS.items():
+    mode = meta_mode(meta)
+    if not isinstance(mode, str) or mode not in MODES:
+        raise Fail("validate", "mode %r not allowed" % (mode,))
+    fields = dict(META_COMMON)
+    fields.update(META_TEXT if mode == "text" else META_VIDEO)
+    for k, (typ, req) in fields.items():
         if k not in meta:
             if req:
                 raise Fail("validate", "metadata missing field %r" % k)
@@ -119,12 +136,22 @@ def validate_meta(meta, item_id):
             raise Fail("validate", "field %r is bool, expected %s" % (k, typ))
         if not isinstance(v, typ):
             raise Fail("validate", "field %r has type %s" % (k, type(v).__name__))
+    forbidden = ("mime", "duration_s") if mode == "text" else ("text",)
+    for k in forbidden:
+        if k in meta:
+            raise Fail("validate", "field %r is not allowed in mode %s" % (k, mode))
     if meta["consent"] is not True:
         raise Fail("validate", "consent is not true")
-    if meta["mime"] not in EXT:
-        raise Fail("validate", "mime %r not allowed" % meta["mime"])
     if len(meta["sha256"]) != 64 or any(c not in "0123456789abcdef" for c in meta["sha256"]):
         raise Fail("validate", "metadata sha256 malformed")
+    if mode == "text":
+        if not (1 <= len(meta["text"]) <= MAX_TEXT_CHARS):
+            raise Fail("validate", "text length %d out of range 1..%d" % (len(meta["text"]), MAX_TEXT_CHARS))
+        if meta["bytes"] != 0:
+            raise Fail("validate", "text item has bytes %r, expected 0" % meta["bytes"])
+        return
+    if meta["mime"] not in EXT:
+        raise Fail("validate", "mime %r not allowed" % meta["mime"])
     if not (0 < meta["duration_s"] <= 95):
         raise Fail("validate", "duration_s %r out of range" % meta["duration_s"])
 
@@ -195,10 +222,15 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
     meta = item.get("json")
     validate_meta(meta, item_id)
     want = meta["sha256"]
+    mode = meta_mode(meta)
 
     if item_id in manifest:
         row = manifest[item_id]
-        path = os.path.join(ROOT, row["path"]) if not os.path.isabs(row["path"]) else row["path"]
+        rel = row.get("path")
+        if rel is None:     # text item: local copy is videos/<id>.txt
+            path = os.path.join(vdir, item_id + ".txt")
+        else:
+            path = os.path.join(ROOT, rel) if not os.path.isabs(rel) else rel
         if not os.path.exists(path):
             raise Fail("recover", "in manifest but file missing: %s" % path)
         with open(path, "rb") as fh:
@@ -211,39 +243,63 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
 
     res = api(cfg, "fetch", id=item_id)
     api_sha = res.get("sha256")
-    b64 = res.get("video_b64")
-    if not isinstance(b64, str) or not isinstance(api_sha, str):
-        raise Fail("fetch", "response lacks video_b64/sha256 strings")
-    try:
-        data = base64.b64decode(b64, validate=True)
-    except Exception as exc:
-        raise Fail("decode", str(exc)[:200])
-    got = sha_hex(data)
-    if not (got == api_sha == want):
-        raise Fail("verify", "sha256 mismatch computed=%s api=%s meta=%s" % (got, api_sha, want))
-    if len(data) != meta["bytes"]:
-        raise Fail("verify", "bytes mismatch got=%d meta=%d" % (len(data), meta["bytes"]))
-
-    ext = EXT[meta["mime"]]
-    vpath = os.path.join(vdir, "%s.%s" % (item_id, ext))
+    if not isinstance(api_sha, str):
+        raise Fail("fetch", "response lacks sha256 string")
+    if "mode" in res and res["mode"] != mode:
+        raise Fail("fetch", "response mode %r differs from metadata mode %r" % (res["mode"], mode))
     local_meta = {k: v for k, v in meta.items() if k != "email"}
+    local_meta["mode"] = mode
+    local_meta.setdefault("consent_text", "")
     local_meta["email_hash_match"] = bool(matcher(meta["email"]))
-    atomic_write(vpath, data)
-    atomic_write(os.path.join(vdir, item_id + ".json"),
-                 json.dumps(local_meta, indent=1, sort_keys=True).encode())
     row = {
         "id": item_id, "name": meta["name"], "email_hash_match": local_meta["email_hash_match"],
         "institution": meta["institution"], "consent": meta["consent"],
-        "duration_s": meta["duration_s"], "mime": meta["mime"], "bytes": len(data),
-        "sha256": got, "submitted_at": meta["submitted_at"],
-        "received_at": meta["received_at"], "pulled_at": now_iso(),
-        "path": os.path.relpath(vpath, ROOT), "source": SOURCE,
+        "consent_text": local_meta["consent_text"], "mode": mode,
+        "submitted_at": meta["submitted_at"], "received_at": meta["received_at"],
+        "source": SOURCE,
     }
+    if mode == "text":
+        text = res.get("text")
+        if not isinstance(text, str):
+            raise Fail("fetch", "response lacks text string")
+        if text != meta["text"]:
+            raise Fail("verify", "fetched text differs from metadata text")
+        data = text.encode("utf-8")
+        got = sha_hex(data)
+        if not (got == api_sha == want):
+            raise Fail("verify", "sha256 mismatch computed=%s api=%s meta=%s" % (got, api_sha, want))
+        tpath = os.path.join(vdir, item_id + ".txt")
+        atomic_write(tpath, data)
+        atomic_write(os.path.join(vdir, item_id + ".json"),
+                     json.dumps(local_meta, indent=1, sort_keys=True).encode())
+        row.update({"duration_s": None, "mime": None, "bytes": 0, "sha256": got,
+                    "path": None, "has_video": False, "text_chars": len(text)})
+    else:
+        b64 = res.get("video_b64")
+        if not isinstance(b64, str):
+            raise Fail("fetch", "response lacks video_b64 string")
+        try:
+            data = base64.b64decode(b64, validate=True)
+        except Exception as exc:
+            raise Fail("decode", str(exc)[:200])
+        got = sha_hex(data)
+        if not (got == api_sha == want):
+            raise Fail("verify", "sha256 mismatch computed=%s api=%s meta=%s" % (got, api_sha, want))
+        if len(data) != meta["bytes"]:
+            raise Fail("verify", "bytes mismatch got=%d meta=%d" % (len(data), meta["bytes"]))
+        vpath = os.path.join(vdir, "%s.%s" % (item_id, EXT[meta["mime"]]))
+        atomic_write(vpath, data)
+        atomic_write(os.path.join(vdir, item_id + ".json"),
+                     json.dumps(local_meta, indent=1, sort_keys=True).encode())
+        row.update({"duration_s": meta["duration_s"], "mime": meta["mime"], "bytes": len(data),
+                    "sha256": got, "path": os.path.relpath(vpath, ROOT),
+                    "has_video": True, "text_chars": 0})
+    row["pulled_at"] = now_iso()
     append_manifest(cfg["manifest"], row)
     manifest[item_id] = row
     counts["pulled"] += 1
     counts["matches"] += 1 if row["email_hash_match"] else 0
-    log.info("%s pulled (%d bytes, registrant=%s)", item_id, len(data), row["email_hash_match"])
+    log.info("%s pulled (mode=%s, %d bytes, registrant=%s)", item_id, mode, len(data), row["email_hash_match"])
     api(cfg, "delete", id=item_id, sha256=got)    # only after local write + manifest
     log.info("%s deleted from Drive", item_id)
 
@@ -362,8 +418,12 @@ def self_test():
                                              for i, v in state["items"].items()]}
             elif req["action"] == "fetch":
                 v = state["items"][req["id"]]
-                out = {"ok": True, "id": req["id"], "sha256": v["api_sha"],
-                       "video_b64": base64.b64encode(v["data"]).decode()}
+                if v["meta"].get("mode") == "text":
+                    out = {"ok": True, "id": req["id"], "mode": "text", "sha256": v["api_sha"],
+                           "text": v["data"].decode("utf-8")}
+                else:
+                    out = {"ok": True, "id": req["id"], "sha256": v["api_sha"],
+                           "video_b64": base64.b64encode(v["data"]).decode()}
             elif req["action"] == "delete":
                 if state["bad_delete"]:
                     out = {"ok": False, "error": "drive down"}
@@ -389,6 +449,22 @@ def self_test():
             "duration_s": 30, "mime": "video/webm", "user_agent": "ua",
             "submitted_at": "2026-10-12T00:00:00Z", "received_at": "2026-10-12T00:00:01Z",
             "bytes": len(data), "sha256": h}}
+
+    def add_text(i, text="Un historien tapé \u00e9\u2603 text", api_sha=None, extra=None,
+                 email="registrant-test-address"):
+        data = text.encode("utf-8")
+        h = sha_hex(data)
+        meta = {"v": 2, "mode": "text", "name": "T " + i, "email": email, "institution": "X",
+                "consent": True, "consent_text": "I agree (text)", "text": text,
+                "user_agent": "ua", "submitted_at": "2026-10-12T00:00:00Z",
+                "received_at": "2026-10-12T00:00:01Z", "bytes": 0, "sha256": h}
+        meta.update(extra or {})
+        state["items"][i] = {"data": data, "api_sha": api_sha or h, "meta": meta}
+
+    def add_tr(i):
+        add(i)
+        state["items"][i]["meta"].update({"v": 2, "mode": "transcript_only",
+                                          "consent_text": "I agree (transcript)"})
 
     tmp = tempfile.mkdtemp(prefix="oct_selftest_")
     alerts = []
@@ -452,6 +528,80 @@ def self_test():
         alerts.clear()
         rc = run(c, matcher=matcher, alert=fa)
         check("recovery run retries delete, exit 0", rc == 0 and "c1" in state["deleted"] and not alerts)
+
+        print("self-test: v1 metadata without mode or consent_text")
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        add("v1a")
+        check("fixture really has no mode/consent_text",
+              "mode" not in state["items"]["v1a"]["meta"] and "consent_text" not in state["items"]["v1a"]["meta"])
+        c = cfg("v1")
+        rc = run(c, matcher=matcher, alert=fa)
+        r = read_manifest(c["manifest"]).get("v1a", {})
+        check("exit 0, pulled, deleted", rc == 0 and state["deleted"] == ["v1a"])
+        check("row defaults: mode video, consent_text empty, has_video",
+              r.get("mode") == "video" and r.get("consent_text") == "" and r.get("has_video") is True
+              and r.get("text_chars") == 0 and r.get("path"))
+
+        print("self-test: text happy path")
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        add_text("t1")
+        c = cfg("text")
+        rc = run(c, matcher=matcher, alert=fa)
+        vd = os.path.dirname(c["manifest"])
+        r = read_manifest(c["manifest"]).get("t1", {})
+        check("exit 0, deleted", rc == 0 and state["deleted"] == ["t1"] and not alerts)
+        check("row: mode text, no video, path null, text_chars, bytes 0",
+              r.get("mode") == "text" and r.get("has_video") is False and r.get("path") is None
+              and r.get("text_chars") == len("Un historien tapé \u00e9\u2603 text") and r.get("bytes") == 0
+              and r.get("consent_text") == "I agree (text)" and r.get("email_hash_match") is True)
+        check("txt file holds the text exactly",
+              open(os.path.join(vd, "t1.txt"), "rb").read() == "Un historien tapé \u00e9\u2603 text".encode("utf-8"))
+        jtxt = open(os.path.join(vd, "t1.json")).read()
+        check("json has no email, has email_hash_match", "test-address" not in jtxt
+              and '"email"' not in jtxt and '"email_hash_match": true' in jtxt)
+        check("no video file", not any(f.endswith((".webm", ".mp4")) for f in os.listdir(vd)))
+
+        print("self-test: text sha mismatch must NOT delete")
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        add_text("t2", api_sha="0" * 64)
+        c = cfg("textsha")
+        rc = run(c, matcher=matcher, alert=fa)
+        vd = os.path.dirname(c["manifest"])
+        check("exit 1, not deleted", rc == 1 and state["deleted"] == [] and "t2" in state["items"])
+        check("no txt, no manifest row", not os.path.exists(os.path.join(vd, "t2.txt"))
+              and not read_manifest(c["manifest"]))
+        check("alert sent", len(alerts) == 1 and "t2" in alerts[0][1])
+
+        print("self-test: text mode with a video field present is rejected")
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        add_text("t3", extra={"mime": "video/webm"})
+        add_text("t4", extra={"duration_s": 30})
+        add_text("t5", text="x" * 2001)
+        c = cfg("textbad")
+        rc = run(c, matcher=matcher, alert=fa)
+        check("exit 1, nothing deleted, nothing written",
+              rc == 1 and state["deleted"] == [] and not read_manifest(c["manifest"]))
+        check("alert names all three", len(alerts) == 1 and all(i in alerts[0][1] for i in ("t3", "t4", "t5")))
+
+        print("self-test: transcript_only video path")
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        add_tr("p1")
+        c = cfg("tr")
+        rc = run(c, matcher=matcher, alert=fa)
+        vd = os.path.dirname(c["manifest"])
+        r = read_manifest(c["manifest"]).get("p1", {})
+        check("exit 0, deleted", rc == 0 and state["deleted"] == ["p1"])
+        check("row: mode transcript_only, has_video, consent_text",
+              r.get("mode") == "transcript_only" and r.get("has_video") is True and r.get("text_chars") == 0
+              and r.get("consent_text") == "I agree (transcript)")
+        check("video file written", os.path.getsize(os.path.join(vd, "p1.webm")) > 0)
+
+        print("self-test: video mode with text field, bad mode both rejected")
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        add("q1"); state["items"]["q1"]["meta"]["text"] = "sneaky"
+        add("q2"); state["items"]["q2"]["meta"]["mode"] = "podcast"
+        rc = run(cfg("badvid"), matcher=matcher, alert=fa)
+        check("exit 1, nothing deleted", rc == 1 and state["deleted"] == [])
 
         print("self-test: missing env")
         envp = {k: v for k, v in os.environ.items() if not k.startswith("OCT_")}
