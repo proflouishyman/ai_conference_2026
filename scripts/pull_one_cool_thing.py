@@ -25,6 +25,25 @@ Env (from ~/.conference_bots.env): OCT_APPS_SCRIPT_URL, OCT_SERVER_SECRET.
 Registrant cross-check reuses discord_gate.fp (HMAC-SHA256, GATE_PEPPER) and
 discord_gate.load_hashes. Plaintext email is never written to disk.
 
+v3 (transcribe + thank-you), per new item, in this order:
+  save video/text -> transcribe video modes with mlx-whisper in a subprocess of
+  ~/venvs/whisper/bin/python scripts/transcribe_one.py (empty/failed = loud failure) ->
+  write <id>.transcript.txt -> email the thank-you through
+  discord_bot_loop._outlook_send (ONLY a confirmed "SENT" counts) -> manifest row
+  (thank_you_sent, transcript_chars) -> delete from Drive.
+  If transcription or email fails nothing is deleted; videos/pending_state.json
+  (keyed by id, never an email address) records the stage so a retry never re-sends:
+  {id: {transcribed:bool, transcript_chars:int, thank_you_sent:bool,
+        thank_you_skipped:"abuse_cap", email_unconfirmed:bool}}.
+  An UNCONFIRMED send is never retried automatically: it fails loudly every run until
+  a human checks Sent Items and edits pending_state.json.
+  Abuse cap: at most 3 thank-yous per recipient per 24 h, tracked in
+  videos/thank_you_cap.json as {hmac_fp: [epoch,...]}; over the cap = no email, the item
+  still proceeds, counted and listed at the top of the run summary.
+  Manifest optional fields: transcript_chars (int, default 0), thank_you_sent (bool,
+  default false), thank_you_skipped ("abuse_cap", only when skipped).
+  Plaintext email is never written to disk on the server.
+
 Exit codes: 0 ok, 1 one or more failures (alert emailed), 2 config missing.
 Loud failure: no fallbacks, no coercion. Python 3.9 compatible.
 
@@ -40,6 +59,7 @@ import json
 import logging
 import os
 import sys
+import subprocess
 import tempfile
 import time
 import urllib.request
@@ -53,6 +73,13 @@ LOG_PATH = os.path.join(HERE, "logs", "one_cool_thing.log")
 SOURCE = "apps-script-v1"
 HTTP_TIMEOUT_S = 180
 EXT = {"video/webm": "webm", "video/mp4": "mp4"}
+WHISPER_PY = os.path.expanduser("~/venvs/whisper/bin/python")
+TRANSCRIBE_HELPER = os.path.join(HERE, "transcribe_one.py")
+TRANSCRIBE_TIMEOUT_S = 300
+TOOL_PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+CAP_MAX = 3
+CAP_WINDOW_S = 24 * 3600
+THANKS_SUBJECT = "Thank you for sharing one cool thing"
 
 log = logging.getLogger("onecoolthing")
 
@@ -216,6 +243,119 @@ def append_manifest(path, row):
         os.fsync(fh.fileno())
 
 
+# ------------------------------------------------------- v3: state, transcribe, mail
+def load_state(path, what):
+    """Strict read of a small JSON dict; a corrupt file is a loud failure, never reset."""
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path) as fh:
+            obj = json.load(fh)
+        if not isinstance(obj, dict):
+            raise ValueError("not an object")
+        return obj
+    except Exception as exc:
+        raise Fail("state", "%s unreadable (%s): %s" % (what, path, exc))
+
+
+def save_state(path, obj):
+    atomic_write(path, json.dumps(obj, indent=1, sort_keys=True).encode())
+
+
+def transcribe_with_helper(media_path, python=None, helper=None, timeout=None):
+    """Run the whisper helper in the whisper venv. Returns non-empty text or raises Fail."""
+    cmd = [python or WHISPER_PY, helper or TRANSCRIBE_HELPER, media_path]
+    env = dict(os.environ, PATH=TOOL_PATH)
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, env=env,
+                           timeout=timeout or TRANSCRIBE_TIMEOUT_S)
+    except subprocess.TimeoutExpired:
+        raise Fail("transcribe", "timed out after %ss" % (timeout or TRANSCRIBE_TIMEOUT_S))
+    except OSError as exc:
+        raise Fail("transcribe", "cannot start %s: %s" % (cmd[0], exc))
+    lines = (r.stdout or "").strip().splitlines()
+    try:
+        out = json.loads(lines[-1])
+    except Exception:
+        raise Fail("transcribe", "no JSON from helper (rc=%s): %s" % (
+            r.returncode, ((r.stderr or "") + (r.stdout or "")).strip()[-300:]))
+    if r.returncode != 0 or not isinstance(out, dict) or out.get("ok") is not True:
+        raise Fail("transcribe", "helper failed (rc=%s): %s" % (r.returncode, str(out.get("error") if isinstance(out, dict) else out)[:300]))
+    text = out.get("text")
+    if not isinstance(text, str) or not text.strip():
+        raise Fail("transcribe", "empty transcript")
+    return text.strip()
+
+
+def real_mailer(to, subject, body):
+    """Existing registrant-mail path: discord_bot_loop._outlook_send (Outlook on
+    ces-agora). Returns 'SENT' or 'UNCONFIRMED'; raises RuntimeError when nothing sent.
+    It appends its own 'Best,' + ces signature, so the body carries no closing."""
+    import discord_bot_loop as dbl
+    return dbl._outlook_send([to], subject, body)
+
+
+def thank_you_body(mode, name, text):
+    if mode == "text":
+        return ("Dear %s,\n\nThank you for sharing one cool thing from the AI and History Conference. "
+                "Here is what you wrote:\n\n\"%s\"\n\n"
+                "If anything looks wrong, or you would like your submission removed, "
+                "email lhyman6@jh.edu.\n" % (name, text))
+    extra = ""
+    if mode == "transcript_only":
+        extra = "As you asked, we will only use your words, never the video itself.\n\n"
+    return ("Dear %s,\n\nThank you for sharing one cool thing from the AI and History Conference.\n\n"
+            "Here is the transcript of your recording:\n\n\"%s\"\n\n"
+            "The transcript was made by a private, local LLM running on our own server at Johns Hopkins. "
+            "Your recording was not sent to any cloud service.\n\n%s"
+            "If anything in the transcript looks wrong, or you would like your submission removed, "
+            "email lhyman6@jh.edu.\n" % (name, text, extra))
+
+
+def thank_you(cfg, vdir, item_id, meta, mode, text, pend, pstate, counts):
+    """Send (or skip by cap, or recognise as already sent). Returns True if sent, False if
+    skipped. Raises Fail unless the outcome is a confirmed SENT or a counted cap skip."""
+    if pend.get("thank_you_sent") is True:
+        return True
+    if pend.get("thank_you_skipped"):
+        return False
+    if pend.get("email_unconfirmed"):
+        raise Fail("email", "an earlier send for this id was UNCONFIRMED (may be queued in the "
+                   "ces-agora Outbox); not resending. Check Sent Items, then edit %s" % os.path.join(vdir, "pending_state.json"))
+    cap_path = os.path.join(vdir, "thank_you_cap.json")
+    cap = load_state(cap_path, "abuse cap file")
+    key = cfg["fp"](meta["email"])
+    now = time.time()
+    recent = [t for t in cap.get(key, []) if now - t < CAP_WINDOW_S]
+    if len(recent) >= CAP_MAX:
+        pend["thank_you_skipped"] = "abuse_cap"
+        pstate[item_id] = pend
+        save_state(os.path.join(vdir, "pending_state.json"), pstate)
+        counts["cap_skipped"].append(item_id)
+        log.warning("%s thank-you SKIPPED by abuse cap (%d in 24h)", item_id, len(recent))
+        return False
+    try:
+        outcome = cfg["mailer"](meta["email"], THANKS_SUBJECT, thank_you_body(mode, meta["name"], text))
+    except Exception as exc:
+        log.error("EMAIL FAILED thank-you %s: %s", item_id, str(exc)[:200])
+        raise Fail("email", "send failed, nothing sent: %s" % str(exc)[:200])
+    if outcome == "SENT":
+        pend["thank_you_sent"] = True
+        pstate[item_id] = pend
+        save_state(os.path.join(vdir, "pending_state.json"), pstate)   # before any delete
+        cap[key] = recent + [now]
+        save_state(cap_path, cap)
+        log.info("%s thank-you SENT", item_id)
+        return True
+    if outcome == "UNCONFIRMED":
+        pend["email_unconfirmed"] = True
+        pstate[item_id] = pend
+        save_state(os.path.join(vdir, "pending_state.json"), pstate)
+        log.error("EMAIL UNCONFIRMED thank-you %s", item_id)
+        raise Fail("email", "send UNCONFIRMED (may be queued); will not resend automatically")
+    raise Fail("email", "unexpected send outcome %r" % (outcome,))
+
+
 # ------------------------------------------------------------ one item
 def process_item(cfg, item, manifest, matcher, vdir, counts):
     item_id = safe_id(item.get("id") if isinstance(item, dict) else None)
@@ -237,6 +377,9 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
             if sha_hex(fh.read()) != row["sha256"] or row["sha256"] != want:
                 raise Fail("recover", "in manifest but local file sha256 differs; NOT deleting")
         api(cfg, "delete", id=item_id, sha256=want)
+        pstate = load_state(os.path.join(vdir, "pending_state.json"), "pending state")
+        if pstate.pop(item_id, None) is not None:
+            save_state(os.path.join(vdir, "pending_state.json"), pstate)
         counts["had"] += 1
         log.info("%s already pulled; delete retried OK", item_id)
         return
@@ -274,6 +417,7 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
                      json.dumps(local_meta, indent=1, sort_keys=True).encode())
         row.update({"duration_s": None, "mime": None, "bytes": 0, "sha256": got,
                     "path": None, "has_video": False, "text_chars": len(text)})
+        media_path, mail_text = None, text
     else:
         b64 = res.get("video_b64")
         if not isinstance(b64, str):
@@ -294,19 +438,50 @@ def process_item(cfg, item, manifest, matcher, vdir, counts):
         row.update({"duration_s": meta["duration_s"], "mime": meta["mime"], "bytes": len(data),
                     "sha256": got, "path": os.path.relpath(vpath, ROOT),
                     "has_video": True, "text_chars": 0})
+        media_path = vpath
+        mail_text = None
+    pend_path = os.path.join(vdir, "pending_state.json")
+    pstate = load_state(pend_path, "pending state")
+    pend = pstate.get(item_id, {})
+    if not isinstance(pend, dict):
+        raise Fail("state", "pending_state entry for %s is not an object" % item_id)
+    if media_path is not None:                       # transcribe video modes
+        tpath = os.path.join(vdir, item_id + ".transcript.txt")
+        if pend.get("transcribed") is True and os.path.exists(tpath):
+            with open(tpath, encoding="utf-8") as fh:
+                mail_text = fh.read()
+            if len(mail_text) != pend.get("transcript_chars") or not mail_text.strip():
+                raise Fail("transcribe", "saved transcript for %s does not match pending_state" % item_id)
+        else:
+            mail_text = cfg["transcriber"](media_path)
+            if not isinstance(mail_text, str) or not mail_text.strip():
+                raise Fail("transcribe", "empty transcript")
+            mail_text = mail_text.strip()
+            atomic_write(tpath, mail_text.encode("utf-8"))
+            pend.update({"transcribed": True, "transcript_chars": len(mail_text)})
+            pstate[item_id] = pend
+            save_state(pend_path, pstate)
+        row["transcript_chars"] = len(mail_text)
+    else:
+        row["transcript_chars"] = 0
+    row["thank_you_sent"] = thank_you(cfg, vdir, item_id, meta, mode, mail_text, pend, pstate, counts)
+    if not row["thank_you_sent"]:
+        row["thank_you_skipped"] = pend.get("thank_you_skipped", "abuse_cap")
     row["pulled_at"] = now_iso()
     append_manifest(cfg["manifest"], row)
     manifest[item_id] = row
     counts["pulled"] += 1
     counts["matches"] += 1 if row["email_hash_match"] else 0
     log.info("%s pulled (mode=%s, %d bytes, registrant=%s)", item_id, mode, len(data), row["email_hash_match"])
-    api(cfg, "delete", id=item_id, sha256=got)    # only after local write + manifest
+    api(cfg, "delete", id=item_id, sha256=got)    # only after local write, transcript, thank-you, manifest
     log.info("%s deleted from Drive", item_id)
+    if pstate.pop(item_id, None) is not None:
+        save_state(pend_path, pstate)
 
 
 # ------------------------------------------------------------------ main run
 def run(cfg, dry=False, matcher=None, alert=None):
-    counts = dict(pulled=0, had=0, failed=0, matches=0)
+    counts = dict(pulled=0, had=0, failed=0, matches=0, cap_skipped=[])
     failures = []
     try:
         items = api(cfg, "list").get("items")
@@ -344,6 +519,11 @@ def run(cfg, dry=False, matcher=None, alert=None):
             counts["failed"] += 1
             log.exception("FAILED %s unexpected", iid)
     counts["failed"] = max(counts["failed"], len(failures))
+    if counts["cap_skipped"]:
+        note = "NOTICE: %d thank-you email(s) SKIPPED by the abuse cap (%d per recipient per 24 h): %s" % (
+            len(counts["cap_skipped"]), CAP_MAX, ", ".join(counts["cap_skipped"]))
+        print(note)
+        log.warning(note)
     summary = "pulled %d, already had %d, failed %d, registrant matches %d of %d" % (
         counts["pulled"], counts["had"], counts["failed"], counts["matches"], counts["pulled"])
     print(summary)
@@ -391,8 +571,15 @@ def load_cfg():
     if missing:
         banner("missing env var(s): %s (set in ~/.conference_bots.env)" % ", ".join(missing))
         sys.exit(2)
+    pepper = os.environ.get("GATE_PEPPER", "")
+    if not pepper:
+        banner("GATE_PEPPER not set; cannot key the thank-you abuse cap")
+        sys.exit(2)
+    import discord_gate as dg
     return {"url": os.environ["OCT_APPS_SCRIPT_URL"], "secret": os.environ["OCT_SERVER_SECRET"],
-            "manifest": os.path.join(ROOT, "videos", "manifest.jsonl")}
+            "manifest": os.path.join(ROOT, "videos", "manifest.jsonl"),
+            "transcriber": transcribe_with_helper, "mailer": real_mailer,
+            "fp": lambda email: dg.fp(pepper, email)}
 
 
 # ------------------------------------------------------------------ self-test
@@ -475,10 +662,40 @@ def self_test():
         print("  [%s] %s" % ("PASS" if cond else "FAIL", name))
         ok = ok and cond
 
+    mail = {"sent": [], "mode": "ok", "calls": 0}      # mode: ok | fail | unconfirmed
+    tcalls = []
+    tmode = {"v": "ok"}                                 # ok | fail | empty | text-only-forbidden
+
+    def stub_transcriber(path):
+        tcalls.append(path)
+        if tmode["v"] == "fail":
+            raise Fail("transcribe", "stub failure")
+        if tmode["v"] == "empty":
+            return "   "
+        if tmode["v"] == "forbidden":
+            raise AssertionError("transcriber must not run for text mode")
+        return "stub transcript for " + os.path.basename(path)
+
+    def stub_mailer(to, subject, body):
+        mail["calls"] += 1
+        if mail["mode"] == "fail":
+            raise RuntimeError("stub outlook down")
+        if mail["mode"] == "unconfirmed":
+            return "UNCONFIRMED"
+        mail["sent"].append((to, subject, body))
+        return "SENT"
+
     def cfg(sub):
         d = os.path.join(tmp, sub)
         return {"url": "http://127.0.0.1:%d/" % srv.server_port, "secret": SECRET,
-                "manifest": os.path.join(d, "videos", "manifest.jsonl"), "retry_sleep": 0}
+                "manifest": os.path.join(d, "videos", "manifest.jsonl"), "retry_sleep": 0,
+                "transcriber": stub_transcriber, "mailer": stub_mailer,
+                "fp": lambda e: "fp-" + sha_hex(e.encode())[:16]}
+
+    def reset():
+        state["items"].clear(); state["deleted"].clear(); alerts.clear()
+        mail["sent"].clear(); mail["mode"] = "ok"; mail["calls"] = 0
+        tcalls.clear(); tmode["v"] = "ok"
 
     matcher = lambda e: e == "registrant-test-address"
     fa = lambda s, b: alerts.append((s, b))
@@ -496,8 +713,15 @@ def self_test():
         check("registrant match true/false", rows["a1"]["email_hash_match"] is True
               and rows["a2"]["email_hash_match"] is False)
         vd = os.path.dirname(c["manifest"])
-        txt = open(c["manifest"]).read() + open(os.path.join(vd, "a1.json")).read()
-        check("no plaintext email on disk", "test-address" not in txt)
+        alltxt = "".join(open(os.path.join(vd, f)).read() for f in os.listdir(vd)
+                         if f.endswith((".json", ".jsonl", ".txt")))
+        check("no plaintext email on disk (manifest, json, transcripts, state, cap)",
+              "test-address" not in alltxt)
+        check("thank-yous sent to both, rows thank_you_sent true with transcript_chars",
+              len(mail["sent"]) == 2 and rows["a1"]["thank_you_sent"] is True
+              and rows["a1"]["transcript_chars"] == len(open(os.path.join(vd, "a1.transcript.txt")).read()) > 0)
+        check("pending_state empty after success",
+              json.load(open(os.path.join(vd, "pending_state.json"))) == {})
         check("video file written", os.path.getsize(os.path.join(vd, "a1.webm")) > 0)
         check("no alert", not alerts)
 
@@ -602,6 +826,139 @@ def self_test():
         add("q2"); state["items"]["q2"]["meta"]["mode"] = "podcast"
         rc = run(cfg("badvid"), matcher=matcher, alert=fa)
         check("exit 1, nothing deleted", rc == 1 and state["deleted"] == [])
+
+        print("self-test: transcription failure, then empty transcript")
+        reset()
+        add("w1")
+        tmode["v"] = "fail"
+        c = cfg("trfail")
+        rc = run(c, matcher=matcher, alert=fa)
+        vd = os.path.dirname(c["manifest"])
+        check("exit 1, not deleted, no manifest row, no email",
+              rc == 1 and state["deleted"] == [] and not read_manifest(c["manifest"]) and mail["calls"] == 0)
+        check("alert names step", len(alerts) == 1 and "transcribe" in alerts[0][1] and "w1" in alerts[0][1])
+        tmode["v"] = "empty"; alerts.clear()
+        rc = run(c, matcher=matcher, alert=fa)
+        check("empty transcript is a failure, no transcript file",
+              rc == 1 and state["deleted"] == [] and mail["calls"] == 0
+              and not os.path.exists(os.path.join(vd, "w1.transcript.txt")) and len(alerts) == 1)
+        tmode["v"] = "ok"; alerts.clear()
+        rc = run(c, matcher=matcher, alert=fa)
+        check("recovers once transcription works: one email, deleted, row",
+              rc == 0 and state["deleted"] == ["w1"] and len(mail["sent"]) == 1
+              and read_manifest(c["manifest"])["w1"]["thank_you_sent"] is True)
+
+        print("self-test: real transcribe helper wrapper (fake helper)")
+        fk = os.path.join(tmp, "fakehelper.py")
+        def helper(code):
+            open(fk, "w").write(code)
+        helper("import json,sys\nprint(json.dumps({'ok':True,'text':' hello there '}))\n")
+        check("ok helper returns stripped text", transcribe_with_helper("x", sys.executable, fk) == "hello there")
+        for name, code in (("exit 1", "import json,sys\nprint(json.dumps({'ok':False,'error':'boom'}))\nsys.exit(1)\n"),
+                           ("empty text", "import json\nprint(json.dumps({'ok':True,'text':'  '}))\n"),
+                           ("garbage", "print('not json')\n"),
+                           ("timeout", "import time\ntime.sleep(10)\n")):
+            helper(code)
+            try:
+                transcribe_with_helper("x", sys.executable, fk, timeout=1)
+                check("helper %s raises Fail" % name, False)
+            except Fail:
+                check("helper %s raises Fail" % name, True)
+
+        print("self-test: email failure, retry sends exactly once")
+        reset()
+        add_tr("e1")
+        mail["mode"] = "fail"
+        c = cfg("mailfail")
+        vd = os.path.dirname(c["manifest"])
+        rc = run(c, matcher=matcher, alert=fa)
+        ps = json.load(open(os.path.join(vd, "pending_state.json")))
+        check("exit 1, not deleted, no manifest row", rc == 1 and state["deleted"] == []
+              and not read_manifest(c["manifest"]))
+        check("pending: transcribed, thank_you_sent absent", ps["e1"].get("transcribed") is True
+              and "thank_you_sent" not in ps["e1"])
+        check("alert names email step", len(alerts) == 1 and "email" in alerts[0][1])
+        mail["mode"] = "ok"; alerts.clear()
+        rc = run(c, matcher=matcher, alert=fa)
+        r = read_manifest(c["manifest"]).get("e1", {})
+        check("retry: exit 0, exactly one email, deleted", rc == 0 and len(mail["sent"]) == 1
+              and state["deleted"] == ["e1"])
+        check("transcribed only once across retries", len(tcalls) == 1)
+        check("row thank_you_sent true, transcript_chars > 0", r.get("thank_you_sent") is True
+              and r.get("transcript_chars", 0) > 0)
+        body = mail["sent"][0][2]
+        check("transcript_only body: transcript, LLM paragraph, words-only line",
+              '"stub transcript for e1.webm"' in body and "private, local LLM" in body
+              and "never the video itself" in body and mail["sent"][0][1] == THANKS_SUBJECT)
+        check("body has no em dash or semicolon", "\u2014" not in body and ";" not in body)
+
+        print("self-test: already-sent id (crash before manifest) never re-sends")
+        reset()
+        add("r1")
+        c = cfg("resend")
+        vd = os.path.dirname(c["manifest"])
+        os.makedirs(vd)
+        json.dump({"r1": {"transcribed": True, "transcript_chars": 5, "thank_you_sent": True}},
+                  open(os.path.join(vd, "pending_state.json"), "w"))
+        open(os.path.join(vd, "r1.transcript.txt"), "w").write("hello")
+        rc = run(c, matcher=matcher, alert=fa)
+        check("exit 0, zero emails, deleted, row thank_you_sent true",
+              rc == 0 and mail["calls"] == 0 and state["deleted"] == ["r1"]
+              and read_manifest(c["manifest"])["r1"]["thank_you_sent"] is True and not tcalls)
+
+        print("self-test: UNCONFIRMED send is never retried")
+        reset()
+        add("u1")
+        mail["mode"] = "unconfirmed"
+        c = cfg("unconf")
+        rc = run(c, matcher=matcher, alert=fa)
+        check("exit 1, not deleted, alert", rc == 1 and state["deleted"] == [] and len(alerts) == 1)
+        mail["mode"] = "ok"; alerts.clear()
+        rc = run(c, matcher=matcher, alert=fa)
+        check("next run fails loudly again without sending", rc == 1 and mail["calls"] == 1
+              and state["deleted"] == [] and len(alerts) == 1)
+
+        print("self-test: abuse cap (3 per recipient per 24 h)")
+        reset()
+        for n in range(4):
+            add("k%d" % n, email="cap-test-address")
+        add("k9", email="other-test-address")
+        c = cfg("cap")
+        import contextlib
+        import io
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = run(c, matcher=matcher, alert=fa)
+        out = buf.getvalue().splitlines()
+        rows = read_manifest(c["manifest"])
+        vd = os.path.dirname(c["manifest"])
+        check("exit 0, all five deleted, 4 emails sent", rc == 0 and len(state["deleted"]) == 5
+              and len(mail["sent"]) == 4)
+        skipped = [i for i, r in rows.items() if r.get("thank_you_sent") is False]
+        check("exactly one skipped, marked abuse_cap", len(skipped) == 1
+              and rows[skipped[0]].get("thank_you_skipped") == "abuse_cap")
+        check("NOTICE is the first output line and names the id",
+              out and out[0].startswith("NOTICE") and skipped[0] in out[0])
+        capf = open(os.path.join(vd, "thank_you_cap.json")).read()
+        check("cap file keyed by fp, no plaintext email", "fp-" in capf and "test-address" not in capf)
+
+        print("self-test: text mode thank-you without transcription")
+        reset()
+        tmode["v"] = "forbidden"
+        add_text("x1", text="I typed this thing")
+        c = cfg("textmail")
+        rc = run(c, matcher=matcher, alert=fa)
+        vd = os.path.dirname(c["manifest"])
+        r = read_manifest(c["manifest"]).get("x1", {})
+        body = mail["sent"][0][2] if mail["sent"] else ""
+        check("exit 0, deleted, one email, no transcriber call", rc == 0 and state["deleted"] == ["x1"]
+              and len(mail["sent"]) == 1 and not tcalls)
+        check("text body: echo, no LLM paragraph, no em dash or semicolon",
+              "Here is what you wrote:" in body and '"I typed this thing"' in body
+              and "LLM" not in body and "\u2014" not in body and ";" not in body)
+        check("row: thank_you_sent true, transcript_chars 0, no transcript file",
+              r.get("thank_you_sent") is True and r.get("transcript_chars") == 0
+              and not os.path.exists(os.path.join(vd, "x1.transcript.txt")))
 
         print("self-test: missing env")
         envp = {k: v for k, v in os.environ.items() if not k.startswith("OCT_")}
