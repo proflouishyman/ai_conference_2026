@@ -48,6 +48,9 @@ def badge_name(fn, ln, email):
 # the form answer was not an institution (a job title, "Student", a surname).
 INST_FIX = {
     "JHU": "Johns Hopkins University", "Johns Hopkins": "Johns Hopkins University",
+    "Bloomberg School of Public Healtg": "Johns Hopkins Bloomberg School of Public Health",
+    "SNF Agora Institute and Political Science": "SNF Agora Institute", "FLAME": "FLAME University",
+    "University of Massachusetts / Harvard SoHP": "UMass Boston and Harvard University",
     "johns hopkins history": "Johns Hopkins University", "JHU Museums": "Johns Hopkins University Museums",
     "SNF Agora @ JHU": "SNF Agora Institute", "SNF Agora Institute, Johns Hopkins University": "SNF Agora Institute",
     "Clemson": "Clemson University", "Kent State Univeristy": "Kent State University",
