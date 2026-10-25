@@ -590,6 +590,7 @@
     .session-video { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.78rem; font-weight: 600; color: var(--navy, #002D72); text-decoration: none; }
     .session-video img { width: 96px; height: 54px; object-fit: cover; border-radius: 4px; border: 1px solid #d1d5db; }
     .session-video span { border-bottom: 2px solid #FF0000; }
+    .session-talk { display: inline-block; margin: 0.45rem 0 0 0.9rem; font-size: 0.78rem; font-weight: 600; color: var(--navy, #002D72); }
     .session-video:hover span, .session-video:focus span { border-bottom-color: var(--navy, #002D72); }
     .session-zoom a { color: var(--navy, #002D72); text-decoration: none; border-bottom: 2px solid var(--gold, #FFD100); }
     .session-zoom a:hover, .session-zoom a:focus { border-bottom-color: var(--navy, #002D72); }
@@ -2759,6 +2760,11 @@
           a.target = '_blank'; a.rel = 'noopener';
           a.innerHTML = '<img alt="" loading="lazy" src="https://i.ytimg.com/vi/' + encodeURIComponent(v.video_id) + '/mqdefault.jpg"><span>Watch the recording</span>';
           cell.parentNode.insertBefore(a, cell);
+          var t = document.createElement('a');
+          t.className = 'session-talk';
+          t.href = 'talks/S' + ('0' + v.session).slice(-2) + '.html';
+          t.textContent = 'Talk page and transcript';
+          cell.parentNode.insertBefore(t, cell);
         });
       })
       .catch(function (e) { console.error(e); });

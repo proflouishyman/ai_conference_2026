@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://proflouishyman.github.io/ai_conference_2026/</loc>
     <changefreq>weekly</changefreq>
@@ -24,5 +24,374 @@
     <loc>https://proflouishyman.github.io/ai_conference_2026/share.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S01.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/9LXrws_YisA/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Opening Remarks</video:title>
+      <video:description>Dean Chris Celenza describes testing a large language model (LLM) on a page of Beneventan script from a manuscript at Oxford, and concludes that expertise has shifted rather than ended. Louis Hyman then argues that historians&#x27; habit of source criticism and their ability to build inspectable data pipelines, including optical character recognition (OCR) pipelines for bureaucratic archives, make the discipline more relevant. Hyman closes by introducing the next speaker, Marnie Hughes-Warrington.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/9LXrws_YisA</video:player_loc>
+      <video:duration>1112</video:duration>
+      <video:publication_date>2026-10-25T00:29:19Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S02.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/4SHukKPFaOE/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>AI and the Misrepresentation of History</video:title>
+      <video:description>Hughes-Warrington argues that algorithms which generate histories, which she calls artificial historians, shape access to education, insurance, finance, and justice, so that algorithmic unfairness is a historical problem. She distinguishes person-on-person history wars from algorithmic harms that arise without human intent, with a hybrid phase between them, and shows how multi-agent systems and safety layers in artificial intelligence (AI) models can concentrate attention or distort the record. She draws on economics work on algorithmic collusion and on a misinformation study to propose a research agenda on differential historical attention in training data and on agent timing, and asks how models perform in other languages. Her book Artificial Historians (Routledge, 2025) is open access.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/4SHukKPFaOE</video:player_loc>
+      <video:duration>3873</video:duration>
+      <video:publication_date>2026-10-25T00:13:46Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S03.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/WZS13gSOT2U/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Reading the Machine: What Large Language Models Actually Do to Historical Text</video:title>
+      <video:description>Humphries walks through how large language models (LLMs) handle historical language and handwriting at scale, drawing on his record-linkage work with 10 million pages of digitized First World War veterans&#x27; pension files and an ongoing fur-trade project with Lianne Leddy. He argues that models such as Gemini now show something like abstract reasoning, citing its transcription of an unpublished Albany ledger, and reports a word error rate of about 1.8 percent on 18th and 19th century English handwriting. He demonstrates the Archive Pearl site for transcription, segmentation, metadata extraction and map pin placement, and warns that models are least reliable at reporting negatives. He urges historians to benchmark models on tasks with known answers and to build verification into every stage.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/WZS13gSOT2U</video:player_loc>
+      <video:duration>3675</video:duration>
+      <video:publication_date>2026-10-24T19:17:33Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S04.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/N1eqESEk5t4/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>The World Historical Gazetteer at Scale</video:title>
+      <video:description>Ruth Mostern directs the World Historical Gazetteer (WHG), open digital infrastructure that links historical places across languages and time periods through reconciled records and phonetic search, and the Institute for Spatial History Innovation (ISHI) at the University of Pittsburgh. She argues that place is a contested, changing object that gazetteers can model and maps cannot, then describes how the WHG reconciles records against Wikidata and GeoNames, holds 2.2 million places in its public version and about 47 million in a development version, and what funding and staffing keep it running. She also reports an experiment that ran headwords from an 1857 gazetteer through the WHG application programming interface (API) and found the results largely wrong for Asia.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/N1eqESEk5t4</video:player_loc>
+      <video:duration>3705</video:duration>
+      <video:publication_date>2026-10-25T00:30:01Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S05.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/0h-_QTiRDVI/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Build Your First Software: A Historian&#x27;s Introduction to Writing Code</video:title>
+      <video:description>A beginner-friendly session on writing software for historical research, taught from a research software engineering (RSE) perspective. Jeri Wieringa shows how large language model (LLM) coding tools such as Claude change what it takes to build a research tool, using a live project that turns 19th-century statistical reports into a spreadsheet. The demonstration focuses on project folders and written plans, with version control handled in Git. She closes by showing how the same files can move into other tools such as VS Code.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/0h-_QTiRDVI</video:player_loc>
+      <video:duration>3776</video:duration>
+      <video:publication_date>2026-10-25T00:20:08Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S06.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/dKxNtnloOoM/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Teaching AI to Novices: Experiences from Gateway Computing at JHU</video:title>
+      <video:description>How do you teach technical AI skills to people starting from zero, and what does it take to build a sequence of courses rather than one-off workshops? Mark Spindler, who trains teaching assistants (TAs) for the introductory programming courses in Gateway Computing at the Whiting School of Engineering, describes using large language models (LLMs) for role-play TA training and an AI-built web app for COPUS (Classroom Observation Protocol for Undergraduate STEM) observation. He argues for partnerships beyond the history department, because people with deep experience of true novices may be a better resource for humanities students starting from scratch than graduate students in computer science alone.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/dKxNtnloOoM</video:player_loc>
+      <video:duration>3509</video:duration>
+      <video:publication_date>2026-10-25T00:30:32Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S07.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/vErxzhyr4vY/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Archives in the Age of AI: What Cultural Heritage Institutions Need Historians to Know</video:title>
+      <video:description>Three speakers consider what AI applied to digitized collections demands of archivists and historians. Richard Marciano introduces computational archival science, a research and teaching program at the University of Maryland, and an earlier computer-vision project on the Morgenthau Diaries. Linde Brocato explains how the Franklin D. Roosevelt (FDR) White House filed and indexed its correspondence, and Rajesh Gnanasekaran presents a proposed six-pass agentic workflow, ending in a Neo4j knowledge graph, for the FDR Presidential Library&#x27;s gift correspondence. The Q&amp;A turns to provenance and handwriting recognition.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/vErxzhyr4vY</video:player_loc>
+      <video:duration>4451</video:duration>
+      <video:publication_date>2026-10-25T00:32:41Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S08.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/2EipOiDEy60/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Who Gets to Argue with the Data? Rent Control and Democratic Knowledge</video:title>
+      <video:description>Jo Guldi previews her book The War Over Rent, which applies data methods to a century-long struggle over rent control, beginning in Ireland in 1881, where land valuators such as John Murray gathered evidence for the new Land Court. She argues that bureaucracy can work as repair and that public data helped end a century of conflict, which complicates a Foucauldian suspicion of quantification. She then explains the data work behind the book: counting debates in Hansard (the record of British parliamentary debate) from 1806 to 1911, then using topic modeling and similarity search to find the land valuators and Patrick Sheridan. Searches of prison and newspaper records with large language models (LLMs) supplied character detail, and she calls the overall approach the tapestry method. The talk asks which numbers count and who produces them, and what it takes to keep claims inspectable and contestable when AI systems mediate our encounters with evidence.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/2EipOiDEy60</video:player_loc>
+      <video:duration>3816</video:duration>
+      <video:publication_date>2026-10-25T00:33:35Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S09.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/m1XSFVgxDz0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>What Graduate Training in Computational History Should Look Like</video:title>
+      <video:description>A panel on which skills graduate programs do not teach and what departments can do now, including methods training and hiring. Jacob Bruggeman argues that debate over AI in general misleads and that graduate students should judge specific agentic tools, meaning systems that carry out multi-step tasks such as optical character recognition (OCR) on their own, case by case. Amanda Regan describes the Clemson University PhD in digital history, where students learn to code by hand and must explain their code, and Christopher Phillips argues that every historian already does computational history. Sarah Weicksel describes the American Council of Learned Societies (ACLS) Doctoral Futures project, and the audience asks whether sole authorship sets the bar too high.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/m1XSFVgxDz0</video:player_loc>
+      <video:duration>3489</video:duration>
+      <video:publication_date>2026-10-25T00:31:00Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S10.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/jZTNWcT6fmo/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Cleaning and Structuring Historical Data: A Working Session</video:title>
+      <video:description>Clifford walks through the pipeline behind the Imperial Careers Atlas, which maps the careers of British colonial officials, instead of running a hands-on workshop. The pipeline starts with optical character recognition (OCR) of the biographies printed in the Colonial Office List and the Indian Office List. A Python script splits the text into individual biographies and an open Qwen model converts each one to JSON, after which Python rules fix dittos and merge duplicate people. He then grounds places and people in Wikidata using an MCP (Model Context Protocol) server with vector search and QLever for deterministic matching, reaching 86 percent grounding for places. The discussion turns to cost and to how clean a dataset needs to be.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/jZTNWcT6fmo</video:player_loc>
+      <video:duration>3672</video:duration>
+      <video:publication_date>2026-10-25T00:31:46Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S11.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/bmSf8bPI63M/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Trust and Error: AI Hallucination, Bias, and Evidentiary Standards in Historical Research</video:title>
+      <video:description>Edward J. K. Gitre and Samuel Backer each present a case of error in computational history and then take audience questions. Gitre describes The American Soldier in World War II, a project that reconciled about 250,000 transcription contributions from roughly 7,600 Zooniverse volunteers using a Jaccard dissimilarity method and hand review, and that found natural language processing (NLP) tools misreading race-related vocabulary. Backer argues that error has to be understood before a method is chosen, using optical character recognition (OCR) and Gensim topic modeling on the Lester S. Levy sheet music collection. He also reports work with Louis Hyman showing that historians need precision more than recall, and a failed attempt to extract ledger data from theater booking records with a large language model (LLM).</video:description>
+      <video:player_loc>https://www.youtube.com/embed/bmSf8bPI63M</video:player_loc>
+      <video:duration>3535</video:duration>
+      <video:publication_date>2026-10-25T00:20:42Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S12.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/x671FwypZWI/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Constructing a Modular Data Pipeline: Cost Tradeoffs at Scale</video:title>
+      <video:description>Robyn Smith compares three designs for finding racially restrictive covenants in more than 5 million images of Philadelphia property deeds from 1910 to 1965. They are optical character recognition (OCR) followed by fuzzy full-text search and a large language model (LLM) reading a short snippet, OCR followed by an LLM on the full page, and page images sent straight to an LLM. Over 25 OCR and LLM combinations were tested, and snippets gave similar recall to full pages at lower cost. The talk draws on her paper &quot;Combining AI and Established Methods for Historical Document Analysis&quot; (Federal Reserve Bank of Philadelphia, Consumer Finance Institute Discussion Paper No. 25-2) and ends with a long audience Q&amp;A.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/x671FwypZWI</video:player_loc>
+      <video:duration>6233</video:duration>
+      <video:publication_date>2026-10-25T00:21:35Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S13.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/MVNLfvDQxW4/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Working with Computer Scientists</video:title>
+      <video:description>A conversation on how historians can approach and collaborate with computer scientists: why computer scientists find historical material interesting, why they are often confused by historians&#x27; methods and questions, and why historians are interesting to them in turn. Field describes a project with sociologist Steve Morgan on five years of Baltimore police radio, where automatic speech recognition (ASR) fails on police terms. Harrower describes automated detection of archaeological sites in satellite imagery, with Bronze Age tombs of the Arabian Peninsula as the example, and a project with Carnegie Mellon University on archaeological databases. Ippolito explains that AI researchers want verifiable rewards and advises first testing whether Claude already solves the problem. A long audience Q&amp;A follows.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/MVNLfvDQxW4</video:player_loc>
+      <video:duration>3752</video:duration>
+      <video:publication_date>2026-10-25T00:22:14Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S14.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/OP9PXNDwnY4/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Teaching History with AI</video:title>
+      <video:description>Three educators discuss teaching history with artificial intelligence (AI) across the secondary and higher-ed classroom. Nate Sleeter argues that history teaching should slow thinking down and value student interpretation over a chatbot&#x27;s. Kristin Dutcher Mann describes assignments that use and critique AI, including a techno-ethical audit and a comparison of large language model (LLM) answers in Spanish and English with Wikipedia and course readings. Meghan McGlinn Manfra presents a Library of Congress funded learning trajectory for historical thinking that could support personalized pathways, and the session closes with audience discussion in small groups and on Discord.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/OP9PXNDwnY4</video:player_loc>
+      <video:duration>3029</video:duration>
+      <video:publication_date>2026-10-25T00:22:53Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S15.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/ugq9xqk1XIo/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Network Analysis for Historians</video:title>
+      <video:description>Song Chen shows how historians can move from sources to network graphs and metrics. Network analysis is a relational approach to data modeling, not only a visualization technique and not limited to ties between persons. He compares the kinship and marriage ties of Chinese prefects in office in the 1040s and the 1210s, and models temple cults and places in the Lower Yangtze Delta as a two-mode network built from 34 local gazetteers. In the second half he tests ChatGPT on extracting tables from a page that has not been run through optical character recognition (OCR) and on running community detection in Gephi, and he warns that the model silently set the modularity resolution to 1.0.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/ugq9xqk1XIo</video:player_loc>
+      <video:duration>3744</video:duration>
+      <video:publication_date>2026-10-25T00:23:38Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S16.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/kvmq8zStRtQ/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>AI in the Archive: Live Demonstration</video:title>
+      <video:description>Moulds describes a summer sprint that processed 17,500 printed Scottish Court of Session documents, about 230,000 pages, in seven weeks at a direct cost under $500, using open models on university computing. Each page was read first by Tesseract optical character recognition (OCR), which supplies page geometry, and then by a large language model (LLM) that corrects the text, followed by passes that mark document boundaries and cluster documents into cases. He sets out four commitments for keeping machine output subordinate to human description, tests the pipeline on the Bakers of Dundee case, and demonstrates a Model Context Protocol (MCP) server that lets an AI assistant query the catalog. The Q&amp;A covers attribution, the legibility of the Solr index, the roughly 10,000 pending human decisions and image formats.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/kvmq8zStRtQ</video:player_loc>
+      <video:duration>4128</video:duration>
+      <video:publication_date>2026-10-25T00:24:08Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S17.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/UHxQzDUXyf8/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>The Discipline We Need to Build</video:title>
+      <video:description>A plenary panel, moderated by Sarah Weicksel of the American Historical Association (AHA), on which institutional changes, from graduate training to funding, would let computational history become a durable part of the discipline rather than a permanent margin. Matthew Connelly points to the post-2008 collapse of the job market and the risk to junior scholars who spend years cleaning data, Jo Guldi describes the lost promise of digital history because funding and hiring never followed, and Christopher Phillips says the long timescale of historical work and its focus on specific evidence slow change. The panel then argues for collectively chosen ambitious goals, including Guldi&#x27;s proposed global index of climate harms, and Connelly compares the roughly 48 billion dollar annual budget of the National Institutes of Health (NIH) with the roughly 400 million dollar budget of the National Archives in making the case for a National Institute for History. Loren Moulds presents Discord poll results from attendees, and the audience asks how to present AI-assisted methods on the job market.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/UHxQzDUXyf8</video:player_loc>
+      <video:duration>3874</video:duration>
+      <video:publication_date>2026-10-25T00:24:50Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S18.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/2P1pKbnvXIc/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Searching for Reliability: Using AI to Build Persistent Tools for Research in History</video:title>
+      <video:description>Commercial AI platforms follow a predictable decay cycle, so a methods paper can rest on a model that no one can access. S. Wright Kennedy argues for building with AI rather than outsourcing to it, using locally run tools on data you control, with outputs that leave an auditable trail. His worked example is a desktop text mining and mapping tool built on Melissa Dell&#x27;s reprocessed optical character recognition (OCR) of Chronicling America newspapers, demonstrated on coverage of the Haymarket affair. The talk asks what provenance means when the tools used to analyze the evidence no longer exist.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/2P1pKbnvXIc</video:player_loc>
+      <video:duration>3866</video:duration>
+      <video:publication_date>2026-10-25T00:25:37Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S19.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/d1FcvfFPhso/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>From Ledger to Query: OCR, NER, Search</video:title>
+      <video:description>Three speakers follow one pipeline from page image to query. Jacob Polay compares vision language model optical character recognition (OCR) with Tesseract on early modern and 19th century documents and proposes a tiered workflow that runs on a consumer GPU. Bob Pasker shows why keyword search misses antebellum testimony by Black witnesses and presents Roscoe, a conceptual search index over antebellum court opinions. Keith Pemberton argues that named entity recognition (NER) can only identify a name after it has been read, so it inherits the errors of OCR.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/d1FcvfFPhso</video:player_loc>
+      <video:duration>3714</video:duration>
+      <video:publication_date>2026-10-25T00:25:50Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S20.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/UlEzhjkHWjM/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Playable Pasts: Making Classroom Games with AI</video:title>
+      <video:description>Tore Olsson does not use generative artificial intelligence (AI) and teaches with commercial games instead, building his courses Red Dead History and Grand Theft America around Red Dead Redemption 2 and the Grand Theft Auto (GTA) series. The games supply a short daily opener and the structure of a syllabus on U.S. history since 1980, framed by the neoliberal order and split into a city by day and a city by night. Kwok Leong Tang traces the shift from chatbots to coding agents that loop through tool calls, and argues that a historian can describe a game in plain English while keeping the research and the final check. He shows an Ace Attorney style game set in Qing China that took 45 minutes to build from one novel, a version built on primary documents, and a one-prompt website that yields a single HTML (HyperText Markup Language) file.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/UlEzhjkHWjM</video:player_loc>
+      <video:duration>3684</video:duration>
+      <video:publication_date>2026-10-25T00:26:27Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S21.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/qxwXzd5-ntk/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>What Machines Can&#x27;t Read: Unicode and the Politics of Open-Ended Character Sets</video:title>
+      <video:description>Adal traces who decides what machines can read through the history of character encoding, from national standards such as ASCII (American Standard Code for Information Interchange) and four large East Asian standards to Unicode and its 1991 merger with ISO/IEC 10646. He describes the shift from a logic of scarcity to a logic of expansion in the number of sinographs, and uses the Frederica Wang problem and China&#x27;s attempt to encode 897 rare sinographs in its own Guobiao standard to argue that states have returned as primary actors alongside big tech. A character that Unicode has not encoded cannot be searched or indexed and cannot reliably pass through an optical character recognition (OCR) pipeline or an AI model&#x27;s tokenizer, so he proposes a digital Zomia of marks, such as marginalia and graffiti, that remain outside the standard. In questions he covers fonts for simplified and traditional characters, emoji, code breaking, and the 172 scripts in Unicode 18.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/qxwXzd5-ntk</video:player_loc>
+      <video:duration>3287</video:duration>
+      <video:publication_date>2026-10-25T00:26:41Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S22.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/_wR1dN0Zm0Q/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Environmental History and AI</video:title>
+      <video:description>More argues that scientists rather than historians now set the public narrative on climate change, including the pre-industrial baselines behind the 1.5 degree threshold. He presents a geodatabase of about 55,000 geolocated climate records for Eurasia, continuous from 1000 to 1820 and built over ten years by 25 scholars. He shows how AI helped with quality checking by restoring a missing sub-database and splitting reports into one record per phenomenon, then tests the records against tree rings and the North Atlantic Oscillation, finding correlations near 0.5 between 1000 and 1300. The discussion turns to plain language for several audiences, telling gradual change as a story, and extending the data to more regions.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/_wR1dN0Zm0Q</video:player_loc>
+      <video:duration>3748</video:duration>
+      <video:publication_date>2026-10-25T00:26:53Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S23.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/QaZc5MmX_k8/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Migrant Connections: Building Digital Infrastructure for Migration History</video:title>
+      <video:description>Atiba Pertilla describes how the German Historical Institute Washington built Migrant Connections, a collection of German immigrant letters that volunteers transcribe on Omeka Classic with the Scripto interface, and how the spinoff project Let the Past Speak combines text-to-speech (TTS) and retrieval-based voice conversion (RVC) to reconstruct 19th century northern Hessian German and Texas German. He then shows how Google Document AI and Claude helped him extract and restructure Baltimore city directory data, including house number changes after the 1887 renumbering, for his study of immigrant financial practices. He argues that AI favors the historian at a workbench over the large digital humanities lab, and the audience discusses voice ethics and errors in archival metadata.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/QaZc5MmX_k8</video:player_loc>
+      <video:duration>3736</video:duration>
+      <video:publication_date>2026-10-25T00:27:36Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S24.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/NtmusNJMTA0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Trust: What AI Does and Doesn&#x27;t Change about Historical Research and Teaching</video:title>
+      <video:description>Louis Hyman argues that artificial intelligence (AI) can restore trust in historical research when language models are used to write inspectable, reproducible code and not to answer questions directly, and he describes the model as an overenthusiastic intern and not an oracle. Drawing on his Johns Hopkins course Introduction to Computational History, he shows how students learn to read Python and to judge when a number is too clean to be true, as with the zero books recorded for California in the 1850 census. In his research he used agentic coding to find a little over 1,100 transactions by the slave trader John McDonogh in New Orleans notarial records, and he describes fine-tuning an open-weight Qwen model with low-rank adaptation (LoRA) on railroad forms. Questions cover digitization and archive funding, and how accuracy is measured against hand-corrected ground truth.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/NtmusNJMTA0</video:player_loc>
+      <video:duration>3494</video:duration>
+      <video:publication_date>2026-10-25T00:28:08Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S25.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/wb670hHQ8Yg/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>MapReader: Historical Maps as Data</video:title>
+      <video:description>Katie McDonough introduces MapReader, an open source library that treats historical maps as data. A map sheet is divided into patches, an image classifier labels each patch, and a text-spotting step reads the words on the map. She draws on the Living with Machines project, where railway patches from Ordnance Survey sheets were linked to the 1901 census, and on the Machines Reading Maps project, where text from the David Rumsey collection was clustered and explored through random walks over a network of words. She opens with principles on open source tools and community maintenance of research software and closes with open problems in multimodal queries with vision language models (VLMs) and in storing map text in library systems.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/wb670hHQ8Yg</video:player_loc>
+      <video:duration>3650</video:duration>
+      <video:publication_date>2026-10-25T00:28:39Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S26.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/MGm5KrzDdas/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Experiments in AI and Handwriting Recognition</video:title>
+      <video:description>A Brown University team asks whether AI (artificial intelligence) handwriting recognition is solved, running handwriting tools such as Transkribus and then frontier and open-weight models on three collections: excavation notebooks from Abydos in Egypt, Wilson Harris&#x27;s manuscript notebooks, and the 17th-century letters of Maria Madelena von Habsburg in Florence. The models struggled with locus numbers and with Harris&#x27;s overwritten drafts, and on 87 hand-verified pages of Habsburg letters Claude Fable did best while Opus 5 fell from first to last under diplomatic transcription rules because it hallucinated. Price explains why a low word error rate can still hide errors that change meaning, such as gender agreement in Italian. The Q&amp;A covers attributing marginalia to John Major and the ethics of giving apprenticeship work to a chatbot.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/MGm5KrzDdas</video:player_loc>
+      <video:duration>3643</video:duration>
+      <video:publication_date>2026-10-25T00:28:51Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S27.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/7YmcKl9Zsn0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Closing Remarks &amp; Next Steps</video:title>
+      <video:description>Louis Hyman argues that nothing discussed at the conference was new, setting the Philadelphia Social History Project, which linked census records on punch cards, against the cliometric overreach of Time on the Cross. Quoting a 1965 review of a Yale conference, he says the barrier to early computing was the drudgery of coding and debugging, which AI now relieves. He describes teaching students to move from trusting numbers, to rejecting them as ideology, to treating them as incomplete but useful, as historians treat every document. He concludes that AI changes the scope of history but not its method, and that inspectable data pipelines restore trust in research.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/7YmcKl9Zsn0</video:player_loc>
+      <video:duration>1019</video:duration>
+      <video:publication_date>2026-10-25T00:29:07Z</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S28.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/_JiiOzqYik4/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Annual Margaret Levi Lecture in Political Economy: From Value Creation to Value Extraction in Silicon Valley</video:title>
+      <video:description>Tim O&#x27;Reilly traces how the incentives of shareholder capitalism, from Milton Friedman&#x27;s 1970 statement to what Sam Bankman-Fried called the number-go-up era, pushed Google and Amazon from organic search toward advertising and pay to play. He uses economic rents and the gap between the economies of capital and labor to explain the pattern, and asks whether the emerging artificial intelligence (AI) economy will repeat it. His remedy is mechanism design, changing the rules of the game as Unix and the Model Context Protocol (MCP) did, so that AI labs measure success by diffusion and not only by capability. Audience questions follow, including Matthew Connelly on universities, data and compute.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/_JiiOzqYik4</video:player_loc>
+      <video:duration>3752</video:duration>
+      <video:publication_date>2026-10-25T01:34:14Z</video:publication_date>
+    </video:video>
   </url>
 </urlset>

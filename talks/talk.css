@@ -1,0 +1,34 @@
+:root { --navy:#002D72; --gold:#FFD100; --light-gray:#F7F8FA; }
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:'DM Sans',sans-serif; color:#1a1a2e; line-height:1.6; }
+h1,h2,h3 { font-family:'Cormorant Garamond',serif; }
+#main-nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:#fff; border-bottom:1px solid #e5e7eb; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+.nav-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; max-width:1200px; margin:0 auto; padding:0 1.5rem; min-height:64px; }
+.nav-brand { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--navy); text-decoration:none; }
+.nav-links { display:flex; flex-wrap:wrap; gap:.25rem; }
+.nav-links a { font-size:.875rem; font-weight:500; color:var(--navy); text-decoration:none; padding:.4rem .75rem; border-radius:4px; }
+.nav-links a:hover, .nav-links a.active { background:#f9f7ee; }
+#page-header { background-color:var(--navy); background-image:radial-gradient(rgba(255,209,0,.13) 1.5px,transparent 1.5px); background-size:28px 28px; padding:8rem 1.5rem 3rem; text-align:center; color:#fff; }
+#page-header h1 { font-size:clamp(2rem,4vw,3rem); font-weight:700; color:#fff; margin:0 auto .75rem; max-width:900px; letter-spacing:-.02em; line-height:1.15; }
+.gold-rule { width:70px; height:3px; background:var(--gold); margin:0 auto 1.25rem; border:none; }
+.eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.8rem; color:var(--gold); margin:0 0 .5rem; }
+.speakers { font-size:1.1rem; margin:0 auto .4rem; max-width:900px; }
+.when { color:rgba(255,255,255,.8); margin:0; }
+main { max-width:900px; margin:0 auto; padding:2rem 1.5rem 3rem; }
+main h2 { color:var(--navy); font-size:1.8rem; margin:2rem 0 .5rem; }
+a { color:var(--navy); }
+.ratio { position:relative; padding-top:56.25%; background:#000; border-radius:6px; overflow:hidden; }
+.ratio iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+.small { font-size:.85rem; color:#555; margin:.4rem 0; }
+.chapters { padding-left:1.4rem; }
+.chapters li { margin:.3rem 0; }
+.ts { font-variant-numeric:tabular-nums; font-weight:600; }
+.tp { margin:.9rem 0; }
+.pn { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:2.5rem; padding-top:1rem; border-top:1px solid #e5e7eb; font-size:.9rem; }
+.talklist { list-style:none; padding:0; margin:0; }
+.talklist li { display:flex; gap:1rem; align-items:center; padding:.8rem 0; border-bottom:1px solid #eee; }
+.talklist img { width:160px; height:90px; object-fit:cover; border-radius:4px; border:1px solid #d1d5db; display:block; }
+.talklist .tt { font-weight:600; font-size:1.05rem; }
+@media (max-width:600px) { .talklist img { width:110px; height:62px; } }
+footer { background:var(--navy); color:rgba(255,255,255,.8); text-align:center; padding:2rem 1.5rem; font-size:.875rem; }
+footer a { color:var(--gold); }
