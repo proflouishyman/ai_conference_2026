@@ -152,13 +152,25 @@
 <body>
 <nav id="main-nav">
   <div class="nav-inner">
-    <a href="../index.html" class="nav-brand">AI and History Conference 2026</a>
-    <div class="nav-links">
+    <a href="../index.html" class="nav-brand" style="display:flex;align-items:center;gap:0.6rem;">
+      <img src="../assets/logos/aha-logo-blue.svg" alt="AHA" height="28" style="height:28px;width:auto;display:block;" onerror="this.style.display='none'" />
+      AI and History Conference 2026
+    </a>
+    <button id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
       <a href="../index.html">Home</a>
+      <a href="../index.html#about">About</a>
       <a href="../index.html#program">Program</a>
       <a href="index.html" class="active">Talks</a>
+      <a href="../index.html#agora">Venue</a>
+      <a href="../hotels.html">Hotels</a>
+      <a href="../getting-here.html">Getting Here</a>
       <a href="../who-is-coming.html">Who's Coming</a>
+      <a href="../one-cool-thing.html">One Cool Thing</a>
       <a href="../share.html">Share</a>
+      <a href="../register.html">Register</a>
     </div>
   </div>
 </nav>
@@ -258,5 +270,18 @@
   <p>AI and History Conference 2026 &nbsp;|&nbsp; Johns Hopkins University &nbsp;|&nbsp; Center for Economy and Society</p>
   <p style="margin-top:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);">October 15 and 16, 2026 &nbsp;|&nbsp; Baltimore, Maryland</p>
 </footer>
+<script>
+  document.getElementById('hamburger').addEventListener('click', function() {
+    var links = document.getElementById('nav-links');
+    var open  = links.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('#nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.remove('open');
+      document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 </body>
 </html>
