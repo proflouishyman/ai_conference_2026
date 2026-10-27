@@ -174,19 +174,6 @@
     </video:video>
   </url>
   <url>
-    <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S12.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <video:video>
-      <video:thumbnail_loc>https://i.ytimg.com/vi/x671FwypZWI/hqdefault.jpg</video:thumbnail_loc>
-      <video:title>Constructing a Modular Data Pipeline: Cost Tradeoffs at Scale</video:title>
-      <video:description>Robyn Smith compares three designs for finding racially restrictive covenants in more than 5 million images of Philadelphia property deeds from 1910 to 1965. They are optical character recognition (OCR) followed by fuzzy full-text search and a large language model (LLM) reading a short snippet, OCR followed by an LLM on the full page, and page images sent straight to an LLM. Over 25 OCR and LLM combinations were tested, and snippets gave similar recall to full pages at lower cost. The talk draws on her paper &quot;Combining AI and Established Methods for Historical Document Analysis&quot; (Federal Reserve Bank of Philadelphia, Consumer Finance Institute Discussion Paper No. 25-2) and ends with a long audience Q&amp;A.</video:description>
-      <video:player_loc>https://www.youtube.com/embed/x671FwypZWI</video:player_loc>
-      <video:duration>6233</video:duration>
-      <video:publication_date>2026-10-25T00:21:35Z</video:publication_date>
-    </video:video>
-  </url>
-  <url>
     <loc>https://proflouishyman.github.io/ai_conference_2026/talks/S13.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
